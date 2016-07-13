@@ -2,9 +2,14 @@
 .Rhistory
 .RData
 .Ruserdata
+
+# bytecode
 src/*.o
 src/*.so
 src/*.dll
 
-vignettes/*.R
+# produced vignettes
 vignettes/*.html
+vignettes/*.pdf
+vignettes/*.R
+inst/doc/
