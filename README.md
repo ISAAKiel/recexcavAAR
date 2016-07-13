@@ -3,7 +3,7 @@
 recexcavAAR
 --------
 
-R Library for Quantitative Analysis in Archaeology
+R Library for 3D reconstruction and analysis of excavation states — 
 
 #### Released version
 
@@ -30,3 +30,8 @@ Installation
 To install with vignettes:
 
     install_github('ISAAKiel/recexcavAAR', build_vignettes = TRUE, force = TRUE)
+    
+History
+-------
+
+The development of recexcavAAR began in [quantaar](https://github.com/ISAAKiel/quantaar) and was later moved.
