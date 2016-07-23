@@ -12,6 +12,8 @@
 #' @param x index of data.frame column with x-axis spatial points. Defaults to 1
 #' @param y index of data.frame column with y-axis spatial points. Defaults to 2
 #' @param z index of data.frame column with z-axis spatial points. Defaults to 3
+#' @param rdup switch to activate removal of double values for single horizontal positions in the input
+#' data.frames. Defaults to TRUE
 #' @param ... Arguments to be passed to method \code{kriging} \{kriging\}
 #'
 #' @return list with data.frames which contains the predicted values along with the coordinate covariates
@@ -36,11 +38,16 @@
 #' @export
 #'
 
-kriglist <- function(plist, x = 1, y = 2, z = 3, ...) {
+kriglist <- function(plist, x = 1, y = 2, z = 3, rdup = TRUE, ...) {
   # create output list
   maplist <- list()
   # loop to do kriging for all data.frames in the input list
   for (i in 1:length(plist)) {
+    # remove duplicated values (x- & y-coordinate equal)
+    if (rdup) {
+      plist[[i]] <- plist[[i]][!duplicated(plist[[i]][,c(x,y)]),]
+    }
+    # kriging
     maplist[[i]] <- kriging::kriging(
       x = plist[[i]][,x],
       y = plist[[i]][,y],

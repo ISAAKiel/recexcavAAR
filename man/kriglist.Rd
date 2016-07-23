@@ -4,7 +4,7 @@
 \alias{kriglist}
 \title{Apply kriging \{kriging\} to a list of data.frames}
 \usage{
-kriglist(plist, x = 1, y = 2, z = 3, ...)
+kriglist(plist, x = 1, y = 2, z = 3, rdup = TRUE, ...)
 }
 \arguments{
 \item{plist}{List of data.frames with point coordinates}
@@ -14,6 +14,9 @@ kriglist(plist, x = 1, y = 2, z = 3, ...)
 \item{y}{index of data.frame column with y-axis spatial points. Defaults to 2}
 
 \item{z}{index of data.frame column with z-axis spatial points. Defaults to 3}
+
+\item{rdup}{switch to activate removal of double values for single horizontal positions in the input
+data.frames. Defaults to TRUE}
 
 \item{...}{Arguments to be passed to method \code{kriging} \{kriging\}}
 }
