@@ -62,7 +62,8 @@ kriglist <- function(plist, x = 1, y = 2, z = 3, rdup = TRUE, ...) {
 
 # Begin geo data layout transformation functions  ---------------------------
 
-#' Transforms a data.frame with three attributes in long format to a data.frame with wide format.
+#' Transforms a set of two independent and one dependent variables in vectors from a long
+#' to a wide format and exports this result as a data.frame
 #'
 #' @param x vector of first independent variable. e.g. vector with x-axis spatial points
 #' @param y vector of second independent variable. e.g. vector with y-axis spatial points
@@ -95,13 +96,11 @@ spatialwide <- function(x , y , z, digits = 3) {
   # loop to fill wide matrix
   for (p1 in 1:ncol(widedf)) {
     for (p2 in 1:nrow(widedf)) {
-      zc <- dplyr::filter(
-        longdf,
-        x == xu[p1],
-        y == yu[p2]
-      )$z
-      if (length(zc) != 0) {
+      fil <- which(longdf$x == xu[p1] & longdf$y == yu[p2])
+      if (length(fil) != 0) {
+        zc <- longdf$z[fil]
         widedf[p2, p1] <- zc
+        longdf <- longdf[-fil,]
       }
     }
   }

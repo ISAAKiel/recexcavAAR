@@ -2,7 +2,8 @@
 % Please edit documentation in R/geo_functions.R
 \name{spatialwide}
 \alias{spatialwide}
-\title{Transforms a data.frame with three attributes in long format to a data.frame with wide format.}
+\title{Transforms a set of two independent and one dependent variables in vectors from a long
+to a wide format and exports this result as a data.frame}
 \usage{
 spatialwide(x, y, z, digits = 3)
 }
@@ -20,7 +21,8 @@ the colnames (\code{x}) and rownames (\code{y}).}
 data.frame in wide format
 }
 \description{
-Transforms a data.frame with three attributes in long format to a data.frame with wide format.
+Transforms a set of two independent and one dependent variables in vectors from a long
+to a wide format and exports this result as a data.frame
 }
 \examples{
 x <- c(1, 1, 1, 2, 2, 2, 3, 3, 4)
