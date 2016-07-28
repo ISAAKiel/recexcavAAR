@@ -48,36 +48,45 @@ DataFrame posdec(DataFrame crlist, List maplist){
 
   Function asMatrix("as.matrix");
 
-  // create table with decision column
+  // transform input pointlist to NumericMatrix -> cube2
   SEXP cube2mid = crlist;
   NumericMatrix cube2 = asMatrix(cube2mid);
+  // create result table with decision column -> cubedec
   NumericMatrix cubedec(cube2.nrow(), 4);
   // loop to deal with every layer
   for (int mp = 0; mp < maplist.size(); mp++){
+    // select matrix with points of the current layer -> curmap
     SEXP curmapmid = maplist[mp];
     NumericMatrix curmap = asMatrix(curmapmid);
     // loop to deal with every single point
+    // create vectors for individual point distances
+    // (horizontal -> mindistps and vertical -> mindistz)
     NumericVector mindistps(4);
     NumericVector mindistz(4);
     for (int pcube = 0; pcube < cube2.nrow(); pcube++) {
+      // get horizontal coordinates of the single point of interest -> x1, y1
       double x1 = cube2(pcube, 0);
       double y1 = cube2(pcube, 1);
-      // loop to determine four points with the shortest distance
+      // loop to determine four points with the shortest distance by calculating distance of single point
+      // to every point of the current layer
       for (int p1 = 0; p1 < curmap.nrow(); p1++) {
+        // get horizontal coordinates of the single point of the layer -> x2, y2
         double x2 = curmap(p1, 0);
         double y2 = curmap(p1, 1);
+        // calculate euclidian distance of single point of interest and single point of layer -> dist
         double x = x1 - x2;
         double y = y1 - y2;
         double dist = pow(x, 2) + pow(y, 2);
         dist = sqrt(dist);
-
+        // at the beginning: set minimum distance value for all four closest points to first calculated
+        // distance - this value will be adjusted step by step
         if (p1 == 0){
           mindistps(0) = dist;
           mindistps(1) = dist;
           mindistps(2) = dist;
           mindistps(3) = dist;
         }
-
+        // loop to find id of biggest value in vector mindistps
         double max = 0;
         int id = 0;
         for (int p2 = 0; p2 < 4; p2++) {
@@ -86,12 +95,12 @@ DataFrame posdec(DataFrame crlist, List maplist){
             id = p2;
           }
         }
-
+        // replace biggest value in vector mindistps by new smaller value (if so) and store z value of
+        // the current single point of layer
         if (dist < mindistps(id)) {
           mindistps(id) = dist;
           mindistz(id) = curmap(p1, 2);
         }
-
       }
       double ztemp = 0;
       for (int p3 = 0; p3 < mindistz.size(); p3++) {
