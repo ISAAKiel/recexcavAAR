@@ -58,11 +58,11 @@ DataFrame posdec(DataFrame crlist, List maplist){
     // select matrix with points of the current layer -> curmap
     SEXP curmapmid = maplist[mp];
     NumericMatrix curmap = asMatrix(curmapmid);
-    // loop to deal with every single point
     // create vectors for individual point distances
     // (horizontal -> mindistps and vertical -> mindistz)
     NumericVector mindistps(4);
     NumericVector mindistz(4);
+    // loop to deal with every single point
     for (int pcube = 0; pcube < cube2.nrow(); pcube++) {
       // get horizontal coordinates of the single point of interest -> x1, y1
       double x1 = cube2(pcube, 0);
@@ -73,7 +73,7 @@ DataFrame posdec(DataFrame crlist, List maplist){
         // get horizontal coordinates of the single point of the layer -> x2, y2
         double x2 = curmap(p1, 0);
         double y2 = curmap(p1, 1);
-        // calculate euclidian distance of single point of interest and single point of layer -> dist
+        // calculate horizontal euclidian distance of single point of interest and single point of layer -> dist
         double x = x1 - x2;
         double y = y1 - y2;
         double dist = pow(x, 2) + pow(y, 2);
@@ -95,37 +95,42 @@ DataFrame posdec(DataFrame crlist, List maplist){
             id = p2;
           }
         }
-        // replace biggest value in vector mindistps by new smaller value (if so) and store z value of
-        // the current single point of layer
+        // if the current point of layer has a smaller distance to the current point of interest, then
+        // replace the biggest value in vector mindistps by new smaller value (if so) and also store z value
+        // of the current single point of layer
         if (dist < mindistps(id)) {
           mindistps(id) = dist;
           mindistz(id) = curmap(p1, 2);
         }
       }
+      // calculate mean height (-> zmap) of the four horizontally closest points of layer stored in vectors
+      // mindistps and mindistz
       double ztemp = 0;
       for (int p3 = 0; p3 < mindistz.size(); p3++) {
         ztemp += mindistz(p3);
       }
       double zmap = ztemp/4.0;
-
+      // copy coordinate values of current points from input point list to output point list
       cubedec(pcube, 0) = cube2(pcube, 0);
       cubedec(pcube, 1) = cube2(pcube, 1);
       cubedec(pcube, 2) = cube2(pcube, 2);
-
-      if (mp == 0 & cube2(pcube, 2) >= zmap) {
+      //
+      if (mp == 0 && cube2(pcube, 2) >= zmap) {
         cubedec(pcube, 3) = mp+1;
-      } else if (cube2(pcube, 2) != 0 & cube2(pcube, 2) >= zmap) {
+      } else if (mp != 0 && cube2(pcube, 2) >= zmap) {
         cubedec(pcube, 3) += 1;
       }
     }
   }
 
+  // copying columns of cubedec (output list) to individual NumericVectors to be able to construct a nice
+  // output data.frame
   NumericVector x = cubedec(_,0);
   NumericVector y = cubedec(_,1);
   NumericVector z = cubedec(_,2);
   NumericVector pos = cubedec(_,3);
 
-  // output
+  // construct output data.frame, then output
   return DataFrame::create(_["x"] = x, _["y"] = y, _["z"] = z, _["pos"] = pos);
 }
 
@@ -239,9 +244,9 @@ List posdeclist(List crlist, List maplist){
         cubedec(pcube, 1) = cube2(pcube, 1);
         cubedec(pcube, 2) = cube2(pcube, 2);
 
-        if (mp == 0 & cube2(pcube, 2) >= zmap) {
+        if (mp == 0 && cube2(pcube, 2) >= zmap) {
           cubedec(pcube, 3) = mp+1;
-        } else if (cube2(pcube, 2) != 0 & cube2(pcube, 2) >= zmap) {
+        } else if (mp != 0 && cube2(pcube, 2) >= zmap) {
           cubedec(pcube, 3) += 1;
         }
       }
