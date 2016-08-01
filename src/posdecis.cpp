@@ -54,7 +54,7 @@ DataFrame posdec(DataFrame crlist, List maplist){
   // create result table with decision column -> cubedec
   NumericMatrix cubedec(cube2.nrow(), 4);
   // loop to deal with every layer
-  for (int mp = 0; mp < maplist.size(); mp++){
+  for (int mp = 0; mp < maplist.size(); mp++) {
     // select matrix with points of the current layer -> curmap
     SEXP curmapmid = maplist[mp];
     NumericMatrix curmap = asMatrix(curmapmid);
@@ -62,7 +62,7 @@ DataFrame posdec(DataFrame crlist, List maplist){
     // (horizontal -> mindistps and vertical -> mindistz)
     NumericVector mindistps(4);
     NumericVector mindistz(4);
-    // loop to deal with every single point
+    // loop to deal with every single point of interest
     for (int pcube = 0; pcube < cube2.nrow(); pcube++) {
       // get horizontal coordinates of the single point of interest -> x1, y1
       double x1 = cube2(pcube, 0);
@@ -73,24 +73,38 @@ DataFrame posdec(DataFrame crlist, List maplist){
         // get horizontal coordinates of the single point of the layer -> x2, y2
         double x2 = curmap(p1, 0);
         double y2 = curmap(p1, 1);
-        // calculate horizontal euclidian distance of single point of interest and single point of layer -> dist
+        // calculate horizontal euclidian distance of single point of interest and single point of layer
+        // -> dist
         double x = x1 - x2;
         double y = y1 - y2;
         double dist = pow(x, 2) + pow(y, 2);
         dist = sqrt(dist);
         // at the beginning: set minimum distance value for all four closest points to first calculated
         // distance - this value will be adjusted step by step
-        if (p1 == 0){
-          mindistps(0) = dist;
-          mindistps(1) = dist;
-          mindistps(2) = dist;
-          mindistps(3) = dist;
+        if (p1 == 0) {
+          mindistps(0) = 100;
+          mindistps(1) = 100;
+          mindistps(2) = 100;
+          mindistps(3) = 100;
         }
+        //debug
+        // if (p1 % 100 == 0) {
+        //   Rcout << "layer: " << mp << std::endl;
+        //   Rcout << "0 " << mindistps(0) << std::endl;
+        //   Rcout << "1 " << mindistps(1) << std::endl;
+        //   Rcout << "2 " << mindistps(2) << std::endl;
+        //   Rcout << "3 " << mindistps(3) << std::endl;
+        //   if (mp >= 3) {
+        //     Rcout << "x2 - " << x2 << std::endl;
+        //     Rcout << "y2 - " << y2 << std::endl;
+        //     Rcout << "dist - " << dist << std::endl;
+        //   }
+        // }
         // loop to find id of biggest value in vector mindistps
         double max = 0;
         int id = 0;
         for (int p2 = 0; p2 < 4; p2++) {
-          if(mindistps(p2) > max) {
+          if (mindistps(p2) >= max) {
             max = mindistps(p2);
             id = p2;
           }
@@ -98,7 +112,7 @@ DataFrame posdec(DataFrame crlist, List maplist){
         // if the current point of layer has a smaller distance to the current point of interest, then
         // replace the biggest value in vector mindistps by new smaller value (if so) and also store z value
         // of the current single point of layer
-        if (dist < mindistps(id)) {
+        if (dist <= mindistps(id)) {
           mindistps(id) = dist;
           mindistz(id) = curmap(p1, 2);
         }
@@ -120,6 +134,8 @@ DataFrame posdec(DataFrame crlist, List maplist){
       } else if (mp != 0 && cube2(pcube, 2) >= zmap) {
         cubedec(pcube, 3) += 1;
       }
+    //debug
+    break;
     }
   }
 
@@ -213,22 +229,22 @@ List posdeclist(List crlist, List maplist){
           dist = sqrt(dist);
 
           if (p1 == 0){
-            mindistps(0) = dist;
-            mindistps(1) = dist;
-            mindistps(2) = dist;
-            mindistps(3) = dist;
+            mindistps(0) = 100;
+            mindistps(1) = 100;
+            mindistps(2) = 100;
+            mindistps(3) = 100;
           }
 
           double max = 0;
           int id = 0;
           for (int p2 = 0; p2 < 4; p2++) {
-            if(mindistps(p2) > max) {
+            if(mindistps(p2) >= max) {
               max = mindistps(p2);
               id = p2;
             }
           }
 
-          if (dist < mindistps(id)) {
+          if (dist <= mindistps(id)) {
             mindistps(id) = dist;
             mindistz(id) = curmap(p1, 2);
           }
