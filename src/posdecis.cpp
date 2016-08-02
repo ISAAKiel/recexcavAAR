@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <math.h>
+#include "helpfunc.h"
 
 using namespace Rcpp;
 
@@ -58,6 +59,17 @@ DataFrame posdec(DataFrame crlist, List maplist){
     // select matrix with points of the current layer -> curmap
     SEXP curmapmid = maplist[mp];
     NumericMatrix curmap = asMatrix(curmapmid);
+    // find maxdist of current layer (puspose: see below)
+    NumericVector xcl = curmap(_, 0);
+    NumericVector ycl = curmap(_, 1);
+    double dist1 = pyth(minv(xcl), minv(ycl), maxv(xcl), maxv(ycl));
+    double dist2 = pyth(minv(xcl), maxv(ycl), maxv(xcl), minv(ycl));
+    double maxdist = 100;
+    if (dist1 > dist2) {
+      maxdist = dist1;
+    } else {
+      maxdist = dist2;
+    }
     // create vectors for individual point distances
     // (horizontal -> mindistps and vertical -> mindistz)
     NumericVector mindistps(4);
@@ -75,17 +87,14 @@ DataFrame posdec(DataFrame crlist, List maplist){
         double y2 = curmap(p1, 1);
         // calculate horizontal euclidian distance of single point of interest and single point of layer
         // -> dist
-        double x = x1 - x2;
-        double y = y1 - y2;
-        double dist = pow(x, 2) + pow(y, 2);
-        dist = sqrt(dist);
-        // at the beginning: set minimum distance value for all four closest points to first calculated
-        // distance - this value will be adjusted step by step
+        double dist = pyth(x1, y1, x2, y2);
+        // at the beginning: set minimum distance value for all four closest points to maxdist - this value
+        // will be adjusted step by step
         if (p1 == 0) {
-          mindistps(0) = 100;
-          mindistps(1) = 100;
-          mindistps(2) = 100;
-          mindistps(3) = 100;
+          mindistps(0) = maxdist;
+          mindistps(1) = maxdist;
+          mindistps(2) = maxdist;
+          mindistps(3) = maxdist;
         }
         //debug
         // if (p1 % 100 == 0) {
@@ -100,15 +109,8 @@ DataFrame posdec(DataFrame crlist, List maplist){
         //     Rcout << "dist - " << dist << std::endl;
         //   }
         // }
-        // loop to find id of biggest value in vector mindistps
-        double max = 0;
-        int id = 0;
-        for (int p2 = 0; p2 < 4; p2++) {
-          if (mindistps(p2) >= max) {
-            max = mindistps(p2);
-            id = p2;
-          }
-        }
+        // find id of biggest value in vector mindistps
+        int id = maxid(mindistps);
         // if the current point of layer has a smaller distance to the current point of interest, then
         // replace the biggest value in vector mindistps by new smaller value (if so) and also store z value
         // of the current single point of layer
@@ -134,8 +136,10 @@ DataFrame posdec(DataFrame crlist, List maplist){
       } else if (mp != 0 && cube2(pcube, 2) >= zmap) {
         cubedec(pcube, 3) += 1;
       }
+
     //debug
-    break;
+    //break;
+
     }
   }
 
@@ -203,46 +207,47 @@ List posdeclist(List crlist, List maplist){
 
   Function asMatrix("as.matrix");
 
-  // loop to deal with every cube/square
   for (int crp = 0; crp < crlist.size(); crp++){
-    // create table for current cube with decision column
+
     SEXP cube2mid = crlist[crp];
     NumericMatrix cube2 = asMatrix(cube2mid);
     NumericMatrix cubedec(cube2.nrow(), 4);
-    // loop to deal with every layer for the current cube
+
     for (int mp = 0; mp < maplist.size(); mp++){
       SEXP curmapmid = maplist[mp];
       NumericMatrix curmap = asMatrix(curmapmid);
-      // loop to deal with every single point of the current cube
+
+      NumericVector xcl = curmap(_, 0);
+      NumericVector ycl = curmap(_, 1);
+      double dist1 = pyth(minv(xcl), minv(ycl), maxv(xcl), maxv(ycl));
+      double dist2 = pyth(minv(xcl), maxv(ycl), maxv(xcl), minv(ycl));
+      double maxdist = 100;
+      if (dist1 > dist2) {
+        maxdist = dist1;
+      } else {
+        maxdist = dist2;
+      }
+
       NumericVector mindistps(4);
       NumericVector mindistz(4);
+
       for (int pcube = 0; pcube < cube2.nrow(); pcube++) {
         double x1 = cube2(pcube, 0);
         double y1 = cube2(pcube, 1);
-        // loop to determine four points with the shortest distance
+
         for (int p1 = 0; p1 < curmap.nrow(); p1++) {
           double x2 = curmap(p1, 0);
           double y2 = curmap(p1, 1);
-          double x = x1 - x2;
-          double y = y1 - y2;
-          double dist = pow(x, 2) + pow(y, 2);
-          dist = sqrt(dist);
+          double dist = pyth(x1, y1, x2, y2);
 
           if (p1 == 0){
-            mindistps(0) = 100;
-            mindistps(1) = 100;
-            mindistps(2) = 100;
-            mindistps(3) = 100;
+            mindistps(0) = maxdist;
+            mindistps(1) = maxdist;
+            mindistps(2) = maxdist;
+            mindistps(3) = maxdist;
           }
 
-          double max = 0;
-          int id = 0;
-          for (int p2 = 0; p2 < 4; p2++) {
-            if(mindistps(p2) >= max) {
-              max = mindistps(p2);
-              id = p2;
-            }
-          }
+          int id = maxid(mindistps);
 
           if (dist <= mindistps(id)) {
             mindistps(id) = dist;
@@ -267,16 +272,13 @@ List posdeclist(List crlist, List maplist){
         }
       }
     }
-
     NumericVector x = cubedec(_,0);
     NumericVector y = cubedec(_,1);
     NumericVector z = cubedec(_,2);
     NumericVector pos = cubedec(_,3);
 
-    // output
     crlist[crp] = DataFrame::create(_["x"] = x, _["y"] = y, _["z"] = z, _["pos"] = pos);
   }
 
-  // output
   return crlist;
 }
