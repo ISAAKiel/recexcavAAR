@@ -62,14 +62,7 @@ DataFrame posdec(DataFrame crlist, List maplist){
     // find maxdist of current layer (puspose: see below)
     NumericVector xcl = curmap(_, 0);
     NumericVector ycl = curmap(_, 1);
-    double dist1 = pyth(minv(xcl), minv(ycl), maxv(xcl), maxv(ycl));
-    double dist2 = pyth(minv(xcl), maxv(ycl), maxv(xcl), minv(ycl));
-    double maxdist = 100;
-    if (dist1 > dist2) {
-      maxdist = dist1;
-    } else {
-      maxdist = dist2;
-    }
+    double maxdist = pyth(minv(xcl), minv(ycl), maxv(xcl), maxv(ycl));
     // create vectors for individual point distances
     // (horizontal -> mindistps and vertical -> mindistz)
     NumericVector mindistps(4);
@@ -219,14 +212,7 @@ List posdeclist(List crlist, List maplist){
 
       NumericVector xcl = curmap(_, 0);
       NumericVector ycl = curmap(_, 1);
-      double dist1 = pyth(minv(xcl), minv(ycl), maxv(xcl), maxv(ycl));
-      double dist2 = pyth(minv(xcl), maxv(ycl), maxv(xcl), minv(ycl));
-      double maxdist = 100;
-      if (dist1 > dist2) {
-        maxdist = dist1;
-      } else {
-        maxdist = dist2;
-      }
+      double maxdist = pyth(minv(xcl), minv(ycl), maxv(xcl), maxv(ycl));
 
       NumericVector mindistps(4);
       NumericVector mindistz(4);
