@@ -10,9 +10,8 @@ res <- spatialwide(df$x, df$y, df$z, digits = d)
 
 test_that(
   "the output of spatialwide is a data.frame",  {
-    expect_equal(
-      is.data.frame(res),
-      TRUE
+    expect_true(
+      is.data.frame(res)
     )
   }
 )
