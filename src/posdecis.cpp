@@ -202,68 +202,9 @@ List posdeclist(List crlist, List maplist){
 
   for (int crp = 0; crp < crlist.size(); crp++){
 
-    SEXP cube2mid = crlist[crp];
-    NumericMatrix cube2 = asMatrix(cube2mid);
-    NumericMatrix cubedec(cube2.nrow(), 4);
+    SEXP curcrlist = crlist[crp];
+    crlist[crp] = posdec(curcrlist, maplist);
 
-    for (int mp = 0; mp < maplist.size(); mp++){
-      SEXP curmapmid = maplist[mp];
-      NumericMatrix curmap = asMatrix(curmapmid);
-
-      NumericVector xcl = curmap(_, 0);
-      NumericVector ycl = curmap(_, 1);
-      double maxdist = pyth(minv(xcl), minv(ycl), maxv(xcl), maxv(ycl));
-
-      NumericVector mindistps(4);
-      NumericVector mindistz(4);
-
-      for (int pcube = 0; pcube < cube2.nrow(); pcube++) {
-        double x1 = cube2(pcube, 0);
-        double y1 = cube2(pcube, 1);
-
-        for (int p1 = 0; p1 < curmap.nrow(); p1++) {
-          double x2 = curmap(p1, 0);
-          double y2 = curmap(p1, 1);
-          double dist = pyth(x1, y1, x2, y2);
-
-          if (p1 == 0){
-            mindistps(0) = maxdist;
-            mindistps(1) = maxdist;
-            mindistps(2) = maxdist;
-            mindistps(3) = maxdist;
-          }
-
-          int id = maxid(mindistps);
-
-          if (dist <= mindistps(id)) {
-            mindistps(id) = dist;
-            mindistz(id) = curmap(p1, 2);
-          }
-
-        }
-        double ztemp = 0;
-        for (int p3 = 0; p3 < mindistz.size(); p3++) {
-          ztemp += mindistz(p3);
-        }
-        double zmap = ztemp/4.0;
-
-        cubedec(pcube, 0) = cube2(pcube, 0);
-        cubedec(pcube, 1) = cube2(pcube, 1);
-        cubedec(pcube, 2) = cube2(pcube, 2);
-
-        if (mp == 0 && cube2(pcube, 2) >= zmap) {
-          cubedec(pcube, 3) = mp+1;
-        } else if (mp != 0 && cube2(pcube, 2) >= zmap) {
-          cubedec(pcube, 3) += 1;
-        }
-      }
-    }
-    NumericVector x = cubedec(_,0);
-    NumericVector y = cubedec(_,1);
-    NumericVector z = cubedec(_,2);
-    NumericVector pos = cubedec(_,3);
-
-    crlist[crp] = DataFrame::create(_["x"] = x, _["y"] = y, _["z"] = z, _["pos"] = pos);
   }
 
   return crlist;
