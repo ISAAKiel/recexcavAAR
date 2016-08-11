@@ -3,15 +3,13 @@
 recexcavAAR
 --------
 
-R Library for 3D reconstruction and analysis of excavation states — 
+R Library for 3D reconstruction and analysis of excavation states. The following vignette explains the implemented functions:
+
+* [Surface kriging and object attribution for small scale excavations](https://isaakiel.github.io/recexcavAAR-vignette-1.html) (does not work with Firefox browser)
 
 #### Released version
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/recexcavAAR)](http://cran.r-project.org/package=recexcavAAR)
-
-`recexcavAAR` is a collection of functions useful for archaeologists.
-
-Just started...
 
 Licence
 -------
