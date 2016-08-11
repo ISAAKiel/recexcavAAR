@@ -15,7 +15,8 @@ Imports: dplyr (>= 0.4.1),
     plyr,
     magrittr (>= 1.5),
     reshape2 (>= 1.4.1),
-    Rcpp
+    Rcpp,
+    devtools
 Suggests: testthat,
     knitr,
     rmarkdown,

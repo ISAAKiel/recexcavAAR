@@ -35,6 +35,8 @@
 #'
 #' kriglist(lpoints, lags = 3, model = "spherical")
 #'
+#' @import kriging
+#'
 #' @export
 #'
 
