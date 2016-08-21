@@ -64,3 +64,15 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// spitcenternatlist
+List spitcenternatlist(List hexlist, List maplist);
+RcppExport SEXP recexcavAAR_spitcenternatlist(SEXP hexlistSEXP, SEXP maplistSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< List >::type hexlist(hexlistSEXP);
+    Rcpp::traits::input_parameter< List >::type maplist(maplistSEXP);
+    __result = Rcpp::wrap(spitcenternatlist(hexlist, maplist));
+    return __result;
+END_RCPP
+}

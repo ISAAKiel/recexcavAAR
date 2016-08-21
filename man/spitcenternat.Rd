@@ -15,6 +15,6 @@ spitcenternat(hex, maplist)
 test
 }
 \description{
-\code{spitcenter2} test
+\code{spitcenternat} test
 }
 
