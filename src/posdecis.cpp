@@ -198,8 +198,6 @@ DataFrame posdec(DataFrame crlist, List maplist){
 // [[Rcpp::export]]
 List posdeclist(List crlist, List maplist){
 
-  Function asMatrix("as.matrix");
-
   for (int crp = 0; crp < crlist.size(); crp++){
 
     SEXP curcrlist = crlist[crp];
