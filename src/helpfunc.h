@@ -4,13 +4,18 @@
 #include <math.h>
 using namespace Rcpp;
 
+
+#ifndef __UTILITIES__
+#define __UTILITIES__
+
+
 //' find maximum of a NumericVector
 //'
 //' @param x NumericVector of interest
 //'
 //' @return value of highest value in NumericVector.
 
-double maxv(NumericVector x){
+inline double maxv(NumericVector x){
   // changing vars
   double maxi = x(0);
   // search loop
@@ -29,7 +34,7 @@ double maxv(NumericVector x){
 //'
 //' @return id of highest value in NumericVector.
 
-int maxid(NumericVector x){
+inline int maxid(NumericVector x){
   // changing vars
   double maxi = x(0);
   int id = 0;
@@ -50,7 +55,7 @@ int maxid(NumericVector x){
 //'
 //' @return value of smallest value in NumericVector.
 
-double minv(NumericVector x){
+inline double minv(NumericVector x){
   // changing vars
   double mini = x(0);
   // search loop
@@ -69,7 +74,7 @@ double minv(NumericVector x){
 //'
 //' @return id of highest value in NumericVector.
 
-int minid(NumericVector x){
+inline int minid(NumericVector x){
   // changing vars
   double mini = x(0);
   int id = 0;
@@ -93,10 +98,13 @@ int minid(NumericVector x){
 //'
 //' @return distance
 
-double pyth (double x1, double y1, double x2, double y2) {
+inline double pyth (double x1, double y1, double x2, double y2) {
   double x = x1 - x2;
   double y = y1 - y2;
   double dist = pow(x, 2) + pow(y, 2);
   dist = sqrt(dist);
   return dist;
 }
+
+
+#endif //__UTILITIES__

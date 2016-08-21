@@ -41,3 +41,14 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// spitcenter
+NumericVector spitcenter(DataFrame hex);
+RcppExport SEXP recexcavAAR_spitcenter(SEXP hexSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< DataFrame >::type hex(hexSEXP);
+    __result = Rcpp::wrap(spitcenter(hex));
+    return __result;
+END_RCPP
+}
