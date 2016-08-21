@@ -52,3 +52,15 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// spitcenternat
+DataFrame spitcenternat(DataFrame hex, List maplist);
+RcppExport SEXP recexcavAAR_spitcenternat(SEXP hexSEXP, SEXP maplistSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< DataFrame >::type hex(hexSEXP);
+    Rcpp::traits::input_parameter< List >::type maplist(maplistSEXP);
+    __result = Rcpp::wrap(spitcenternat(hex, maplist));
+    return __result;
+END_RCPP
+}

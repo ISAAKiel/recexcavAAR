@@ -163,3 +163,18 @@ spitcenter <- function(hex) {
     .Call('recexcavAAR_spitcenter', PACKAGE = 'recexcavAAR', hex)
 }
 
+#' spitcenternat
+#'
+#' \code{spitcenter2} test
+#'
+#' @param hex test
+#' @param maplist test
+#'
+#' @return test
+#'
+#'
+#' @export
+spitcenternat <- function(hex, maplist) {
+    .Call('recexcavAAR_spitcenternat', PACKAGE = 'recexcavAAR', hex, maplist)
+}
+
