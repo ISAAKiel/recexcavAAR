@@ -127,6 +127,22 @@ posdeclist <- function(crlist, maplist) {
     .Call('recexcavAAR_posdeclist', PACKAGE = 'recexcavAAR', crlist, maplist)
 }
 
+#' spatialwide2
+#'
+#' \code{spatialwide2} test
+#'
+#' @param x test
+#' @param y test
+#' @param z test
+#' @param digits test
+#'
+#' @return test
+#'
+#' @export
+spatialwide2 <- function(x, y, z, digits) {
+    .Call('recexcavAAR_spatialwide2', PACKAGE = 'recexcavAAR', x, y, z, digits)
+}
+
 #' center determination for hexahedrons
 #'
 #' \code{spitcenter} determines a center point for an input hexahedron

@@ -8,6 +8,30 @@ using namespace Rcpp;
 #ifndef __UTILITIES__
 #define __UTILITIES__
 
+//' create NumericMatrix filled with NAs
+//'
+//' @param r rows of matrix
+//' @param r cols of matrix
+//'
+//' @return NumericMatrix of correct size filled with NAs
+
+inline NumericMatrix na_matrix(int r, int c){
+  NumericMatrix m(r,c) ;
+  std::fill( m.begin(), m.end(), NumericVector::get_na() ) ;
+  return m ;
+}
+
+//' sort NumericVector
+//'
+//' @param x NumericVector of interest
+//'
+//' @return sorted NumericVector
+
+inline NumericVector stl_sort(NumericVector x) {
+  NumericVector y = clone(x);
+  std::sort(y.begin(), y.end());
+  return y;
+}
 
 //' find maximum of a NumericVector
 //'
