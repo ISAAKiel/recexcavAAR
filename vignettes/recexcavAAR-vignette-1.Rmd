@@ -102,27 +102,20 @@ lpoints <- list(df1, df2)
 maps <- kriglist(lpoints, lags = 3, model = "spherical")
 ```
 
-The result of `recexcavAAR::kriging` is in a tall format -- we have to transform it. For this purpose we use `recexcavAAR::spatialwide`.
+The result of `recexcavAAR::kriging` is in a tall format -- we have to transform it. For this purpose we use `recexcavAAR::spatialwide2`.
 
 ```{r}
-surf1 <- spatialwide(maps[[1]]$x, maps[[1]]$y, maps[[1]]$pred, 3)
-surf2 <- spatialwide(maps[[2]]$x, maps[[2]]$y, maps[[2]]$pred, 3)
-
-x1 <- as.numeric(colnames(surf1))
-y1 <- as.numeric(rownames(surf1))
-z1 <- as.matrix(surf1)
-x2 <- as.numeric(colnames(surf2))
-y2 <- as.numeric(rownames(surf2))
-z2 <- as.matrix(surf2)
+surf1 <- spatialwide2(maps[[1]]$x, maps[[1]]$y, maps[[1]]$pred, 3)
+surf2 <- spatialwide2(maps[[2]]$x, maps[[2]]$y, maps[[2]]$pred, 3)
 ```
 
 After the transformation we can visualize the generated surfaces:
 
 ```{r fig.width=7, fig.height=5}
 vis <- vis %>% 
-  add_trace(x = x1, y = x1, z = z1, type = "surface", showscale = FALSE
+  add_trace(x = surf1$x, y = surf1$y, z = surf1$z, type = "surface", showscale = FALSE
   ) %>%
-  add_trace(x = x2, y = x2, z = z2, type = "surface", showscale = FALSE
+  add_trace(x = surf2$x, y = surf2$y, z = surf2$z, type = "surface", showscale = FALSE
   ) 
 
 vis
