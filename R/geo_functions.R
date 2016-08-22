@@ -64,6 +64,8 @@ kriglist <- function(plist, x = 1, y = 2, z = 3, rdup = TRUE, ...) {
 
 # Begin geo data layout transformation functions  ---------------------------
 
+#' Transformation of numeric matrices from long to wide format
+#'
 #' Transforms a set of two independent and one dependent variables in vectors from a long
 #' to a wide format and exports this result as a data.frame
 #'

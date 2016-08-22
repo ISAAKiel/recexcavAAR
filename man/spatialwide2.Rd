@@ -2,23 +2,40 @@
 % Please edit documentation in R/RcppExports.R
 \name{spatialwide2}
 \alias{spatialwide2}
-\title{spatialwide2}
+\title{Transformation of numeric matrices from long to wide format}
 \usage{
 spatialwide2(x, y, z, digits)
 }
 \arguments{
-\item{x}{test}
+\item{x}{vector of first independent variable. e.g. vector with x-axis spatial points}
 
-\item{y}{test}
+\item{y}{vector of second independent variable. e.g. vector with y-axis spatial points}
 
-\item{z}{test}
+\item{z}{vector of dependent variable. e.g. vector with z-axis spatial points}
 
-\item{digits}{test}
+\item{digits}{integer indicating the number of decimal places to be used for rounding
+the dependent variables \code{x} and \code{y}.}
 }
 \value{
-test
+List with three elements:
+
+$x: vector with ascendingly sorted, unique values of the first independent variable \code{x}
+
+$y: vector with ascendingly sorted, unique values of the second independent variable \code{y}
+
+$z: matrix with the values of z for the defined combinations of \code{x} (columns) and
+\code{y} (rows)
 }
 \description{
-\code{spatialwide2} test
+Transforms a set of two independent and one dependent variables in vectors from a long
+to a wide format and exports this result as a list
+}
+\examples{
+x <- c(1, 1, 1, 2, 2, 2, 3, 3, 4)
+y <- c(1, 2, 3, 1, 2, 3, 1, 2, 3)
+z <- c(3, 4, 2, 3, NA, 5, 6, 3, 1)
+
+spatialwide2(x, y, z, digits = 3)
+
 }
 

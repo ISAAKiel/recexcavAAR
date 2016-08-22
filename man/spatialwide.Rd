@@ -2,8 +2,7 @@
 % Please edit documentation in R/geo_functions.R
 \name{spatialwide}
 \alias{spatialwide}
-\title{Transforms a set of two independent and one dependent variables in vectors from a long
-to a wide format and exports this result as a data.frame}
+\title{Transformation of numeric matrices from long to wide format}
 \usage{
 spatialwide(x, y, z, digits = 3)
 }
