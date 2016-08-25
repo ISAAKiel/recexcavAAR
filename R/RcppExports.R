@@ -127,6 +127,31 @@ posdeclist <- function(crlist, maplist) {
     .Call('recexcavAAR_posdeclist', PACKAGE = 'recexcavAAR', crlist, maplist)
 }
 
+#' Transformation of numeric matrices wide to long format
+#'
+#' Transforms a set of two independent variables in vectors and a dependent variable in a wide
+#' matrix to a long matrix that combines the information. The result is exported as a data.frame
+#'
+#' @param x vector of first independent variable. e.g. vector with x-axis spatial points
+#' @param y vector of second independent variable. e.g. vector with y-axis spatial points
+#' @param z matrix of dependent variable. e.g. matrix with z-axis spatial points
+#'
+#' @return data.frame with three columns x, y and z
+#'
+#' @examples
+#' x <- c(1, 1, 1, 2, 2, 2, 3, 3, 4)
+#' y <- c(1, 2, 3, 1, 2, 3, 1, 2, 3)
+#' z <- c(3, 4, 2, 3, NA, 5, 6, 3, 1)
+#'
+#' sw <- spatialwide2(x, y, z, digits = 3)
+#'
+#' spatiallong2(sw$x, sw$y, sw$z)
+#'
+#' @export
+spatiallong2 <- function(x, y, z) {
+    .Call('recexcavAAR_spatiallong2', PACKAGE = 'recexcavAAR', x, y, z)
+}
+
 #' Transformation of numeric matrices from long to wide format
 #'
 #' Transforms a set of two independent and one dependent variables in vectors from a long
