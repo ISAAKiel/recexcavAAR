@@ -7,15 +7,16 @@
 spitcenternatlist(hexlist, maplist)
 }
 \arguments{
-\item{hexlist}{test}
+\item{hexlist}{list of data.frames with the horizontal outlines of the spit defined by four points}
 
-\item{maplist}{test}
+\item{maplist}{list of data.frames which contain the points that make up the surfaces}
 }
 \value{
-test
+list of data.frames with the spatial coordinates of the center points
 }
 \description{
-\code{spitcenternatlist} test
+\code{spitcenternatlist} works as \code{spitcenternat} but not just for a single data.frame but for a list of
+data.frames
 }
 \examples{
 df1 <- data.frame(

@@ -7,15 +7,19 @@
 spitcenternat(hex, maplist)
 }
 \arguments{
-\item{hex}{test}
+\item{hex}{data.frame with the horizontal outlines of the spit defined by four points}
 
-\item{maplist}{test}
+\item{maplist}{list of data.frames which contain the points that make up the surfaces}
 }
 \value{
-test
+data.frame with the spatial coordinates of the center points
 }
 \description{
-\code{spitcenternat} test
+\code{spitcenternat} determines center points of spits if the excavation followed natural layers.
+In this case spits are not perfectly defined hexahedrons. Just the horizontal outlines are clear -
+the vertical edges vary a lot. To solve this, \code{spitcenternat} calculates the horizontal center
+of a spit and determines its vertical position in relation to the natural/semiartificial surfaces
+that define its top and bottom. This is done for all defined layers.
 }
 \examples{
 df1 <- data.frame(

@@ -96,12 +96,16 @@ NumericVector spitcenter(DataFrame hex){
 
 //' spitcenternat
 //'
-//' \code{spitcenternat} test
+//' \code{spitcenternat} determines center points of spits if the excavation followed natural layers.
+//' In this case spits are not perfectly defined hexahedrons. Just the horizontal outlines are clear -
+//' the vertical edges vary a lot. To solve this, \code{spitcenternat} calculates the horizontal center
+//' of a spit and determines its vertical position in relation to the natural/semiartificial surfaces
+//' that define its top and bottom. This is done for all defined layers.
 //'
-//' @param hex test
-//' @param maplist test
+//' @param hex data.frame with the horizontal outlines of the spit defined by four points
+//' @param maplist list of data.frames which contain the points that make up the surfaces
 //'
-//' @return test
+//' @return data.frame with the spatial coordinates of the center points
 //'
 //' @examples
 //' df1 <- data.frame(
@@ -177,12 +181,13 @@ DataFrame spitcenternat(DataFrame hex, List maplist){
 
 //' spitcenternatlist
 //'
-//' \code{spitcenternatlist} test
+//' \code{spitcenternatlist} works as \code{spitcenternat} but not just for a single data.frame but for a list of
+//' data.frames
 //'
-//' @param hexlist test
-//' @param maplist test
+//' @param hexlist list of data.frames with the horizontal outlines of the spit defined by four points
+//' @param maplist list of data.frames which contain the points that make up the surfaces
 //'
-//' @return test
+//' @return list of data.frames with the spatial coordinates of the center points
 //'
 //' @examples
 //' df1 <- data.frame(
