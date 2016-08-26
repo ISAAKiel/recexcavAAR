@@ -17,6 +17,34 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// pnp
+bool pnp(NumericVector vertx, NumericVector verty, float testx, float testy);
+RcppExport SEXP recexcavAAR_pnp(SEXP vertxSEXP, SEXP vertySEXP, SEXP testxSEXP, SEXP testySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type vertx(vertxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type verty(vertySEXP);
+    Rcpp::traits::input_parameter< float >::type testx(testxSEXP);
+    Rcpp::traits::input_parameter< float >::type testy(testySEXP);
+    __result = Rcpp::wrap(pnp(vertx, verty, testx, testy));
+    return __result;
+END_RCPP
+}
+// pnpmulti
+LogicalVector pnpmulti(NumericVector vertx, NumericVector verty, NumericVector testx, NumericVector testy);
+RcppExport SEXP recexcavAAR_pnpmulti(SEXP vertxSEXP, SEXP vertySEXP, SEXP testxSEXP, SEXP testySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type vertx(vertxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type verty(vertySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type testx(testxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type testy(testySEXP);
+    __result = Rcpp::wrap(pnpmulti(vertx, verty, testx, testy));
+    return __result;
+END_RCPP
+}
 // posdec
 DataFrame posdec(DataFrame crlist, List maplist);
 RcppExport SEXP recexcavAAR_posdec(SEXP crlistSEXP, SEXP maplistSEXP) {

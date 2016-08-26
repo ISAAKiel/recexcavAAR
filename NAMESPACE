@@ -3,6 +3,8 @@
 export(.onUnload)
 export(fillhexa)
 export(kriglist)
+export(pnp)
+export(pnpmulti)
 export(posdec)
 export(posdeclist)
 export(spatiallong2)

@@ -33,6 +33,70 @@ fillhexa <- function(hex, res) {
     .Call('recexcavAAR_fillhexa', PACKAGE = 'recexcavAAR', hex, res)
 }
 
+#' test
+#'
+#' @description
+#' Based on this solution:
+#' Copyright (c) 1970-2003, Wm. Randolph Franklin
+#' \url{https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html}
+#'
+#' @details
+#' For discussion see: \url{http://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon/2922778#2922778}
+#'
+#' @param vertx test
+#' @param verty test
+#' @param testx test
+#' @param testy test
+#'
+#' @return test
+#'
+#' @examples
+#' df <- data.frame(
+#'   x = c(1,1,2,2),
+#'   y = c(1,2,1,2)
+#' )
+#'
+#' pnp(df$x, df$y, 1.5, 1.5)
+#' pnp(df$x, df$y, 2.5, 2.5)
+#'
+#' # caution: false-negatives in edge-cases:
+#' pnp(df$x, df$y, 2, 1.5)
+#'
+#' @export
+pnp <- function(vertx, verty, testx, testy) {
+    .Call('recexcavAAR_pnp', PACKAGE = 'recexcavAAR', vertx, verty, testx, testy)
+}
+
+#' test
+#'
+#' @description
+#' test
+#'
+#' @param vertx test
+#' @param verty test
+#' @param testx test
+#' @param testy test
+#'
+#' @return test
+#'
+#' @examples
+#' polydf <- data.frame(
+#'   x = c(1,1,2,2),
+#'   y = c(1,2,1,2)
+#' )
+#'
+#' testdf <- data.frame(
+#'   x = c(1.5, 2.5),
+#'   y = c(1.5, 2.5)
+#' )
+#'
+#' pnpmulti(polydf$x, polydf$y, testdf$x, testdf$y)
+#'
+#' @export
+pnpmulti <- function(vertx, verty, testx, testy) {
+    .Call('recexcavAAR_pnpmulti', PACKAGE = 'recexcavAAR', vertx, verty, testx, testy)
+}
+
 #' position decision in relation to a set of stacked surfaces
 #'
 #' \code{posdec} has the purpose to make a decision about the position of individual points in relation
