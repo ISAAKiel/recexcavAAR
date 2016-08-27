@@ -33,9 +33,13 @@ fillhexa <- function(hex, res) {
     .Call('recexcavAAR_fillhexa', PACKAGE = 'recexcavAAR', hex, res)
 }
 
-#' test
+#' check if a point is within a polygon (2D)
 #'
 #' @description
+#' \code{pnp} is able to determine if a point is within a polygon in 2D space.
+#' The polygon is described by its corner points. The order of this points must follow a correct
+#' drawing order.
+#'
 #' Based on this solution:
 #' Copyright (c) 1970-2003, Wm. Randolph Franklin
 #' \url{https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html}
@@ -43,12 +47,12 @@ fillhexa <- function(hex, res) {
 #' @details
 #' For discussion see: \url{http://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon/2922778#2922778}
 #'
-#' @param vertx test
-#' @param verty test
-#' @param testx test
-#' @param testy test
+#' @param vertx vector of x axis values of polygon corner points
+#' @param verty vector of y axis values of polygon corner points
+#' @param testx x axis value of point of interest
+#' @param testy y axis value of point of interest
 #'
-#' @return test
+#' @return boolean value - TRUE, if the point is within the polygon. Otherwise FALSE.
 #'
 #' @examples
 #' df <- data.frame(
@@ -67,17 +71,18 @@ pnp <- function(vertx, verty, testx, testy) {
     .Call('recexcavAAR_pnp', PACKAGE = 'recexcavAAR', vertx, verty, testx, testy)
 }
 
-#' test
+#' check if multiple points are within a polygon (2D)
 #'
 #' @description
-#' test
+#' \code{pnpmulti} works as \code{\link{pnp}} but not just for a single point but for multiple points.
 #'
-#' @param vertx test
-#' @param verty test
-#' @param testx test
-#' @param testy test
+#' @param vertx vector of x axis values of polygon corner points
+#' @param verty vector of y axis values of polygon corner points
+#' @param testx vector of x axis values of points of interest
+#' @param testy vector of y axis values of points of interest
 #'
-#' @return test
+#' @return vector with boolean values - TRUE, if the respective point is within the polygon.
+#' Otherwise FALSE.
 #'
 #' @examples
 #' polydf <- data.frame(
@@ -284,7 +289,7 @@ spitcenter <- function(hex) {
     .Call('recexcavAAR_spitcenter', PACKAGE = 'recexcavAAR', hex)
 }
 
-#' spitcenternat
+#' center determination for excavation spits
 #'
 #' \code{spitcenternat} determines center points of spits if the excavation followed natural layers.
 #' In this case spits are not perfectly defined hexahedrons. Just the horizontal outlines are clear -
@@ -332,9 +337,9 @@ spitcenternat <- function(hex, maplist) {
     .Call('recexcavAAR_spitcenternat', PACKAGE = 'recexcavAAR', hex, maplist)
 }
 
-#' spitcenternatlist
+#' center determination for multiple excavation spits
 #'
-#' \code{spitcenternatlist} works as \code{spitcenternat} but not just for a single data.frame but for a list of
+#' \code{spitcenternatlist} works as \code{\link{spitcenternat}} but not just for a single data.frame but for a list of
 #' data.frames
 #'
 #' @param hexlist list of data.frames with the horizontal outlines of the spit defined by four points

@@ -94,7 +94,7 @@ NumericVector spitcenter(DataFrame hex){
   return geometriccenter;
 }
 
-//' spitcenternat
+//' center determination for excavation spits
 //'
 //' \code{spitcenternat} determines center points of spits if the excavation followed natural layers.
 //' In this case spits are not perfectly defined hexahedrons. Just the horizontal outlines are clear -
@@ -179,9 +179,9 @@ DataFrame spitcenternat(DataFrame hex, List maplist){
   return DataFrame::create(_["x"] = x, _["y"] = y, _["z"] = z);
 }
 
-//' spitcenternatlist
+//' center determination for multiple excavation spits
 //'
-//' \code{spitcenternatlist} works as \code{spitcenternat} but not just for a single data.frame but for a list of
+//' \code{spitcenternatlist} works as \code{\link{spitcenternat}} but not just for a single data.frame but for a list of
 //' data.frames
 //'
 //' @param hexlist list of data.frames with the horizontal outlines of the spit defined by four points

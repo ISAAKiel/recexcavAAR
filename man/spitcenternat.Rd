@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{spitcenternat}
 \alias{spitcenternat}
-\title{spitcenternat}
+\title{center determination for excavation spits}
 \usage{
 spitcenternat(hex, maplist)
 }

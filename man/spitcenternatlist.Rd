@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{spitcenternatlist}
 \alias{spitcenternatlist}
-\title{spitcenternatlist}
+\title{center determination for multiple excavation spits}
 \usage{
 spitcenternatlist(hexlist, maplist)
 }
@@ -15,7 +15,7 @@ spitcenternatlist(hexlist, maplist)
 list of data.frames with the spatial coordinates of the center points
 }
 \description{
-\code{spitcenternatlist} works as \code{spitcenternat} but not just for a single data.frame but for a list of
+\code{spitcenternatlist} works as \code{\link{spitcenternat}} but not just for a single data.frame but for a list of
 data.frames
 }
 \examples{

@@ -2,23 +2,27 @@
 % Please edit documentation in R/RcppExports.R
 \name{pnp}
 \alias{pnp}
-\title{test}
+\title{check if a point is within a polygon (2D)}
 \usage{
 pnp(vertx, verty, testx, testy)
 }
 \arguments{
-\item{vertx}{test}
+\item{vertx}{vector of x axis values of polygon corner points}
 
-\item{verty}{test}
+\item{verty}{vector of y axis values of polygon corner points}
 
-\item{testx}{test}
+\item{testx}{x axis value of point of interest}
 
-\item{testy}{test}
+\item{testy}{y axis value of point of interest}
 }
 \value{
-test
+boolean value - TRUE, if the point is within the polygon. Otherwise FALSE.
 }
 \description{
+\code{pnp} is able to determine if a point is within a polygon in 2D space.
+The polygon is described by its corner points. The order of this points must follow a correct
+drawing order.
+
 Based on this solution:
 Copyright (c) 1970-2003, Wm. Randolph Franklin
 \url{https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html}

@@ -2,9 +2,13 @@
 #include "helpfunc.h"
 using namespace Rcpp;
 
-//' test
+//' check if a point is within a polygon (2D)
 //'
 //' @description
+//' \code{pnp} is able to determine if a point is within a polygon in 2D space.
+//' The polygon is described by its corner points. The order of this points must follow a correct
+//' drawing order.
+//'
 //' Based on this solution:
 //' Copyright (c) 1970-2003, Wm. Randolph Franklin
 //' \url{https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html}
@@ -12,12 +16,12 @@ using namespace Rcpp;
 //' @details
 //' For discussion see: \url{http://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon/2922778#2922778}
 //'
-//' @param vertx test
-//' @param verty test
-//' @param testx test
-//' @param testy test
+//' @param vertx vector of x axis values of polygon corner points
+//' @param verty vector of y axis values of polygon corner points
+//' @param testx x axis value of point of interest
+//' @param testy y axis value of point of interest
 //'
-//' @return test
+//' @return boolean value - TRUE, if the point is within the polygon. Otherwise FALSE.
 //'
 //' @examples
 //' df <- data.frame(
@@ -47,17 +51,18 @@ bool pnp(NumericVector vertx, NumericVector verty, float testx, float testy) {
   return c;
 }
 
-//' test
+//' check if multiple points are within a polygon (2D)
 //'
 //' @description
-//' test
+//' \code{pnpmulti} works as \code{\link{pnp}} but not just for a single point but for multiple points.
 //'
-//' @param vertx test
-//' @param verty test
-//' @param testx test
-//' @param testy test
+//' @param vertx vector of x axis values of polygon corner points
+//' @param verty vector of y axis values of polygon corner points
+//' @param testx vector of x axis values of points of interest
+//' @param testy vector of y axis values of points of interest
 //'
-//' @return test
+//' @return vector with boolean values - TRUE, if the respective point is within the polygon.
+//' Otherwise FALSE.
 //'
 //' @examples
 //' polydf <- data.frame(
