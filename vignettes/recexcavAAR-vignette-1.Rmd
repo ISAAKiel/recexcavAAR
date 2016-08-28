@@ -1,5 +1,5 @@
 ---
-title: "Surface kriging and object attribution for small scale excavations"
+title: "Ifri el Baroud"
 author: "Clemens Schmid"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

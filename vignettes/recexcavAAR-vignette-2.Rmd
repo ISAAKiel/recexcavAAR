@@ -1,0 +1,76 @@
+---
+title: "Kakcus-Turján"
+author: "Clemens Schmid"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Spit attribution for small scale excavations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+if (!requireNamespace("plotly", quietly = TRUE)) {
+  stop("plotly needed for this vignette to build.",
+    call. = FALSE)
+}
+```
+
+First we need to load recexcavAAR and some external packages:
+
+- **dplyr**: filter function
+- **kriging**: simple surface modelling tool
+- **magrittr**: introduces piping to R via %>% operator
+- **plotly**: nice, interactive plots via javascript implementation
+
+```{r, message=FALSE}
+devtools::load_all()
+library(dplyr)
+library(kriging)
+library(magrittr)
+library(plotly)
+```
+
+Like in the first vignette `Ifri el Baroud` we start by setting up an artificial and pretty simple excavation trench with a depth of 1.4 meters, a length of 6 meters and a width of 8 meters. This one is not parallel to the main axis of our coordinate system. 
+
+```{r}
+edges <- data.frame(
+  x = c(6.899, 10.658, 4.428, 0.669, 6.899, 10.658, 4.428, 0.669),
+  y = c(19.292, 14.616, 9.597, 14.273, 19.292, 14.616, 9.597, 14.273),
+  z = c(9.7, 9.7, 9.7, 9.7, 8.3, 8.3, 8.3, 8.3)
+)
+```
+
+We can plot the corner points of this trench, but first of all, we have to calculate a reasonable aspectratio. Remember: The trench is tilted in relation to the main axis. 
+
+```{r fig.width=7, fig.height=5}
+rangex <- abs(max(edges$x) - min(edges$x))
+rangey <- abs(max(edges$y) - min(edges$y))
+
+vis <- plot_ly(
+  edges, x = x, y = y, z = z, 
+  type = "scatter3d", mode = "markers",
+  marker = list(size = 2, color = "blue", symbol = 104)
+) %>% 
+  layout(
+    showlegend = FALSE,
+    autorange = F, 
+    aspectmode = 'manual', 
+    scene = list(
+      dragmode = "orbit",
+      aspectratio = list(x = rangex, y = rangey, z = 5),
+      camera = list(
+        eye = list(x = -7, y = 7, z = 9) 
+      )
+    )
+  ) 
+
+vis
+```
+
+The approach for the excavation of this trench is to go deeper in squares of 1 meter by 1 meter. The spit depth is about 30 centimeters (rather unrealistic ;-)), but as we also try to follow natural layers, the individual spit depth varies a lot. Fortunately we have niveau measurements of the resulting surfaces. 
+
+```{r}
+KT_squarecorners
+KT_spits
+```
