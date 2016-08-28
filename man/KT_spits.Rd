@@ -12,7 +12,7 @@
   \item z: z axis coordinates of measurements
 }}
 \description{
-A dataset containing coordinates of niveau measurements of a fictional excavation with
-4 spits
+A dataset containing coordinates of niveau measurements of a fictional excavation KT with
+4 spits.
 }
 

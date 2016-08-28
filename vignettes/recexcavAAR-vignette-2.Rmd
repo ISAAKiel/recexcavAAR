@@ -84,7 +84,7 @@ for (i in 1:length(spitnames)){
 Let's apply kriging with `kriglist`, transform the result with `spatialwide2` and add the surfaces to the plot. 
 
 ```{r fig.width=7, fig.height=5}
-maps <- kriglist(splist, x = 2, y = 3, z = 4, lags = 3, model = "spherical")
+maps <- kriglist(splist, x = 2, y = 3, z = 4, lags = 3, model = "spherical", pixels = 50)
 
 surf <- list()
 for (i in 1:length(maps)) {
@@ -142,4 +142,27 @@ vis <- vis %>%
 vis
 ```
 
-Now to the actual task: During the excavation we found a lot of pottery from all over the trench. Many of the individual sherds fit together.
+Now to the actual task: During the excavation we found a lot of pottery from all over the trench. Many of the individual sherds fit together -- it's possible to reconstruct complete vessels. We would like to visualize how the sherds of one particular vessel are distributed. The spatial information for this vessel is stored in the dataset `vessel`.
+
+Some of the sherds were considered special during the excavation and were therefore measured individualy (Inv. Nr. *"KTF_..."*).
+
+```{r fig.width=7, fig.height=5}
+ve <- vessel
+vesselsingle <- ve[grep("KTF", ve$inv), ]
+
+vis <- vis %>% 
+  add_trace(
+    data = vesselsingle, x = x, y = y, z = z, 
+    mode = "markers", type = "scatter3d",
+    marker = list(size = 3, color = "red"),
+    hoverinfo = "text",
+    text = paste(
+      "SING: ", "inv = ", inv, "; layer = ", layer ,"; square = ", square, "; feature = ", feature,
+      sep = ""
+    )
+  )
+
+vis
+```
+
+Unfortunately many were not. For these we just have the information from which spit and square they are coming from (Inv. Nr. *"KTM_..."*).

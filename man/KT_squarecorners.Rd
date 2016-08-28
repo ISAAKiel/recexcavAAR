@@ -10,6 +10,6 @@
 }}
 \description{
 A dataset containing horizontal coordinates of corner points of a 1m*1m raster within
-a rectangular trench (corner points of squares)
+a rectangular trench (corner points of squares).
 }
 
