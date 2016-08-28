@@ -68,9 +68,78 @@ vis <- plot_ly(
 vis
 ```
 
-The approach for the excavation of this trench is to go deeper in squares of 1 meter by 1 meter. The spit depth is about 30 centimeters (rather unrealistic ;-)), but as we also try to follow natural layers, the individual spit depth varies a lot. Fortunately we have niveau measurements of the resulting surfaces. 
+The approach for the excavation of this trench is to go deeper in squares of 1 meter by 1 meter. The spit depth is about 30 centimeters, but as we also try to follow natural layers, the individual spit depth varies a lot. Fortunately we have niveau measurements of the resulting surfaces in the dataset `KT_spits`. 
 
 ```{r}
-KT_squarecorners
-KT_spits
+sp <- KT_spits
+
+splist <- list()
+spitnames <- c("^surface", "^spit1", "^spit2", "^spit3", "^bottom")
+
+for (i in 1:length(spitnames)){
+  splist[[i]] <- sp[grep(spitnames[i], sp$id), ]
+}
 ```
+
+Let's apply kriging with `kriglist`, transform the result with `spatialwide2` and add the surfaces to the plot. 
+
+```{r fig.width=7, fig.height=5}
+maps <- kriglist(splist, x = 2, y = 3, z = 4, lags = 3, model = "spherical")
+
+surf <- list()
+for (i in 1:length(maps)) {
+  surf[[i]] <- spatialwide2(maps[[i]]$x, maps[[i]]$y, maps[[i]]$pred, digits = 3)
+}
+
+vis %>% 
+  add_trace(x = surf[[1]]$x, y = surf[[1]]$y, z = surf[[1]]$z, type = "surface", 
+            showscale = FALSE, opacity = 0.9, hoverinfo = "none"
+  ) %>%
+  add_trace(x = surf[[2]]$x, y = surf[[2]]$y, z = surf[[2]]$z, type = "surface", 
+            showscale = FALSE, opacity = 0.9, hoverinfo = "none"
+  ) %>%
+  add_trace(x = surf[[3]]$x, y = surf[[3]]$y, z = surf[[3]]$z, type = "surface", 
+            showscale = FALSE, opacity = 0.9, hoverinfo = "none"
+  ) %>%
+  add_trace(x = surf[[4]]$x, y = surf[[4]]$y, z = surf[[4]]$z, type = "surface", 
+            showscale = FALSE, opacity = 0.9, hoverinfo = "none"
+  ) %>%
+  add_trace(x = surf[[5]]$x, y = surf[[5]]$y, z = surf[[5]]$z, type = "surface", 
+            showscale = FALSE, opacity = 0.9, hoverinfo = "none"
+  ) 
+```
+
+Hm... ok. But the surfaces extend beyond the surfaces of the trench... We can use `pnpmulti` to decide which points of the kriging result are within the trench polygon. Then we can remove the others and plot the result again.
+
+```{r fig.width=7, fig.height=5}
+for (i in 1:length(maps)) {
+  rem <- recexcavAAR::pnpmulti(edges$x[1:4], edges$y[1:4], maps[[i]]$x, maps[[i]]$y)
+  maps[[i]] <- maps[[i]][rem, ]
+}
+
+surf2 <- list()
+for (i in 1:length(maps)) {
+  surf2[[i]] <- recexcavAAR::spatialwide2(maps[[i]]$x, maps[[i]]$y, maps[[i]]$pred, 3)
+}
+
+vis <- vis %>% 
+  add_trace(x = surf2[[1]]$x, y = surf2[[1]]$y, z = surf2[[1]]$z, type = "surface", 
+            showscale = FALSE, opacity = 0.9, hoverinfo = "none"
+  ) %>%
+  add_trace(x = surf2[[2]]$x, y = surf2[[2]]$y, z = surf2[[2]]$z, type = "surface", 
+            showscale = FALSE, opacity = 0.9, hoverinfo = "none"
+  ) %>%
+  add_trace(x = surf2[[3]]$x, y = surf2[[3]]$y, z = surf2[[3]]$z, type = "surface", 
+            showscale = FALSE, opacity = 0.9, hoverinfo = "none"
+  ) %>%
+  add_trace(x = surf2[[4]]$x, y = surf2[[4]]$y, z = surf2[[4]]$z, type = "surface", 
+            showscale = FALSE, opacity = 0.9, hoverinfo = "none"
+  ) %>%
+  add_trace(x = surf2[[5]]$x, y = surf2[[5]]$y, z = surf2[[5]]$z, type = "surface", 
+            showscale = FALSE, opacity = 0.9, hoverinfo = "none"
+  ) 
+
+vis
+```
+
+Now to the actual task: During the excavation we found a lot of pottery from all over the trench. Many of the individual sherds fit together.
