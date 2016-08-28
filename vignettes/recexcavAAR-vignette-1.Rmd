@@ -44,7 +44,8 @@ edges <- data.frame(
 We can plot the corner points of this trench:
 
 ```{r fig.width=7, fig.height=5}
-vis <- plot_ly(edges, x = x, y = y, z = z, type = "scatter3d", mode = "markers"
+vis <- plot_ly(
+  edges, x = x, y = y, z = z, type = "scatter3d", mode = "markers"
   ) %>% 
   layout(
     showlegend = FALSE,
@@ -82,24 +83,26 @@ Looks complicated? Becomes pretty simple, when we look at a plot:
 
 ```{r fig.width=7, fig.height=5}
 vis <- vis %>%
-  add_trace(data = df1, x = x, y = y, z = z, 
-            mode = "markers", type = "scatter3d", 
-            marker = list(size = 4, color = "green", symbol = 104)
+  add_trace(
+    data = df1, x = x, y = y, z = z, 
+    mode = "markers", type = "scatter3d", 
+    marker = list(size = 4, color = "green", symbol = 104)
   ) %>%
-  add_trace(data = df2, x = x, y = y, z = z, 
-            mode = "markers", type = "scatter3d", 
-            marker = list(size = 4, color = "blue", symbol = 104)
+  add_trace(
+    data = df2, x = x, y = y, z = z, 
+    mode = "markers", type = "scatter3d", 
+    marker = list(size = 4, color = "blue", symbol = 104)
   ) 
 
 vis
 ```
 
-We can put this two or even more data.frames with observations into a list and feed it to `recexcavAAR::kriglist`. This function serves as an interface to `recexcavAAR::kriging`. We'll get a list list of data.frames with surface estimations for the two input layers. 
+We can put this two or even more data.frames with observations into a list and feed it to `recexcavAAR::kriglist`. This function serves as an interface to `kriging::kriging`. We'll get a list list of data.frames with surface estimations for the two input layers. 
 
 ```{r }
 lpoints <- list(df1, df2)
 
-maps <- kriglist(lpoints, lags = 3, model = "spherical")
+maps <- kriglist(lpoints, lags = 3, model = "spherical", pixels = 50)
 ```
 
 The result of `recexcavAAR::kriging` is in a tall format -- we have to transform it. For this purpose we use `recexcavAAR::spatialwide2`.
@@ -113,9 +116,11 @@ After the transformation we can visualize the generated surfaces:
 
 ```{r fig.width=7, fig.height=5}
 vis <- vis %>% 
-  add_trace(x = surf1$x, y = surf1$y, z = surf1$z, type = "surface", showscale = FALSE
+  add_trace(
+    x = surf1$x, y = surf1$y, z = surf1$z, type = "surface", showscale = FALSE
   ) %>%
-  add_trace(x = surf2$x, y = surf2$y, z = surf2$z, type = "surface", showscale = FALSE
+  add_trace(
+    x = surf2$x, y = surf2$y, z = surf2$z, type = "surface", showscale = FALSE
   ) 
 
 vis
@@ -139,9 +144,10 @@ cx = fillhexa(hexatestdf, 0.05)
 
 ```{r fig.width=7, fig.height=5}
 vis %>% 
-  add_trace(data = cx, x = x, y = y, z = z, 
-            mode = "markers", type = "scatter3d", 
-            marker = list(size = 1, color = "red", symbol = 104)
+  add_trace(
+    data = cx, x = x, y = y, z = z, 
+    mode = "markers", type = "scatter3d", 
+    marker = list(size = 1, color = "red", symbol = 104)
   )
 ```
 
@@ -169,15 +175,21 @@ c <- filter(
   pos == 2
 )
 
-vis %>% add_trace(data = a, x = x, y = y, z = z, 
-            mode = "markers", type = "scatter3d", 
-            marker = list(size = 1, color = "#31a354", symbol = 104)
-  ) %>% add_trace(data = b, x = x, y = y, z = z, 
-            mode = "markers", type = "scatter3d", 
-            marker = list(size = 1, color = "#de2d26", symbol = 104)
-  ) %>% add_trace(data = c, x = x, y = y, z = z, 
-            mode = "markers", type = "scatter3d", 
-            marker = list(size = 1, color = "#2b8cbe", symbol = 104)
+vis %>% 
+  add_trace(
+    data = a, x = x, y = y, z = z, 
+    mode = "markers", type = "scatter3d", 
+    marker = list(size = 1, color = "#31a354", symbol = 104)
+  ) %>% 
+  add_trace(
+    data = b, x = x, y = y, z = z, 
+    mode = "markers", type = "scatter3d", 
+    marker = list(size = 1, color = "#de2d26", symbol = 104)
+  ) %>% 
+  add_trace(
+    data = c, x = x, y = y, z = z, 
+    mode = "markers", type = "scatter3d", 
+    marker = list(size = 1, color = "#2b8cbe", symbol = 104)
   )
 ```
 
