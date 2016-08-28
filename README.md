@@ -3,7 +3,7 @@
 recexcavAAR
 -----------
 
-R Library for 3D reconstruction and analysis of excavation states. The following **vignettes** explains the implemented functions:
+R Library for 3D reconstruction and analysis of excavation states. The following **vignettes** explain the implemented functions:
 
 * [**Ifri el Baroud** for v0.1](https://isaakiel.github.io/recexcavAAR-vignette-1.html)
 * [**Kakcus-Turján** for v0.2](https://isaakiel.github.io/recexcavAAR-vignette-2.html) 
