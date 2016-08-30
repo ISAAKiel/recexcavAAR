@@ -105,11 +105,11 @@ lpoints <- list(df1, df2)
 maps <- kriglist(lpoints, lags = 3, model = "spherical", pixels = 50)
 ```
 
-The result of `recexcavAAR::kriging` is in a tall format -- we have to transform it. For this purpose we use `recexcavAAR::spatialwide2`.
+The result of `recexcavAAR::kriging` is in a tall format -- we have to transform it. For this purpose we use `recexcavAAR::spatialwide`.
 
 ```{r}
-surf1 <- spatialwide2(maps[[1]]$x, maps[[1]]$y, maps[[1]]$pred, 3)
-surf2 <- spatialwide2(maps[[2]]$x, maps[[2]]$y, maps[[2]]$pred, 3)
+surf1 <- spatialwide(maps[[1]]$x, maps[[1]]$y, maps[[1]]$pred, 3)
+surf2 <- spatialwide(maps[[2]]$x, maps[[2]]$y, maps[[2]]$pred, 3)
 ```
 
 After the transformation we can visualize the generated surfaces:

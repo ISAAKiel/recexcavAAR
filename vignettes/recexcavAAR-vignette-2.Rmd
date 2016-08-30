@@ -88,14 +88,14 @@ for (i in 1:length(spitnames)){
 }
 ```
 
-Let's apply kriging with `recexcavAAR::kriglist`, transform the result with `recexcavAAR::spatialwide2` and add the surfaces to the plot. 
+Let's apply kriging with `recexcavAAR::kriglist`, transform the result with `recexcavAAR::spatialwide` and add the surfaces to the plot. 
 
 ```{r fig.width=7, fig.height=5}
 maps <- kriglist(splist, x = 2, y = 3, z = 4, lags = 3, model = "spherical", pixels = 50)
 
 surf <- list()
 for (i in 1:length(maps)) {
-  surf[[i]] <- spatialwide2(maps[[i]]$x, maps[[i]]$y, maps[[i]]$pred, digits = 3)
+  surf[[i]] <- spatialwide(maps[[i]]$x, maps[[i]]$y, maps[[i]]$pred, digits = 3)
 }
 
 vis %>% 
@@ -131,7 +131,7 @@ for (i in 1:length(maps)) {
 
 surf2 <- list()
 for (i in 1:length(maps)) {
-  surf2[[i]] <- recexcavAAR::spatialwide2(maps[[i]]$x, maps[[i]]$y, maps[[i]]$pred, 3)
+  surf2[[i]] <- recexcavAAR::spatialwide(maps[[i]]$x, maps[[i]]$y, maps[[i]]$pred, 3)
 }
 
 vis2 <- vis %>% 

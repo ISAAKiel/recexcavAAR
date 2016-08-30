@@ -29,11 +29,11 @@
 //' y <- c(1, 2, 3, 1, 2, 3, 1, 2, 3)
 //' z <- c(3, 4, 2, 3, NA, 5, 6, 3, 1)
 //'
-//' spatialwide2(x, y, z, digits = 3)
+//' spatialwide(x, y, z, digits = 3)
 //'
 //' @export
 // [[Rcpp::export]]
-List spatialwide2(NumericVector x , NumericVector y , NumericVector z, int digits) {
+List spatialwide(NumericVector x , NumericVector y , NumericVector z, int digits) {
 
   // write input vectors to NumericMatrix
   NumericMatrix longdf(z.size(), 3);

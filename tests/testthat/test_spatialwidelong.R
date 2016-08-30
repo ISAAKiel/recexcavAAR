@@ -1,15 +1,15 @@
-context("Tests of functions spatialwide2 and spatiallong2")
+context("Tests of functions spatialwide and spatiallong")
 
 x <- c(1, 1, 1, 2, 2, 2, 3, 3, 4)
 y <- c(1, 2, 3, 1, 2, 3, 1, 2, 3)
 z <- c(3, 4, 2, 3, NA, 5, 6, 3, 1)
 
-sw <- spatialwide2(x, y, z, digits = 3)
+sw <- spatialwide(x, y, z, digits = 3)
 
-sl <- spatiallong2(sw$x, sw$y, sw$z)
+sl <- spatiallong(sw$x, sw$y, sw$z)
 
 test_that(
-  "the output of spatialwide2 is a list",  {
+  "the output of spatialwide is a list",  {
     expect_true(
       is.list(sw)
     )
@@ -17,7 +17,7 @@ test_that(
 )
 
 test_that(
-  "the output of spatiallong2 is a data.frame",  {
+  "the output of spatiallong is a data.frame",  {
     expect_true(
       is.data.frame(sl)
     )
@@ -25,7 +25,7 @@ test_that(
 )
 
 test_that(
-  "the output of spatialwide2 has the correct elements",  {
+  "the output of spatialwide has the correct elements",  {
     expect_equal(
       names(sw),
       c("x", "y", "z")
@@ -34,7 +34,7 @@ test_that(
 )
 
 test_that(
-  "the output for z of spatialwide2 has the correct amount of rows and columns",  {
+  "the output for z of spatialwide has the correct amount of rows and columns",  {
     expect_equal(
       ncol(sw$z),
       length(unique(x))
@@ -47,7 +47,7 @@ test_that(
 )
 
 test_that(
-  "the output of spatiallong2 has the correct amount of rows and columns",  {
+  "the output of spatiallong has the correct amount of rows and columns",  {
     expect_equal(
       ncol(sl),
       3
@@ -60,7 +60,7 @@ test_that(
 )
 
 test_that(
-  "the output of spatiallong2 has the correct colnames",  {
+  "the output of spatiallong has the correct colnames",  {
     expect_equal(
       colnames(sl),
       c("x", "y", "z")
@@ -75,7 +75,7 @@ countersw <- list(
 )
 
 test_that(
-  "the output of spatialwide2 contains the correct values in an example setup",  {
+  "the output of spatialwide contains the correct values in an example setup",  {
     expect_identical(
       sw,
       countersw
@@ -90,7 +90,7 @@ countersl <- data.frame(
 )
 
 test_that(
-  "the output of spatiallong2 contains the correct values in an example setup",  {
+  "the output of spatiallong contains the correct values in an example setup",  {
     expect_identical(
       sl,
       countersl

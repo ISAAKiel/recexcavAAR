@@ -69,22 +69,22 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// spatiallong2
-DataFrame spatiallong2(NumericVector x, NumericVector y, NumericMatrix z);
-RcppExport SEXP recexcavAAR_spatiallong2(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP) {
+// spatiallong
+DataFrame spatiallong(NumericVector x, NumericVector y, NumericMatrix z);
+RcppExport SEXP recexcavAAR_spatiallong(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type z(zSEXP);
-    __result = Rcpp::wrap(spatiallong2(x, y, z));
+    __result = Rcpp::wrap(spatiallong(x, y, z));
     return __result;
 END_RCPP
 }
-// spatialwide2
-List spatialwide2(NumericVector x, NumericVector y, NumericVector z, int digits);
-RcppExport SEXP recexcavAAR_spatialwide2(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP digitsSEXP) {
+// spatialwide
+List spatialwide(NumericVector x, NumericVector y, NumericVector z, int digits);
+RcppExport SEXP recexcavAAR_spatialwide(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP digitsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -92,7 +92,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
     Rcpp::traits::input_parameter< int >::type digits(digitsSEXP);
-    __result = Rcpp::wrap(spatialwide2(x, y, z, digits));
+    __result = Rcpp::wrap(spatialwide(x, y, z, digits));
     return __result;
 END_RCPP
 }

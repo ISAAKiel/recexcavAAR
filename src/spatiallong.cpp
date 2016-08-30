@@ -20,13 +20,13 @@
 //' y <- c(1, 2, 3, 1, 2, 3, 1, 2, 3)
 //' z <- c(3, 4, 2, 3, NA, 5, 6, 3, 1)
 //'
-//' sw <- spatialwide2(x, y, z, digits = 3)
+//' sw <- spatialwide(x, y, z, digits = 3)
 //'
-//' spatiallong2(sw$x, sw$y, sw$z)
+//' spatiallong(sw$x, sw$y, sw$z)
 //'
 //' @export
 // [[Rcpp::export]]
-DataFrame spatiallong2(NumericVector x , NumericVector y , NumericMatrix z) {
+DataFrame spatiallong(NumericVector x , NumericVector y , NumericMatrix z) {
 
   // count z values that are not NA to create a res matrix of correct length
   int vcount = 0;

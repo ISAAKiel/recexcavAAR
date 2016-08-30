@@ -212,13 +212,13 @@ posdeclist <- function(crlist, maplist) {
 #' y <- c(1, 2, 3, 1, 2, 3, 1, 2, 3)
 #' z <- c(3, 4, 2, 3, NA, 5, 6, 3, 1)
 #'
-#' sw <- spatialwide2(x, y, z, digits = 3)
+#' sw <- spatialwide(x, y, z, digits = 3)
 #'
-#' spatiallong2(sw$x, sw$y, sw$z)
+#' spatiallong(sw$x, sw$y, sw$z)
 #'
 #' @export
-spatiallong2 <- function(x, y, z) {
-    .Call('recexcavAAR_spatiallong2', PACKAGE = 'recexcavAAR', x, y, z)
+spatiallong <- function(x, y, z) {
+    .Call('recexcavAAR_spatiallong', PACKAGE = 'recexcavAAR', x, y, z)
 }
 
 #' Transformation of numeric matrices from long to wide format
@@ -246,11 +246,11 @@ spatiallong2 <- function(x, y, z) {
 #' y <- c(1, 2, 3, 1, 2, 3, 1, 2, 3)
 #' z <- c(3, 4, 2, 3, NA, 5, 6, 3, 1)
 #'
-#' spatialwide2(x, y, z, digits = 3)
+#' spatialwide(x, y, z, digits = 3)
 #'
 #' @export
-spatialwide2 <- function(x, y, z, digits) {
-    .Call('recexcavAAR_spatialwide2', PACKAGE = 'recexcavAAR', x, y, z, digits)
+spatialwide <- function(x, y, z, digits) {
+    .Call('recexcavAAR_spatialwide', PACKAGE = 'recexcavAAR', x, y, z, digits)
 }
 
 #' center determination for hexahedrons
