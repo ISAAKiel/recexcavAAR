@@ -1,14 +1,14 @@
 ---
-title: "Ifri el Baroud"
+title: "recexcavAAR: Vignette >>Ifri el Baroud<<"
 author: "Clemens Schmid"
-date: "`r Sys.Date()`"
+date: "July 2016"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Spit attribution for small scale excavations}
+  %\VignetteIndexEntry{Vignette >>Ifri el Baroud<<}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
+ 
 ```{r, echo=FALSE}
 if (!requireNamespace("plotly", quietly = TRUE)) {
   stop("plotly needed for this vignette to build.",
@@ -18,13 +18,13 @@ if (!requireNamespace("plotly", quietly = TRUE)) {
 
 First we need to load recexcavAAR and some external packages:
 
-- **dplyr**: filter function
-- **kriging**: simple surface modelling tool
-- **magrittr**: introduces piping to R via %>% operator
-- **plotly**: nice, interactive plots via javascript implementation
+- **dplyr:** filter function
+- **kriging:** simple surface modelling tool
+- **magrittr:** introduces piping to R via %>% operator
+- **plotly:** nice, interactive plots via javascript implementation
 
 ```{r, message=FALSE}
-devtools::load_all()
+devtools::load_all() # in your script: library(recexcavAAR)
 library(dplyr)
 library(kriging)
 library(magrittr)
@@ -41,7 +41,7 @@ edges <- data.frame(
 )
 ```
 
-We can plot the corner points of this trench:
+We can plot the corner points of this trench with `plotly::plot_ly`:
 
 ```{r fig.width=7, fig.height=5}
 vis <- plot_ly(
@@ -63,7 +63,7 @@ vis <- plot_ly(
 vis
 ```
 
-When we look at the profiles of our fictional trench we can trace three clearly separated horizons following the natural slope. Let's figuratively take some measurements of the two horizon borders by creating two data.frames with points along the profiles. The z-axis values are randomly computed.  
+When we look at the profiles of our fictional trench we can trace three clearly separated horizons following the natural slope. Let's figuratively take some measurements of the two horizon borders by creating two data.frames `df1` and `df2` with points along the profiles. The z axis values are randomly computed.  
 
 ```{r}
 df1 <- data.frame(
@@ -79,7 +79,7 @@ df2 <- data.frame(
 )
 ```
 
-Looks complicated? Becomes pretty simple, when we look at a plot:
+Looks complicated? Becomes pretty simple when we look at an other plot. For this one we add the points to the previous plot object `vis` by calling `plotly::add_trace`.
 
 ```{r fig.width=7, fig.height=5}
 vis <- vis %>%
@@ -97,7 +97,7 @@ vis <- vis %>%
 vis
 ```
 
-We can put this two or even more data.frames with observations into a list and feed it to `recexcavAAR::kriglist`. This function serves as an interface to `kriging::kriging`. We'll get a list list of data.frames with surface estimations for the two input layers. 
+We can put this two or even more data.frames `df1` and `df2` into a list `lpoints` and feed it to `recexcavAAR::kriglist`. This function serves as an interface to `kriging::kriging`. We'll get a list `maps` of data.frames with surface estimations for the two input layers. 
 
 ```{r }
 lpoints <- list(df1, df2)
@@ -112,7 +112,7 @@ surf1 <- spatialwide(maps[[1]]$x, maps[[1]]$y, maps[[1]]$pred, 3)
 surf2 <- spatialwide(maps[[2]]$x, maps[[2]]$y, maps[[2]]$pred, 3)
 ```
 
-After the transformation we can visualize the generated surfaces:
+After the transformation ``plotly`` can visualize the generated surfaces.
 
 ```{r fig.width=7, fig.height=5}
 vis <- vis %>% 
@@ -126,7 +126,7 @@ vis <- vis %>%
 vis
 ```
 
-During the excavation we separated the finds of many artificial spits (each 1m\*1m\*0.2m). Let's enter the corner coordinates for one:
+During the excavation we created an artificial surface every 20 centimeters. Also we seperated the material of 1m\*1m squares. Like this we get bodies of 1m\*1m\*0.2m. Let's set up one by writing the corner coordinates for one into the data.frame `hexatest`:
 
 ```{r fig.width=7, fig.height=5}
 hexatestdf <- data.frame(
@@ -136,7 +136,7 @@ hexatestdf <- data.frame(
 )
 ```
 
-Now we can fill the shape with an equidistant three dimensional point raster using `recexcavAAR::fillhexa` and take a look at it.
+Now we can fill the shape with an equidistant three dimensional point raster using `recexcavAAR::fillhexa` and take a look at it. `recexcavAAR::fillhexa` can deal with completly amorphous hexahedrons.
 
 ```{r}
 cx = fillhexa(hexatestdf, 0.05)
@@ -151,7 +151,7 @@ vis %>%
   )
 ```
 
-Damn! This spit penetrates both reconstructed surfaces. We should try to determine how his volume is distributed among the three major horizons of our trench. For this purpose we apply `recexcavAAR::posdeclist`. It makes a position decision for every point of the artificial point raster we created with `recexcavAAR::fillhexa`.
+Damn! This spit penetrates both reconstructed surfaces. We should try to determine how his volume is distributed among the three major horizons of our trench. For this purpose we apply `recexcavAAR::posdeclist` (there's also `recexcavAAR::posdec` to apply this to just one data.frame). It makes a position decision for every point of the artificial point raster we created with `recexcavAAR::fillhexa`.
 
 ```{r fig.width=7, fig.height=5}
 cuberasterlist <- list(cx)
