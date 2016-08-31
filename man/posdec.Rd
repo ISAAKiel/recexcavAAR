@@ -2,14 +2,16 @@
 % Please edit documentation in R/RcppExports.R
 \name{posdec}
 \alias{posdec}
-\title{position decision in relation to a set of stacked surfaces}
+\title{Multiple point position decision in relation to a set of stacked surfaces (3D)}
 \usage{
-posdec(crlist, maplist)
+posdec(crdf, maplist)
 }
 \arguments{
-\item{crlist}{data.frame with the spatial coordinates of the points of interest}
+\item{crdf}{data.frame with the spatial coordinates of the points of interest. Must contain three
+columns with the x axis values, y axis values and z axis values of the points in the order x, y, z}
 
-\item{maplist}{list of data.frames which contain the points that make up the surfaces}
+\item{maplist}{list of data.frames which contain the points that make up the surfaces. The individual
+data.frames must have the same structure as \code{crdf}}
 }
 \value{
 data.frame with the spatial coordinates of the points of interest and the respective position
@@ -17,8 +19,8 @@ information
 }
 \description{
 \code{posdec} has the purpose to make a decision about the position of individual points in relation
-to a set of stacked surfaces. The decision is made by comparing the mean z-axis value of the four
-horizontally closest points of a surface to the z-axis value of the point in question.
+to a set of stacked surfaces in 3D space. The decision is made by comparing the mean z axis value of
+the four horizontally closest points of a surface to the z axis value of the point in question.
 }
 \examples{
 df1 <- data.frame(
@@ -45,5 +47,8 @@ finds <- data.frame(
 
 posdec(finds, maps)
 
+}
+\seealso{
+Other posdecfuncs: \code{\link{posdeclist}}
 }
 

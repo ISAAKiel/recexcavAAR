@@ -2,19 +2,21 @@
 % Please edit documentation in R/RcppExports.R
 \name{spitcenter}
 \alias{spitcenter}
-\title{center determination for hexahedrons}
+\title{Center determination for hexahedrons}
 \usage{
 spitcenter(hex)
 }
 \arguments{
 \item{hex}{dataframe with three columns and eight rows to define a hexahedron by its corner
-point coordinates}
+point coordinates x, y and z}
 }
 \value{
-numeric vector with the spatial coordinates of the center point of the input hexahedron
+vector with the spatial coordinates of the center point of the input hexahedron
 }
 \description{
-\code{spitcenter} determines a center point for an input hexahedron
+A hexahedron is a three dimensional shape that is defined by 6 faces and 8 corner points.
+\code{spitcenter} determines a center point for an input hexahedron by calculating the mean
+of the maximal extent on all three axis.
 }
 \examples{
 hexatestdf <- data.frame(
@@ -38,5 +40,9 @@ center <- spitcenter(hexatestdf)
 #  add = TRUE
 #)
 
+}
+\seealso{
+Other centerdetfuncs: \code{\link{spitcenternatlist}},
+  \code{\link{spitcenternat}}
 }
 

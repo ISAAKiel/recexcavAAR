@@ -2,12 +2,13 @@
 % Please edit documentation in R/RcppExports.R
 \name{spitcenternatlist}
 \alias{spitcenternatlist}
-\title{center determination for multiple excavation spits}
+\title{Center determination for rectangles whose tops and bottoms are defined by irregular
+surfaces (3D) for multiple data.frames in a list}
 \usage{
 spitcenternatlist(hexlist, maplist)
 }
 \arguments{
-\item{hexlist}{list of data.frames with the horizontal outlines of the spit defined by four points}
+\item{hexlist}{list of data.frames with the 2D corners of the rectangles}
 
 \item{maplist}{list of data.frames which contain the points that make up the surfaces}
 }
@@ -15,8 +16,8 @@ spitcenternatlist(hexlist, maplist)
 list of data.frames with the spatial coordinates of the center points
 }
 \description{
-\code{spitcenternatlist} works as \code{\link{spitcenternat}} but not just for a single data.frame but for a list of
-data.frames
+\code{spitcenternatlist} works as \code{\link{spitcenternat}} but not just for a
+single data.frame but for a list of data.frames
 }
 \examples{
 df1 <- data.frame(
@@ -55,5 +56,9 @@ hexs <- list(hexatestdf1, hexatestdf2)
 
 spitcenternatlist(hexs, maps)
 
+}
+\seealso{
+Other centerdetfuncs: \code{\link{spitcenternat}},
+  \code{\link{spitcenter}}
 }
 

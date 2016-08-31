@@ -2,23 +2,24 @@
 % Please edit documentation in R/RcppExports.R
 \name{spatiallong}
 \alias{spatiallong}
-\title{Transformation of numeric matrices wide to long format}
+\title{Transformation of numeric matrices from wide to long format}
 \usage{
 spatiallong(x, y, z)
 }
 \arguments{
-\item{x}{vector of first independent variable. e.g. vector with x-axis spatial points}
+\item{x}{vector of first independent variable. e.g. vector with x axis spatial points}
 
-\item{y}{vector of second independent variable. e.g. vector with y-axis spatial points}
+\item{y}{vector of second independent variable. e.g. vector with y axis spatial points}
 
-\item{z}{matrix of dependent variable. e.g. matrix with z-axis spatial points}
+\item{z}{matrix of dependent variable. e.g. matrix with z axis spatial points}
 }
 \value{
 data.frame with three columns x, y and z
 }
 \description{
-Transforms a set of two independent variables in vectors and a dependent variable in a wide
-matrix to a long matrix that combines the information. The result is exported as a data.frame
+\code{spatiallong} transforms a set of two independent variables in vectors and a
+dependent variable in a wide matrix to a long matrix that combines the information.
+The result is exported as a data.frame.
 }
 \examples{
 x <- c(1, 1, 1, 2, 2, 2, 3, 3, 4)
@@ -29,5 +30,8 @@ sw <- spatialwide(x, y, z, digits = 3)
 
 spatiallong(sw$x, sw$y, sw$z)
 
+}
+\seealso{
+Other transfuncs: \code{\link{spatialwide}}
 }
 

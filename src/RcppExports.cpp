@@ -46,26 +46,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // posdec
-DataFrame posdec(DataFrame crlist, List maplist);
-RcppExport SEXP recexcavAAR_posdec(SEXP crlistSEXP, SEXP maplistSEXP) {
+DataFrame posdec(DataFrame crdf, List maplist);
+RcppExport SEXP recexcavAAR_posdec(SEXP crdfSEXP, SEXP maplistSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< DataFrame >::type crlist(crlistSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type crdf(crdfSEXP);
     Rcpp::traits::input_parameter< List >::type maplist(maplistSEXP);
-    __result = Rcpp::wrap(posdec(crlist, maplist));
+    __result = Rcpp::wrap(posdec(crdf, maplist));
     return __result;
 END_RCPP
 }
 // posdeclist
-List posdeclist(List crlist, List maplist);
-RcppExport SEXP recexcavAAR_posdeclist(SEXP crlistSEXP, SEXP maplistSEXP) {
+List posdeclist(List crdflist, List maplist);
+RcppExport SEXP recexcavAAR_posdeclist(SEXP crdflistSEXP, SEXP maplistSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< List >::type crlist(crlistSEXP);
+    Rcpp::traits::input_parameter< List >::type crdflist(crdflistSEXP);
     Rcpp::traits::input_parameter< List >::type maplist(maplistSEXP);
-    __result = Rcpp::wrap(posdeclist(crlist, maplist));
+    __result = Rcpp::wrap(posdeclist(crdflist, maplist));
     return __result;
 END_RCPP
 }

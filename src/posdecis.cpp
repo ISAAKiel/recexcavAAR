@@ -6,17 +6,21 @@
 
 using namespace Rcpp;
 
-//' position decision in relation to a set of stacked surfaces
+//' Multiple point position decision in relation to a set of stacked surfaces (3D)
 //'
 //' \code{posdec} has the purpose to make a decision about the position of individual points in relation
-//' to a set of stacked surfaces. The decision is made by comparing the mean z-axis value of the four
-//' horizontally closest points of a surface to the z-axis value of the point in question.
+//' to a set of stacked surfaces in 3D space. The decision is made by comparing the mean z axis value of
+//' the four horizontally closest points of a surface to the z axis value of the point in question.
 //'
-//' @param crlist data.frame with the spatial coordinates of the points of interest
-//' @param maplist list of data.frames which contain the points that make up the surfaces
+//' @param crdf data.frame with the spatial coordinates of the points of interest. Must contain three
+//' columns with the x axis values, y axis values and z axis values of the points in the order x, y, z
+//' @param maplist list of data.frames which contain the points that make up the surfaces. The individual
+//' data.frames must have the same structure as \code{crdf}
 //'
 //' @return data.frame with the spatial coordinates of the points of interest and the respective position
 //' information
+//'
+//' @family posdecfuncs
 //'
 //' @examples
 //' df1 <- data.frame(
@@ -45,12 +49,12 @@ using namespace Rcpp;
 //'
 //' @export
 // [[Rcpp::export]]
-DataFrame posdec(DataFrame crlist, List maplist){
+DataFrame posdec(DataFrame crdf, List maplist){
 
   Function asMatrix("as.matrix");
 
   // transform input pointlist to NumericMatrix -> cube2
-  SEXP cube2mid = crlist;
+  SEXP cube2mid = crdf;
   NumericMatrix cube2 = asMatrix(cube2mid);
   // create result table with decision column -> cubedec
   NumericMatrix cubedec(cube2.nrow(), 4);
@@ -147,16 +151,20 @@ DataFrame posdec(DataFrame crlist, List maplist){
   return DataFrame::create(_["x"] = x, _["y"] = y, _["z"] = z, _["pos"] = pos);
 }
 
-//' position decision in relation to a set of stacked surfaces (for lists of data.frames)
+//' Multiple point position decision in relation to a set of stacked surfaces (3D)
+//' for multiple data.frames in a list
 //'
-//' \code{posdeclist} works as \code{posdec} but not just for a single data.frame but for a list of
-//' data.frames
+//' \code{posdeclist} works as \code{\link{posdec}} but not just for a single data.frame
+//' with individual points but for a list of data.frames
 //'
-//' @param crlist list of data.frames with the spatial coordinates of the points of interest
+//' @param crdflist list of data.frames with the spatial coordinates of the points of
+//' interest (for details see \code{\link{posdec}})
 //' @param maplist list of data.frames which contain the points that make up the surfaces
 //'
-//' @return list of data.frames with the spatial coordinates of the points of interest and the respective
-//' position information
+//' @return list of data.frames with the spatial coordinates of the points of interest
+//' and the respective position information
+//'
+//' @family posdecfuncs
 //'
 //' @examples
 //' df1 <- data.frame(
@@ -196,14 +204,14 @@ DataFrame posdec(DataFrame crlist, List maplist){
 //'
 //' @export
 // [[Rcpp::export]]
-List posdeclist(List crlist, List maplist){
+List posdeclist(List crdflist, List maplist){
 
-  for (int crp = 0; crp < crlist.size(); crp++){
+  for (int crp = 0; crp < crdflist.size(); crp++){
 
-    SEXP curcrlist = crlist[crp];
-    crlist[crp] = posdec(curcrlist, maplist);
+    SEXP curcrdflist = crdflist[crp];
+    crdflist[crp] = posdec(curcrdflist, maplist);
 
   }
 
-  return crlist;
+  return crdflist;
 }

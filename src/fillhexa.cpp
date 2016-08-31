@@ -15,16 +15,21 @@ NumericMatrix makematrix(NumericVector vec, int lres3){
   return result;
 }
 
-//' Fills hexahedrons with a systematic point raster
+//' Fills hexahedrons with a regular point raster (3D)
 //'
+//' @description
+//' A hexahedron is a three dimensional shape that is defined by 6 faces and 8 corner points.
+//' \code{fillhexa} allows to fill such a shape with a regular point raster.
+//'
+//' @details
 //' See \url{https://stackoverflow.com/questions/36115215/filling-a-3d-body-with-a-systematic-point-raster}
 //' for a description of the function and how it was developed.
 //'
 //' @param hex dataframe with three columns and eight rows to define a hexahedron by its corner
-//' point coordinates
+//' point coordinates x, y and z
 //' @param res numeric value > 0 and <= 1 for the resolution of the point raster
 //'
-//' @return data.frame with the spatial coordinates of the resulting points of the filling raster
+//' @return data.frame with the spatial coordinates of the resulting points of the grid
 //'
 //' @examples
 //' hexatestdf <- data.frame(

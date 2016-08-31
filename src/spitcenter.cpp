@@ -6,7 +6,7 @@
 
 using namespace Rcpp;
 
-//get mean z value of the four horizontally closest points to a point on a surface
+// get mean z value of the four horizontally closest points to a point on a surface
 double refz(double x1, double y1, NumericMatrix curmap) {
   // find maxdist of current layer (purpose: see below)
   NumericVector xcl = curmap(_, 0);
@@ -45,14 +45,18 @@ double refz(double x1, double y1, NumericMatrix curmap) {
   return (ztop);
 }
 
-//' center determination for hexahedrons
+//' Center determination for hexahedrons
 //'
-//' \code{spitcenter} determines a center point for an input hexahedron
+//' A hexahedron is a three dimensional shape that is defined by 6 faces and 8 corner points.
+//' \code{spitcenter} determines a center point for an input hexahedron by calculating the mean
+//' of the maximal extent on all three axis.
 //'
 //' @param hex dataframe with three columns and eight rows to define a hexahedron by its corner
-//' point coordinates
+//' point coordinates x, y and z
 //'
-//' @return numeric vector with the spatial coordinates of the center point of the input hexahedron
+//' @return vector with the spatial coordinates of the center point of the input hexahedron
+//'
+//' @family centerdetfuncs
 //'
 //' @examples
 //' hexatestdf <- data.frame(
@@ -94,18 +98,17 @@ NumericVector spitcenter(DataFrame hex){
   return geometriccenter;
 }
 
-//' center determination for excavation spits
+//' Center determination for rectangles whose tops and bottoms are defined by irregular surfaces (3D)
 //'
-//' \code{spitcenternat} determines center points of spits if the excavation followed natural layers.
-//' In this case spits are not perfectly defined hexahedrons. Just the horizontal outlines are clear -
-//' the vertical edges vary a lot. To solve this, \code{spitcenternat} calculates the horizontal center
-//' of a spit and determines its vertical position in relation to the natural/semiartificial surfaces
-//' that define its top and bottom. This is done for all defined layers.
+//' \code{spitcenternat} first of all calculates the horizontal center of an input rectangle.
+//' Then it determines the vertical positions of the center points in relation to a surface stack.
 //'
-//' @param hex data.frame with the horizontal outlines of the spit defined by four points
+//' @param hex data.frame with the 2D corners of the rectangle defined by four points
 //' @param maplist list of data.frames which contain the points that make up the surfaces
 //'
 //' @return data.frame with the spatial coordinates of the center points
+//'
+//' @family centerdetfuncs
 //'
 //' @examples
 //' df1 <- data.frame(
@@ -179,15 +182,18 @@ DataFrame spitcenternat(DataFrame hex, List maplist){
   return DataFrame::create(_["x"] = x, _["y"] = y, _["z"] = z);
 }
 
-//' center determination for multiple excavation spits
+//' Center determination for rectangles whose tops and bottoms are defined by irregular
+//' surfaces (3D) for multiple data.frames in a list
 //'
-//' \code{spitcenternatlist} works as \code{\link{spitcenternat}} but not just for a single data.frame but for a list of
-//' data.frames
+//' \code{spitcenternatlist} works as \code{\link{spitcenternat}} but not just for a
+//' single data.frame but for a list of data.frames
 //'
-//' @param hexlist list of data.frames with the horizontal outlines of the spit defined by four points
+//' @param hexlist list of data.frames with the 2D corners of the rectangles
 //' @param maplist list of data.frames which contain the points that make up the surfaces
 //'
 //' @return list of data.frames with the spatial coordinates of the center points
+//'
+//' @family centerdetfuncs
 //'
 //' @examples
 //' df1 <- data.frame(

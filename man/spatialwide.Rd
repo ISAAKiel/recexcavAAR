@@ -38,4 +38,7 @@ z <- c(3, 4, 2, 3, NA, 5, 6, 3, 1)
 spatialwide(x, y, z, digits = 3)
 
 }
+\seealso{
+Other transfuncs: \code{\link{spatiallong}}
+}
 

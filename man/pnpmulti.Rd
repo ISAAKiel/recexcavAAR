@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{pnpmulti}
 \alias{pnpmulti}
-\title{check if multiple points are within a polygon (2D)}
+\title{Check if multiple points are within a polygon (2D)}
 \usage{
 pnpmulti(vertx, verty, testx, testy)
 }
@@ -20,7 +20,7 @@ vector with boolean values - TRUE, if the respective point is within the polygon
 Otherwise FALSE.
 }
 \description{
-\code{pnpmulti} works as \code{\link{pnp}} but not just for a single point but for multiple points.
+\code{pnpmulti} works as \code{\link{pnp}} but for multiple points.
 }
 \examples{
 polydf <- data.frame(
@@ -35,5 +35,8 @@ testdf <- data.frame(
 
 pnpmulti(polydf$x, polydf$y, testdf$x, testdf$y)
 
+}
+\seealso{
+Other pnpfuncs: \code{\link{pnp}}
 }
 

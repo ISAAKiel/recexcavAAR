@@ -2,12 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{spitcenternat}
 \alias{spitcenternat}
-\title{center determination for excavation spits}
+\title{Center determination for rectangles whose tops and bottoms are defined by irregular surfaces (3D)}
 \usage{
 spitcenternat(hex, maplist)
 }
 \arguments{
-\item{hex}{data.frame with the horizontal outlines of the spit defined by four points}
+\item{hex}{data.frame with the 2D corners of the rectangle defined by four points}
 
 \item{maplist}{list of data.frames which contain the points that make up the surfaces}
 }
@@ -15,11 +15,8 @@ spitcenternat(hex, maplist)
 data.frame with the spatial coordinates of the center points
 }
 \description{
-\code{spitcenternat} determines center points of spits if the excavation followed natural layers.
-In this case spits are not perfectly defined hexahedrons. Just the horizontal outlines are clear -
-the vertical edges vary a lot. To solve this, \code{spitcenternat} calculates the horizontal center
-of a spit and determines its vertical position in relation to the natural/semiartificial surfaces
-that define its top and bottom. This is done for all defined layers.
+\code{spitcenternat} first of all calculates the horizontal center of an input rectangle.
+Then it determines the vertical positions of the center points in relation to a surface stack.
 }
 \examples{
 df1 <- data.frame(
@@ -51,5 +48,9 @@ hexatestdf <- data.frame(
 
 spitcenternat(hexatestdf, maps)
 
+}
+\seealso{
+Other centerdetfuncs: \code{\link{spitcenternatlist}},
+  \code{\link{spitcenter}}
 }
 

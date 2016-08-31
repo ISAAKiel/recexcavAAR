@@ -37,7 +37,7 @@ inline NumericVector stl_sort(NumericVector x) {
 //'
 //' @param x NumericVector of interest
 //'
-//' @return value of highest value in NumericVector.
+//' @return value of highest value in NumericVector
 
 inline double maxv(NumericVector x){
   // changing vars
@@ -56,7 +56,7 @@ inline double maxv(NumericVector x){
 //'
 //' @param x NumericVector of interest
 //'
-//' @return id of highest value in NumericVector.
+//' @return id of highest value in NumericVector
 
 inline int maxid(NumericVector x){
   // changing vars
@@ -77,7 +77,7 @@ inline int maxid(NumericVector x){
 //'
 //' @param x NumericVector of interest
 //'
-//' @return value of smallest value in NumericVector.
+//' @return value of smallest value in NumericVector
 
 inline double minv(NumericVector x){
   // changing vars
@@ -96,7 +96,7 @@ inline double minv(NumericVector x){
 //'
 //' @param x NumericVector of interest
 //'
-//' @return id of highest value in NumericVector.
+//' @return id of highest value in NumericVector
 
 inline int minid(NumericVector x){
   // changing vars
@@ -113,14 +113,14 @@ inline int minid(NumericVector x){
   return id;
 }
 
-//' 2D distance pythagoras between two points
+//' 2D distance (pythagoras) between two points
 //'
-//' @param x1
-//' @param x2
-//' @param y1
-//' @param y2
+//' @param x1 x axis value of first point
+//' @param x2 x axis value of second point
+//' @param y1 y axis value of first point
+//' @param y2 y axis value of second point
 //'
-//' @return distance
+//' @return distance value
 
 inline double pyth (double x1, double y1, double x2, double y2) {
   double x = x1 - x2;

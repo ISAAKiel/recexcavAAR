@@ -4,16 +4,19 @@
 #include <math.h>
 #include "helpfunc.h"
 
-//' Transformation of numeric matrices wide to long format
+//' Transformation of numeric matrices from wide to long format
 //'
-//' Transforms a set of two independent variables in vectors and a dependent variable in a wide
-//' matrix to a long matrix that combines the information. The result is exported as a data.frame
+//' \code{spatiallong} transforms a set of two independent variables in vectors and a
+//' dependent variable in a wide matrix to a long matrix that combines the information.
+//' The result is exported as a data.frame.
 //'
-//' @param x vector of first independent variable. e.g. vector with x-axis spatial points
-//' @param y vector of second independent variable. e.g. vector with y-axis spatial points
-//' @param z matrix of dependent variable. e.g. matrix with z-axis spatial points
+//' @param x vector of first independent variable. e.g. vector with x axis spatial points
+//' @param y vector of second independent variable. e.g. vector with y axis spatial points
+//' @param z matrix of dependent variable. e.g. matrix with z axis spatial points
 //'
 //' @return data.frame with three columns x, y and z
+//'
+//' @family transfuncs
 //'
 //' @examples
 //' x <- c(1, 1, 1, 2, 2, 2, 3, 3, 4)

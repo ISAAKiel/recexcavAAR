@@ -2,11 +2,11 @@
 #include "helpfunc.h"
 using namespace Rcpp;
 
-//' check if a point is within a polygon (2D)
+//' Check if a point is within a polygon (2D)
 //'
 //' @description
 //' \code{pnp} is able to determine if a point is within a polygon in 2D space.
-//' The polygon is described by its corner points. The order of this points must follow a correct
+//' The polygon is described by its corner points. The points must be in a correct
 //' drawing order.
 //'
 //' Based on this solution:
@@ -22,6 +22,8 @@ using namespace Rcpp;
 //' @param testy y axis value of point of interest
 //'
 //' @return boolean value - TRUE, if the point is within the polygon. Otherwise FALSE.
+//'
+//' @family pnpfuncs
 //'
 //' @examples
 //' df <- data.frame(
@@ -51,10 +53,10 @@ bool pnp(NumericVector vertx, NumericVector verty, float testx, float testy) {
   return c;
 }
 
-//' check if multiple points are within a polygon (2D)
+//' Check if multiple points are within a polygon (2D)
 //'
 //' @description
-//' \code{pnpmulti} works as \code{\link{pnp}} but not just for a single point but for multiple points.
+//' \code{pnpmulti} works as \code{\link{pnp}} but for multiple points.
 //'
 //' @param vertx vector of x axis values of polygon corner points
 //' @param verty vector of y axis values of polygon corner points
@@ -76,6 +78,8 @@ bool pnp(NumericVector vertx, NumericVector verty, float testx, float testy) {
 //' )
 //'
 //' pnpmulti(polydf$x, polydf$y, testdf$x, testdf$y)
+//'
+//' @family pnpfuncs
 //'
 //' @export
 // [[Rcpp::export]]

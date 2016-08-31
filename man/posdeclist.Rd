@@ -2,22 +2,24 @@
 % Please edit documentation in R/RcppExports.R
 \name{posdeclist}
 \alias{posdeclist}
-\title{position decision in relation to a set of stacked surfaces (for lists of data.frames)}
+\title{Multiple point position decision in relation to a set of stacked surfaces (3D)
+for multiple data.frames in a list}
 \usage{
-posdeclist(crlist, maplist)
+posdeclist(crdflist, maplist)
 }
 \arguments{
-\item{crlist}{list of data.frames with the spatial coordinates of the points of interest}
+\item{crdflist}{list of data.frames with the spatial coordinates of the points of
+interest (for details see \code{\link{posdec}})}
 
 \item{maplist}{list of data.frames which contain the points that make up the surfaces}
 }
 \value{
-list of data.frames with the spatial coordinates of the points of interest and the respective
-position information
+list of data.frames with the spatial coordinates of the points of interest
+and the respective position information
 }
 \description{
-\code{posdeclist} works as \code{posdec} but not just for a single data.frame but for a list of
-data.frames
+\code{posdeclist} works as \code{\link{posdec}} but not just for a single data.frame
+with individual points but for a list of data.frames
 }
 \examples{
 df1 <- data.frame(
@@ -55,5 +57,8 @@ cubelist <- list(cx1, cx2)
 
 posdeclist(cubelist, maps)
 
+}
+\seealso{
+Other posdecfuncs: \code{\link{posdec}}
 }
 
