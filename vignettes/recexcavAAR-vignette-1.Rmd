@@ -196,26 +196,14 @@ vis %>%
 Finally we can find out the percentual distribution. Could be an interesting information to determine the possible origin of finds from this spit.
 
 ```{r}
-# deci: create a result data.frame which shows the distribution of cube points
-deci <- function (crlist) {
-  
-  # determine amount of layers
-  nl = max(unlist(lapply(crlist, function(x) max(x$pos, na.rm=T))))
-  # create result data.frame
-  m <- matrix(NA, ncol = nl+1, nrow = 1)
-  pos <- data.frame(m)
-  names(pos) <- c(0:nl)
-  # calculate distribution
-  for (crp in 1:length(crlist)) {
-    cr <- crlist[[crp]]
-    crd <- sort(unique(cr$pos))
-    ncr <- nrow(cr)
-    for (i in 1:length(crd)) {
-      pos[crp, names(pos) == crd[i]] <- nrow(filter(cr, pos == crd[i]))/ncr*100
-    }
+sapply(
+  crlist, 
+  function(x){
+    x$pos %>%
+    table() %>%
+    prop.table() %>%
+    multiply_by(100) %>%
+    round(2)
   }
-  return(pos)
-}
-
-deci(crlist)
+  ) %>% t
 ```
