@@ -1,12 +1,12 @@
 Package: recexcavAAR
 Type: Package
 Title: R Library for Quantitative Analysis in Archaeology
-Version: 0.1.0
+Version: 0.2.0
 Author: c(
-  person("Clemens", "Schmid", email = "clemens@nevrome.de", role = c("aut"))
+  person("Clemens", "Schmid", email = "clemens@nevrome.de", role = c("cre", "cph", "aut"))
   )
 Maintainer: Clemens Schmid <clemens@nevrome.de>
-Description: recexcavAAR is a collection of functions useful for archaeologists.
+Description: R Library for 3D reconstruction and analysis of archaeological excavations.
 License: GPL-2
 LazyData: TRUE
 RoxygenNote: 5.0.1
