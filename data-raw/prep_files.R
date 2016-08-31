@@ -1,12 +1,12 @@
 library(devtools)
 
-#### tables ####
+#### KT tables ####
 KT_squarecorners <- read.csv("data-raw/KT_squarecorners.csv", sep = ";")
 KT_spits <- read.csv("data-raw/KT_spits.csv", sep = ";")
 
 devtools::use_data(KT_squarecorners, KT_spits, overwrite = TRUE)
 
-#### small datasets ####
+#### KT small datasets ####
 vesselsingle <- data.frame(
   inv = c("KTF_123", "KTF_167", "KTF_179"),
   spit = c("spit1", "spit1", "spit2"),
@@ -27,6 +27,6 @@ vesselmass <- data.frame(
   z = NA
 )
 
-vessel <- rbind(vesselsingle, vesselmass)
+KT_vessel <- rbind(vesselsingle, vesselmass)
 
-devtools::use_data(vessel, overwrite = TRUE)
+devtools::use_data(KT_vessel, overwrite = TRUE)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/data.R
 \name{KT_squarecorners}
 \alias{KT_squarecorners}
-\title{Corner points of a 1m*1m raster within the trench of a fictional excavation KT}
+\title{KT_data: Corner points of a 1m*1m raster within the trench of a fictional excavation KT}
 \format{A data frame with 63 rows and 2 variables:
 \itemize{
   \item x: x axis coordinates of corner points
@@ -10,6 +10,10 @@
 }}
 \description{
 A dataset containing horizontal coordinates of corner points of a 1m*1m raster within
-a rectangular trench (corner points of squares).
+the rectangular trench (corner points of squares).
+}
+\seealso{
+Other KT_data: \code{\link{KT_spits}},
+  \code{\link{KT_vessel}}
 }
 

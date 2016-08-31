@@ -2,7 +2,7 @@
 % Please edit documentation in R/data.R
 \name{KT_spits}
 \alias{KT_spits}
-\title{Niveau measurements of a fictional excavation KT}
+\title{KT_data: Niveau measurements from the fictional trench of a excavation KT}
 \format{A data frame with 304 rows and 4 variables:
 \itemize{
   \item id: IDs of individual measurements with the information about to which level
@@ -14,5 +14,9 @@
 \description{
 A dataset containing coordinates of niveau measurements of a fictional excavation KT with
 4 spits.
+}
+\seealso{
+Other KT_data: \code{\link{KT_squarecorners}},
+  \code{\link{KT_vessel}}
 }
 

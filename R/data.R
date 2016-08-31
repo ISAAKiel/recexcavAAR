@@ -1,4 +1,4 @@
-#' Niveau measurements of a fictional excavation KT
+#' KT_data: Niveau measurements from the fictional trench of a excavation KT
 #'
 #' A dataset containing coordinates of niveau measurements of a fictional excavation KT with
 #' 4 spits.
@@ -12,13 +12,15 @@
 #'   \item z: z axis coordinates of measurements
 #' }
 #'
+#' @family KT_data
+#'
 #' @name KT_spits
 NULL
 
-#' Corner points of a 1m*1m raster within the trench of a fictional excavation KT
+#' KT_data: Corner points of a 1m*1m raster within the trench of a fictional excavation KT
 #'
 #' A dataset containing horizontal coordinates of corner points of a 1m*1m raster within
-#' a rectangular trench (corner points of squares).
+#' the rectangular trench (corner points of squares).
 #'
 #' @format A data frame with 63 rows and 2 variables:
 #' \itemize{
@@ -26,14 +28,17 @@ NULL
 #'   \item y: y axis coordinates of corner points
 #' }
 #'
+#' @family KT_data
+#'
 #' @name KT_squarecorners
 NULL
 
-#' Information about individual sherds of a reconstructed vessel of a fictional excavation KT
+#' KT_data: Information about individual sherds of a reconstructed vessel from the trench
+#' of a fictional excavation KT
 #'
 #' A dataset containing spatial and contextual information for individual sherds of a single
-#' vessel. Some sherds were documented in the field with single find measurements, for some
-#' only spit and square attribution is possible.
+#' vessel. Some sherds were documented in the field with single find measurements. For the
+#' others only spit and square attribution is possible.
 #'
 #' @format A data frame with 7 rows and 7 variables:
 #' \itemize{
@@ -47,5 +52,7 @@ NULL
 #'   \item z: z axis coordinates of sherds
 #' }
 #'
-#' @name vessel
+#' @family KT_data
+#'
+#' @name KT_vessel
 NULL

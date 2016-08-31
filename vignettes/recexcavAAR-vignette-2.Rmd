@@ -164,7 +164,7 @@ Now to the actual task: During the excavation we found a lot of pottery from all
 Some of the sherds were considered special during the excavation and were therefore measured individualy (Inv. Nr. *"KTF_..."*).
 
 ```{r fig.width=7, fig.height=5}
-ve <- vessel
+ve <- KT_vessel
 vesselsingle <- ve[grep("KTF", ve$inv), ]
 
 vis <- vis %>% 
