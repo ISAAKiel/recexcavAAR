@@ -1,6 +1,6 @@
 Package: recexcavAAR
 Type: Package
-Title: R Library for Quantitative Analysis in Archaeology
+Title: 3D reconstruction of archaeological excavations
 Version: 0.2.1
 Authors@R: c(
   person("Clemens", "Schmid", email = "clemens@nevrome.de", role = c("cre", "cph", "aut"))
