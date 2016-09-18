@@ -13,7 +13,7 @@ R Library for 3D reconstruction and analysis of excavation states. The following
 Installation
 ------------
 
-`recexcavAAR` is currently not on [CRAN](https://cran.r-project.org/), but you can use [devtools](https://cran.r-project.org/web/packages/devtools/index.html) to install the development version. To do so:
+`recexcavAAR` is currently not on [CRAN](https://cran.r-project.org/), but you can use [devtools](https://cran.r-project.org/package=devtools) to install the development version. To do so:
 
     if(!require('devtools')) install.packages('devtools')
     library(devtools)
