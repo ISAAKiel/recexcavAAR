@@ -1,12 +1,12 @@
 Package: recexcavAAR
 Type: Package
-Title: 3D reconstruction of archaeological excavations
+Title: 3D Reconstruction of Archaeological Excavations
 Version: 0.2.1
 Authors@R: c(
   person("Clemens", "Schmid", email = "clemens@nevrome.de", role = c("cre", "cph", "aut"))
   )
 Maintainer: Clemens Schmid <clemens@nevrome.de>
-Description: R Library for 3D reconstruction and analysis of archaeological excavations.
+Description: A toolset for 3D reconstruction and analysis of excavations. It provides methods to reconstruct natural and artificial surfaces based on field measurements. This allows to spatially contextualize documented subunits and features. Intended to be part of a 3D visualization workflow.
 Date: 2016-09-18
 License: GPL-2
 LazyData: TRUE

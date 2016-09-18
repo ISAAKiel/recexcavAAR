@@ -3,7 +3,9 @@
 recexcavAAR
 -----------
 
-R Library for 3D reconstruction and analysis of excavation states. The following **vignettes** explain the implemented functions:
+R package for 3D reconstruction and analysis of excavations. It provides methods to reconstruct natural and artificial surfaces based on field measurements. This allows to spatially contextualize documented subunits and features. Intended to be part of a 3D visualization workflow. 
+
+The following **vignettes** explain the implemented functions:
 
 * [**Ifri el Baroud** for v0.1](https://isaakiel.github.io/recexcavAAR-vignette-1.html)
 * [**Kakcus-Turján** for v0.2](https://isaakiel.github.io/recexcavAAR-vignette-2.html) 
