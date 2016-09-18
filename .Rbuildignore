@@ -4,5 +4,4 @@
 ^codecov\.yml$
 data-raw
 playground
-^NEWS\.md$
 ^cran-comments\.md$
