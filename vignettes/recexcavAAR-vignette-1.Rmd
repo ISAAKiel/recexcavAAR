@@ -102,7 +102,7 @@ We can put this two or even more data.frames `df1` and `df2` into a list `lpoint
 ```{r }
 lpoints <- list(df1, df2)
 
-maps <- kriglist(lpoints, lags = 3, model = "spherical", pixels = 50)
+maps <- kriglist(lpoints, lags = 3, model = "spherical", pixels = 30)
 ```
 
 The result of `recexcavAAR::kriging` is in a tall format -- we have to transform it. For this purpose we use `recexcavAAR::spatialwide`.

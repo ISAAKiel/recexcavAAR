@@ -91,7 +91,8 @@ for (i in 1:length(spitnames)){
 Let's apply kriging with `recexcavAAR::kriglist`, transform the result with `recexcavAAR::spatialwide` and add the surfaces to the plot. 
 
 ```{r fig.width=7, fig.height=5}
-maps <- kriglist(splist, x = 2, y = 3, z = 4, lags = 3, model = "spherical", pixels = 50)
+# I had to choose a very low pixel value to keep the vignette small enough 
+maps <- kriglist(splist, x = 2, y = 3, z = 4, lags = 3, model = "spherical", pixels = 20)
 
 surf <- list()
 for (i in 1:length(maps)) {
