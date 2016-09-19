@@ -3,8 +3,9 @@ This is a resubmission.
 ---------------------------------
 
 ## Test environments
-* Manjaro Linux, R 3.3.1
+* Manjaro Linux 64-bit, R 3.3.1
 * win-builder (devel and release)
+* Oracle Solaris 11.2 64-bit, R 3.3.0 (not vignettes)
 
 ## R CMD check results
 

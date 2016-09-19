@@ -15,15 +15,14 @@ The following **vignettes** explain the implemented functions:
 Installation
 ------------
 
-`recexcavAAR` is currently not on [CRAN](https://cran.r-project.org/), but you can use [devtools](https://cran.r-project.org/package=devtools) to install the development version. To do so:
+Get the released version from CRAN:
 
-    if(!require('devtools')) install.packages('devtools')
-    library(devtools)
-    install_github('ISAAKiel/recexcavAAR')
-    
-To install with vignettes:
+    install.packages("recexcavAAR")
 
-    install_github('ISAAKiel/recexcavAAR', build_vignettes = TRUE, force = TRUE)
+Or the development version from github:
+
+    # install.packages("devtools")
+    devtools::install_github("ISAAKiel/recexcavAAR")
     
 History
 -------
