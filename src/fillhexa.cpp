@@ -71,8 +71,8 @@ DataFrame fillhexa(DataFrame hex, double res){
     resvec(p1) = res*p1;
   }
 
-  int lres2 = pow(lres,2);
-  int lres3 = pow(lres,3);
+  int lres2 = pow((double)lres, 2.0);
+  int lres3 = pow((double)lres, 3.0);
 
   // u
   NumericVector u(lres3);
