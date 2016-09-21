@@ -153,8 +153,6 @@ DataFrame spitcenternat(DataFrame hex, List maplist){
   double curxmean = mean(hexa(_, 0));
   double curymean = mean(hexa(_, 1));
 
-  double meanz;
-
   NumericMatrix respoints(maplist.size() - 1, 3);
 
   for (int mp = 0; mp < (maplist.size() - 1); mp++) {

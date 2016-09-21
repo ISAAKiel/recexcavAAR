@@ -7,18 +7,26 @@ This is a resubmission.
 * win-builder (devel and release)
 * Oracle Solaris 11.2 64-bit, R 3.3.0 (not vignettes)
 
-## R CMD check results
+### Travis CI matrix:
 
-There were no ERRORs or WARNINGs. I see two NOTEs:
+* os: linux  
+  dist: precise  
+  sudo: false  
+* os: linux  
+  dist: trusty  
+  sudo: required  
+  env: R_CODECOV=true  
+  r_check_args: '--use-valgrind'  
+* os: osx  
+  osx_image: xcode8  
+* os: osx  
+  osx_image: beta-xcode6.1  
+  disable_homebrew: true  
 
-* Found the following (possibly) invalid URLs:  
-  URL: https://cran.r-project.org/package=recexcavAAR  
-    From: README.md  
-    Status: 404  
-    Message: Not Found  
-    
-  This can't work yet. It's there for a Github badge.
-  
+## R CMD check results in my test environments
+
+There were no ERRORs or WARNINGs. I see one NOTE:
+
 * checking installed package size ... NOTE  
   installed size is  5.4Mb  
   sub-directories of 1Mb or more:  
