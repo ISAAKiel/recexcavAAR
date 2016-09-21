@@ -2,9 +2,18 @@ This is a resubmission.
 
 ---------------------------------
 
+## Improvements for resubmission 
+
+  * solved solaris c++ problem to avoid ERROR:
+      * Installation failed.
+  * reorganized dependencies to avoid NOTE:  
+      * Namespaces in Imports field not imported from:  
+        ‘devtools’ ‘dplyr’ ‘magrittr’ ‘plyr’ ‘reshape2’  
+        All declared Imports should be used.   
+
 ## Test environments
 * Manjaro Linux 64-bit, R 3.3.1
-* win-builder (devel and release)
+* win-builder (release)
 * Oracle Solaris 11.2 64-bit, R 3.3.0 (not vignettes)
 
 ### Travis CI matrix:
