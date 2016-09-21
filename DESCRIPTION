@@ -12,18 +12,19 @@ License: GPL-2
 LazyData: TRUE
 RoxygenNote: 5.0.1
 URL: https://github.com/ISAAKiel/recexcavAAR
-Imports: dplyr (>= 0.4.1),
-    plyr,
+Imports:
+    Rcpp (>= 0.12.7)
+Suggests:
+    devtools (>= 1.12.0),
+    dplyr (>= 0.5.0),
+    knitr (>= 1.14.1),
     magrittr (>= 1.5),
-    reshape2 (>= 1.4.1),
-    Rcpp,
-    devtools
-Suggests: testthat,
-    knitr,
-    rmarkdown,
-    roxygen2,
-    plotly
+    plotly (>= 3.6.0),
+    rmarkdown (>= 1.0),
+    roxygen2 (>= 5.0.1),
+    testthat (>= 1.0.2)
 VignetteBuilder: knitr
-Depends: R (>= 2.10),
+Depends:
+    R (>= 3.3.0),
     kriging (>= 1.1)
 LinkingTo: Rcpp
