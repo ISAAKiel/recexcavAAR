@@ -1,7 +1,5 @@
 context("Tests of function fillhexa")
 
-suppressMessages(library(dplyr))
-
 hex <- data.frame(
   x = c(0,1,0,4,5,5,5,5),
   y = c(1,1,4,4,1,1,4,4),
@@ -43,7 +41,7 @@ test_that(
     samp <- round(nrow(res)/10, 0)
 
     # get sample and add it to hex
-    hex2 <- rbind(hex, sample_n(res, samp))
+    hex2 <- rbind(hex, res[sample(nrow(res), samp), ])
 
     # calculate dist matrix (distance between all points among themselves)
     d2 <- as.matrix(dist(hex2))
