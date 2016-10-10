@@ -19,7 +19,7 @@ Suggests:
     dplyr (>= 0.5.0),
     knitr,
     magrittr (>= 1.5),
-    plotly (>= 4.5.2),
+    plotly (>= 4.5.5.9000),
     rmarkdown (>= 1.0),
     roxygen2 (>= 5.0.1),
     testthat (>= 1.0.2)
