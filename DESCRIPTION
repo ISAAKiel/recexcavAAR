@@ -1,7 +1,7 @@
 Package: recexcavAAR
 Type: Package
 Title: 3D Reconstruction of Archaeological Excavations
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: c(
   person("Clemens", "Schmid", email = "clemens@nevrome.de", role = c("cre", "cph", "aut"))
   )
@@ -19,7 +19,7 @@ Suggests:
     dplyr (>= 0.5.0),
     knitr,
     magrittr (>= 1.5),
-    plotly (>= 3.6.0),
+    plotly (>= 4.5.2),
     rmarkdown (>= 1.0),
     roxygen2 (>= 5.0.1),
     testthat (>= 1.0.2)

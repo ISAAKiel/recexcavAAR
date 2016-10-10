@@ -16,6 +16,7 @@ First we need to load recexcavAAR and some external packages:
 - **plotly:** nice, interactive plots via javascript implementation
 
 ```{r, message=FALSE}
+library(devtools)
 devtools::load_all() # in your script: library(recexcavAAR)
 library(kriging)
 library(magrittr)
@@ -48,14 +49,14 @@ vis <- plot_ly(
       edges[c(3,7), ],
       edges[c(8,4), ]
     ),
-    x = x, y = y, z = z,
+    x = ~x, y = ~y, z = ~z
+  ) %>%  
+  add_trace(
     mode = "lines", type = "scatter3d",
     line = list(size = 5, color = "black")
-  ) %>% 
+  ) %>%
   layout(
     showlegend = FALSE,
-    autorange = F, 
-    aspectmode = 'manual', 
     scene = list(
       dragmode = "orbit",
       aspectratio = list(x = rangex, y = rangey, z = 5),
@@ -163,12 +164,13 @@ vesselsingle <- ve[grep("KTF", ve$inv), ]
 
 vis <- vis %>% 
   add_trace(
-    data = vesselsingle, x = x, y = y, z = z, 
+    data = vesselsingle, x = ~x, y = ~y, z = ~z, 
     mode = "markers", type = "scatter3d",
     marker = list(size = 3, color = "red"),
     hoverinfo = "text",
     text = paste(
-      "SING: ", "inv = ", inv, "; spit = ", spit ,"; square = ", square, "; feature = ", feature,
+      "SING: ", "inv = ", vesselsingle$inv, "; spit = ", vesselsingle$spit ,"; 
+      square = ", vesselsingle$square, "; feature = ", vesselsingle$feature,
       sep = ""
     )
   )
@@ -225,7 +227,7 @@ Let's plot all of them for once.
 ```{r fig.width=7, fig.height=5}
 vis2 %>%
   add_trace(
-    data = sqcdf, x = x, y = y, z = z,
+    data = sqcdf, x = ~x, y = ~y, z = ~z,
     mode = "markers", type = "scatter3d",
     marker = list(size = 2, color = "green")
   )
@@ -240,12 +242,13 @@ vesselm <- vmsq[complete.cases(vmsq), ]
 
 vis %>%
   add_trace(
-    data = vesselm, x = x, y = y, z = z,
+    data = vesselm, x = ~x, y = ~y, z = ~z,
     mode = "markers", type = "scatter3d",
     marker = list(size = 3, color = "orange"),
     hoverinfo = "text",
     text = paste(
-      "MASS: ", "inv = ", inv, "; spit = ", spit ,"; square = ", square, "; feature = ", feature,
+      "MASS: ", "inv = ", vesselm$inv, "; spit = ", vesselm$spit ,
+      "; square = ", vesselm$square, "; feature = ", vesselm$feature,
       sep = ""
     )
   )
