@@ -12,14 +12,12 @@ vignette: >
 First we need to load recexcavAAR and some external packages:
 
 - **kriging:** simple surface modelling tool
-- **magrittr:** introduces piping to R via %>% operator
 - **rgl:** nice, interactive 3D plots
 
 ```{r, message=FALSE}
 library(devtools)
 devtools::load_all() # in your script: library(recexcavAAR)
 library(kriging)
-library(magrittr)
 library(rgl)
 ```
 
@@ -35,7 +33,7 @@ edges <- data.frame(
 
 We can plot the edges of this trench with `rgl::plot3d`, but first of all we have to calculate a reasonable aspectratio. Remember: The trench is tilted in relation to the main axis. 
 
-```{r fig.width=7, fig.height=5}
+```{r}
 rangex <- abs(max(edges$x) - min(edges$x))
 rangey <- abs(max(edges$y) - min(edges$y))
 
@@ -48,10 +46,14 @@ edgesordered = rbind(
   edges[c(3,7), ],
   edges[c(8,4), ]
 )
+```
 
+```{r}
 # avoid plotting in X11 window
 open3d(useNULL = TRUE)
+```
 
+```{r fig.width=7, fig.height=5}
 plot3d(
   edgesordered$x, edgesordered$y, edgesordered$z,
   type="l",
@@ -106,7 +108,7 @@ for (i in 1:length(surf)) {
 
 rglwidget()
 
-# remove surface raster from plot to make space
+# remove surfaces from plot
 for (i in 1:length(idvec)) {
   rgl.pop(id = idvec[i])
 }
@@ -210,7 +212,7 @@ completeraster <- points3d(
 
 rglwidget()
 
-# remove point raster from plot to make space
+# remove point raster from plot
 rgl.pop(id = completeraster)
 ```
 

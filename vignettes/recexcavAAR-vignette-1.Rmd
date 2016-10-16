@@ -13,7 +13,7 @@ First we need to load recexcavAAR and some external packages:
 
 - **dplyr:** filter function
 - **kriging:** simple surface modelling tool
-- **magrittr:** introduces piping to R via %>% operator
+- **magrittr:** introduces piping via %>% operator
 - **rgl:** nice, interactive 3D plots
 
 ```{r, message=FALSE}
@@ -37,10 +37,12 @@ edges <- data.frame(
 
 We can plot the corner points of this trench with `rgl::plot3d`:
 
-```{r fig.width=7, fig.height=5}
+```{r}
 # avoid plotting in X11 window
 open3d(useNULL = TRUE)
+```
 
+```{r fig.width=7, fig.height=5}
 plot3d(
   edges$x, edges$y, edges$z,
   type="s",
@@ -152,7 +154,7 @@ completeraster <- points3d(
 
 rglwidget()
 
-# remove point raster from plot to make space
+# remove point raster from plot
 rgl.pop(id = completeraster)
 ```
 

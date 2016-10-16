@@ -1,19 +1,20 @@
-This is a resubmission. 
+## Improvements for new submission 
 
----------------------------------
-
-## Improvements for resubmission 
-
-  * solved solaris c++ problem to avoid ERROR:
+  * solved solaris c++ problem to avoid ERRORs:
       * Installation failed.
-  * reorganized dependencies to avoid NOTE:  
+  * reorganized dependencies to avoid NOTEs:  
       * Namespaces in Imports field not imported from:  
         ‘devtools’ ‘dplyr’ ‘magrittr’ ‘plyr’ ‘reshape2’  
-        All declared Imports should be used.   
+        All declared Imports should be used.
+  * replaced plotly with rgl in vignettes to avoid WARNINGs and NOTEs:  
+      * Error: processing vignette ‘recexcavAAR-vignette-1.Rmd’ failed with diagnostics:  
+        object ‘x’ not found  
+        Execution halted  
+      * installed size is 5.4Mb
 
 ## Test environments
 * Manjaro Linux 64-bit, R 3.3.1
-* win-builder (release)
+* win-builder (release+devel)
 * Oracle Solaris 11.2 64-bit, R 3.3.0 (not vignettes)
 
 ### Travis CI matrix:
@@ -36,10 +37,9 @@ This is a resubmission.
 
 There were no ERRORs or WARNINGs. I see one NOTE:
 
-* checking installed package size ... NOTE  
-  installed size is  5.4Mb  
-  sub-directories of 1Mb or more:  
-    doc    3.6Mb  
-    libs   1.6Mb  
-     
-  The vignettes are huge when they are rendered because they contain plotly 3D models. Nevertheless I would like to keep them - archaeologists are very visual scientists...
+  * checking CRAN incoming feasibility ... NOTE  
+    Maintainer: 'Clemens Schmid <clemens@nevrome.de>'  
+    Possibly mis-spelled words in DESCRIPTION:  
+    subunits (9:221)  
+    toolset (9:16)  
+    workflow (9:286)  

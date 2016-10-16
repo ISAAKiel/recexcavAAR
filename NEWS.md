@@ -1,3 +1,10 @@
+recexcavAAR 0.2.2
+----------------------------------------------------------------
+
+* bugfixes as a reaction to CRAN checks
+
+* replaced plotly with rgl in the vignettes
+
 recexcavAAR 0.2.1
 ----------------------------------------------------------------
 
