@@ -9,10 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, echo=FALSE}
-Sys.setenv(LIBGL_ALWAYS_SOFTWARE=1)
-```
- 
 First we need to load recexcavAAR and some external packages:
 
 - **dplyr:** filter function
@@ -42,6 +38,9 @@ edges <- data.frame(
 We can plot the corner points of this trench with `rgl::plot3d`:
 
 ```{r fig.width=7, fig.height=5}
+# avoid plotting in X11 window
+open3d(useNULL = TRUE)
+
 plot3d(
   edges$x, edges$y, edges$z,
   type="s",

@@ -9,10 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, echo=FALSE}
-Sys.setenv(LIBGL_ALWAYS_SOFTWARE=1)
-```
- 
 First we need to load recexcavAAR and some external packages:
 
 - **kriging:** simple surface modelling tool
@@ -53,6 +49,9 @@ edgesordered = rbind(
   edges[c(8,4), ]
 )
 
+# avoid plotting in X11 window
+open3d(useNULL = TRUE)
+
 plot3d(
   edgesordered$x, edgesordered$y, edgesordered$z,
   type="l",
@@ -60,6 +59,12 @@ plot3d(
   xlab = "x", ylab = "y", zlab = "z",
   sub = "Grab me and rotate me!",
   col = "darkgreen"
+)
+
+bbox3d(
+  xat = c(2, 4, 6, 8, 10),
+  yat = c(10, 12, 14, 16, 18),
+  zat = c(8.5, 9, 9.5)
 )
 
 rglwidget()
