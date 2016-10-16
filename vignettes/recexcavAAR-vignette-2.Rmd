@@ -13,14 +13,14 @@ First we need to load recexcavAAR and some external packages:
 
 - **kriging:** simple surface modelling tool
 - **magrittr:** introduces piping to R via %>% operator
-- **plotly:** nice, interactive plots via javascript implementation
+- **rgl:** nice, interactive 3D plots
 
 ```{r, message=FALSE}
 library(devtools)
 devtools::load_all() # in your script: library(recexcavAAR)
 library(kriging)
 library(magrittr)
-library(plotly)
+library(rgl)
 ```
 
 Like in the first vignette `Ifri el Baroud` we start by setting up an artificial and pretty simple excavation trench with a depth of 1.4 meters, a length of 6 meters and a width of 8 meters. This one is not parallel to the main axis of our coordinate system. 
@@ -33,40 +33,32 @@ edges <- data.frame(
 )
 ```
 
-We can plot the corner points of this trench with `plotly::plot_ly`, but first of all we have to calculate a reasonable aspectratio. Remember: The trench is tilted in relation to the main axis. 
+We can plot the edges of this trench with `rgl::plot3d`, but first of all we have to calculate a reasonable aspectratio. Remember: The trench is tilted in relation to the main axis. 
 
 ```{r fig.width=7, fig.height=5}
 rangex <- abs(max(edges$x) - min(edges$x))
 rangey <- abs(max(edges$y) - min(edges$y))
 
-vis <- plot_ly(
-    data = rbind(
-      edges[1:4, ], 
-      edges[1, ], 
-      edges[5:8, ], 
-      edges[5, ],
-      edges[c(6,2), ],
-      edges[c(3,7), ],
-      edges[c(8,4), ]
-    ),
-    x = ~x, y = ~y, z = ~z
-  ) %>%  
-  add_trace(
-    mode = "lines", type = "scatter3d",
-    line = list(size = 5, color = "black")
-  ) %>%
-  layout(
-    showlegend = FALSE,
-    scene = list(
-      dragmode = "orbit",
-      aspectratio = list(x = rangex, y = rangey, z = 5),
-      camera = list(
-        eye = list(x = -9, y = 9, z = 11) 
-      )
-    )
-  ) 
+edgesordered = rbind(
+  edges[1:4, ], 
+  edges[1, ], 
+  edges[5:8, ], 
+  edges[5, ],
+  edges[c(6,2), ],
+  edges[c(3,7), ],
+  edges[c(8,4), ]
+)
 
-vis
+plot3d(
+  edgesordered$x, edgesordered$y, edgesordered$z,
+  type="l",
+  aspect = c(rangex, rangey, 5),
+  xlab = "x", ylab = "y", zlab = "z",
+  sub = "Grab me and rotate me!",
+  col = "darkgreen"
+)
+
+rglwidget()
 ```
 
 The approach for the excavation of this trench is to go deeper in squares of 1 meter by 1 meter. The spit depth is about 30 centimeters, but as we also try to follow natural layers the individual spit depth varies a lot. Fortunately we have niveau measurements of the resulting surfaces in the dataset `recexcavAAR::KT_spits`. 
@@ -93,27 +85,22 @@ for (i in 1:length(maps)) {
   surf[[i]] <- spatialwide(maps[[i]]$x, maps[[i]]$y, maps[[i]]$pred, digits = 3)
 }
 
-vis %>% 
-  add_trace(
-    x = surf[[1]]$x, y = surf[[1]]$y, z = surf[[1]]$z, type = "surface", 
-    showscale = FALSE, opacity = 0.9, hoverinfo = "none"
-  ) %>%
-  add_trace(
-    x = surf[[2]]$x, y = surf[[2]]$y, z = surf[[2]]$z, type = "surface", 
-    showscale = FALSE, opacity = 0.9, hoverinfo = "none"
-  ) %>%
-  add_trace(
-    x = surf[[3]]$x, y = surf[[3]]$y, z = surf[[3]]$z, type = "surface", 
-    showscale = FALSE, opacity = 0.9, hoverinfo = "none"
-  ) %>%
-  add_trace(
-    x = surf[[4]]$x, y = surf[[4]]$y, z = surf[[4]]$z, type = "surface", 
-    showscale = FALSE, opacity = 0.9, hoverinfo = "none"
-  ) %>%
-  add_trace(
-    x = surf[[5]]$x, y = surf[[5]]$y, z = surf[[5]]$z, type = "surface", 
-    showscale = FALSE, opacity = 0.9, hoverinfo = "none"
-  ) 
+idvec <- c()
+for (i in 1:length(surf)) {
+  idvec[i] <- surface3d(
+    surf[[i]]$x, surf[[i]]$y, t(surf[[i]]$z),
+    color = c("black", "white"),
+    alpha = 0.5,
+    add = TRUE
+  )
+}
+
+rglwidget()
+
+# remove surface raster from plot to make space
+for (i in 1:length(idvec)) {
+  rgl.pop(id = idvec[i])
+}
 ```
 
 Hm... ok. But the surfaces extend beyond the surfaces of the trench... We can use `recexcavAAR::pnpmulti` to decide which points of the kriging result are within the trench polygon. Then we can remove the others and plot the result again.
@@ -129,29 +116,16 @@ for (i in 1:length(maps)) {
   surf2[[i]] <- recexcavAAR::spatialwide(maps[[i]]$x, maps[[i]]$y, maps[[i]]$pred, 3)
 }
 
-vis2 <- vis %>% 
-  add_trace(
-    x = surf2[[1]]$x, y = surf2[[1]]$y, z = surf2[[1]]$z, type = "surface", 
-    showscale = FALSE, opacity = 0.9, hoverinfo = "none"
-  ) %>%
-  add_trace(
-    x = surf2[[2]]$x, y = surf2[[2]]$y, z = surf2[[2]]$z, type = "surface", 
-    showscale = FALSE, opacity = 0.9, hoverinfo = "none"
-  ) %>%
-  add_trace(
-    x = surf2[[3]]$x, y = surf2[[3]]$y, z = surf2[[3]]$z, type = "surface", 
-    showscale = FALSE, opacity = 0.9, hoverinfo = "none"
-  ) %>%
-  add_trace(
-    x = surf2[[4]]$x, y = surf2[[4]]$y, z = surf2[[4]]$z, type = "surface", 
-    showscale = FALSE, opacity = 0.9, hoverinfo = "none"
-  ) %>%
-  add_trace(
-    x = surf2[[5]]$x, y = surf2[[5]]$y, z = surf2[[5]]$z, type = "surface", 
-    showscale = FALSE, opacity = 0.9, hoverinfo = "none"
-  ) 
+for (i in 1:length(surf)) {
+  surface3d(
+    surf2[[i]]$x, surf2[[i]]$y, t(surf2[[i]]$z),
+    color = c("black", "white"),
+    alpha = 0.5,
+    add = TRUE
+  )
+}
 
-vis2
+rglwidget()
 ```
 
 Now to the actual task: During the excavation we found a lot of pottery from all over the trench. Many of the individual sherds fit together -- it's possible to reconstruct complete vessels. We would like to visualize how the sherds of one particular vessel are distributed. The spatial information for this vessel is stored in the dataset `recexcavAAR::vessel`.
@@ -162,20 +136,14 @@ Some of the sherds were considered special during the excavation and were theref
 ve <- KT_vessel
 vesselsingle <- ve[grep("KTF", ve$inv), ]
 
-vis <- vis %>% 
-  add_trace(
-    data = vesselsingle, x = ~x, y = ~y, z = ~z, 
-    mode = "markers", type = "scatter3d",
-    marker = list(size = 3, color = "red"),
-    hoverinfo = "text",
-    text = paste(
-      "SING: ", "inv = ", vesselsingle$inv, "; spit = ", vesselsingle$spit ,"; 
-      square = ", vesselsingle$square, "; feature = ", vesselsingle$feature,
-      sep = ""
-    )
-  )
+points3d(
+  vesselsingle$x, vesselsingle$y, vesselsingle$z,
+  col = "red",
+  size = 8, 
+  add = TRUE
+)
 
-vis
+rglwidget()
 ```
 
 Unfortunately many were not. For these we just have the information from which spit and square they are coming from (Inv. Nr. *"KTM_..."*). 
@@ -225,12 +193,16 @@ sqcdf <- do.call(rbind.data.frame, sqcenters)
 Let's plot all of them for once. 
 
 ```{r fig.width=7, fig.height=5}
-vis2 %>%
-  add_trace(
-    data = sqcdf, x = ~x, y = ~y, z = ~z,
-    mode = "markers", type = "scatter3d",
-    marker = list(size = 2, color = "green")
-  )
+completeraster <- points3d(
+  sqcdf$x, sqcdf$y, sqcdf$z,
+  col = "darkgreen",
+  add = TRUE
+)
+
+rglwidget()
+
+# remove point raster from plot to make space
+rgl.pop(id = completeraster)
 ```
 
 Finally we can merge the info about the vessel sherds in `vesselmass` with the new list of square center points `sqcdf`. Now we can plot single find sherds and mass find sherds together.
@@ -240,16 +212,12 @@ vmsq <- merge(vesselmass[, 1:4], sqcdf, by = c("square", "spit"), all.x = TRUE)
 
 vesselm <- vmsq[complete.cases(vmsq), ]
 
-vis %>%
-  add_trace(
-    data = vesselm, x = ~x, y = ~y, z = ~z,
-    mode = "markers", type = "scatter3d",
-    marker = list(size = 3, color = "orange"),
-    hoverinfo = "text",
-    text = paste(
-      "MASS: ", "inv = ", vesselm$inv, "; spit = ", vesselm$spit ,
-      "; square = ", vesselm$square, "; feature = ", vesselm$feature,
-      sep = ""
-    )
-  )
+points3d(
+  vesselm$x, vesselm$y, vesselm$z,
+  col = "orange",
+  size = 8, 
+  add = TRUE
+)
+
+rglwidget()
 ```
