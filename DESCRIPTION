@@ -7,7 +7,7 @@ Authors@R: c(
   )
 Maintainer: Clemens Schmid <clemens@nevrome.de>
 Description: A toolset for 3D reconstruction and analysis of excavations. It provides methods to reconstruct natural and artificial surfaces based on field measurements. This allows to spatially contextualize documented subunits and features. Intended to be part of a 3D visualization workflow.
-Date: 2016-09-18
+Date: 2016-10-16
 License: GPL-2
 LazyData: TRUE
 RoxygenNote: 5.0.1
