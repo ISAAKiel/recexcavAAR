@@ -8,6 +8,10 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{r, echo=FALSE}
+Sys.setenv(LIBGL_ALWAYS_SOFTWARE=1)
+```
  
 First we need to load recexcavAAR and some external packages:
 
