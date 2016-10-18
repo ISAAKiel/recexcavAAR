@@ -11,10 +11,8 @@ R package for 3D reconstruction and analysis of excavations. It provides methods
 
 The following **vignettes** explain the implemented functions:
 
-* [**Ifri el Baroud** for v0.1](https://isaakiel.github.io/recexcavAAR-vignette-1.html)
-* [**Kakcus-Turján** for v0.2](https://isaakiel.github.io/recexcavAAR-vignette-2.html) 
-
-:collision: The vignettes do not work with Firefox browser
+* [**Ifri el Baroud**](https://isaakiel.github.io/recexcavAAR-vignette-1.html)
+* [**Kakcus-Turján**](https://isaakiel.github.io/recexcavAAR-vignette-2.html) 
 
 Installation
 ------------
