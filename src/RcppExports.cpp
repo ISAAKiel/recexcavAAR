@@ -5,6 +5,40 @@
 
 using namespace Rcpp;
 
+// circle
+DataFrame circle(float centerx, float centery, float centerz, float radius, int resolution);
+RcppExport SEXP recexcavAAR_circle(SEXP centerxSEXP, SEXP centerySEXP, SEXP centerzSEXP, SEXP radiusSEXP, SEXP resolutionSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< float >::type centerx(centerxSEXP);
+    Rcpp::traits::input_parameter< float >::type centery(centerySEXP);
+    Rcpp::traits::input_parameter< float >::type centerz(centerzSEXP);
+    Rcpp::traits::input_parameter< float >::type radius(radiusSEXP);
+    Rcpp::traits::input_parameter< int >::type resolution(resolutionSEXP);
+    rcpp_result_gen = Rcpp::wrap(circle(centerx, centery, centerz, radius, resolution));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rotate
+DataFrame rotate(NumericVector x, NumericVector y, NumericVector z, float pivotx, float pivoty, float pivotz, float degrx, float degry, float degrz);
+RcppExport SEXP recexcavAAR_rotate(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP pivotxSEXP, SEXP pivotySEXP, SEXP pivotzSEXP, SEXP degrxSEXP, SEXP degrySEXP, SEXP degrzSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
+    Rcpp::traits::input_parameter< float >::type pivotx(pivotxSEXP);
+    Rcpp::traits::input_parameter< float >::type pivoty(pivotySEXP);
+    Rcpp::traits::input_parameter< float >::type pivotz(pivotzSEXP);
+    Rcpp::traits::input_parameter< float >::type degrx(degrxSEXP);
+    Rcpp::traits::input_parameter< float >::type degry(degrySEXP);
+    Rcpp::traits::input_parameter< float >::type degrz(degrzSEXP);
+    rcpp_result_gen = Rcpp::wrap(rotate(x, y, z, pivotx, pivoty, pivotz, degrx, degry, degrz));
+    return rcpp_result_gen;
+END_RCPP
+}
 // fillhexa
 DataFrame fillhexa(DataFrame hex, double res);
 RcppExport SEXP recexcavAAR_fillhexa(SEXP hexSEXP, SEXP resSEXP) {
