@@ -5,7 +5,7 @@
 
 using namespace Rcpp;
 
-//' test
+//' draw_circle
 //'
 //' @description
 //' test
@@ -22,7 +22,7 @@ using namespace Rcpp;
 //'
 //' @export
 // [[Rcpp::export]]
-DataFrame circle(float centerx, float centery, float centerz, float radius, int resolution) {
+DataFrame draw_circle(float centerx, float centery, float centerz, float radius, int resolution) {
 
   int pnum = resolution;
   double rotation = 2 * M_PI / pnum;
@@ -39,7 +39,7 @@ DataFrame circle(float centerx, float centery, float centerz, float radius, int 
   return DataFrame::create(_["x"] = res(_,0), _["y"] = res(_,1), _["z"] = res(_,2));
 }
 
-//' test
+//' rotate
 //'
 //' @description
 //' test
@@ -102,4 +102,91 @@ DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
 
   // output
   return DataFrame::create(_["x"] = res(_,0), _["y"] = res(_,1), _["z"] = res(_,2));
+}
+
+//' draw_sphere
+//'
+//' @description
+//' test
+//'
+//' @param centerx
+//' @param centery
+//' @param centerz
+//' @param r
+//' @param phires
+//' @param thetares
+//'
+//' @return test
+//'
+//' @examples
+//' s <- draw_sphere(1,1,1,3)
+//'
+//' library(rgl)
+//' plot3d(s)
+//'
+//' @export
+// [[Rcpp::export]]
+DataFrame draw_sphere(float centerx, float centery, float centerz,
+                      float r, int phires = 10, int thetares = 10)  {
+
+  double phir = (double) phires;
+  double thetar = (double) thetares;
+
+  std::vector<float> x;
+  std::vector<float> y;
+  std::vector<float> z;
+
+  // Iterate through phi and theta
+  for (double phi = 0.; phi < 2 * M_PI; phi += M_PI / phir) { // Azimuth [0, 2M_PI]
+    for (double theta = 0.; theta < M_PI; theta += M_PI / thetar) { // Elevation [0, M_PI]
+
+      x.push_back(r * cos(phi) * sin(theta) + centerx);
+      y.push_back(r * sin(phi) * sin(theta) + centery);
+      z.push_back(r * cos(theta) + centerz);
+
+    }
+  }
+
+  // output
+  return DataFrame::create(_["x"] = wrap(x), _["y"] = wrap(y), _["z"] = wrap(z));
+}
+
+//' scale
+//'
+//' @description
+//' test
+//'
+//' @param x
+//' @param y
+//' @param z
+//' @param scalex
+//' @param scaley
+//' @param scalez
+//'
+//' @return test
+//'
+//' @examples
+//' s <- draw_sphere(1,1,1,3)
+//'
+//' library(rgl)
+//' plot3d(s)
+//'
+//' s2 <- scale(s$x, s$y, s$z, scalex = 4, scalez = 5)
+//'
+//' library(rgl)
+//' plot3d(s2)
+//'
+//' @export
+// [[Rcpp::export]]
+DataFrame scale(NumericVector x, NumericVector y, NumericVector z,
+                float scalex = 1, float scaley = 1, float scalez = 1) {
+
+  NumericMatrix res(x.size(), 3);
+
+  res(_, 0) = x * scalex;
+  res(_, 1) = y * scaley;
+  res(_, 2) = z * scalez;
+
+  // output
+  return DataFrame::create(_["x"] = res(_, 0), _["y"] = res(_, 1), _["z"] = res(_ ,2));
 }

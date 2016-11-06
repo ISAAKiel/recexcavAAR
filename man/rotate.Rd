@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{rotate}
 \alias{rotate}
-\title{test}
+\title{rotate}
 \usage{
 rotate(x, y, z, pivotx, pivoty, pivotz, degrx, degry, degrz)
 }
