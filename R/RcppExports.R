@@ -17,8 +17,8 @@
 #' @examples
 #'
 #' @export
-circle <- function(centerx, centery, centerz, radius, resolution) {
-    .Call('recexcavAAR_circle', PACKAGE = 'recexcavAAR', centerx, centery, centerz, radius, resolution)
+draw_circle <- function(centerx, centery, centerz, radius, resolution) {
+    .Call('recexcavAAR_draw_circle', PACKAGE = 'recexcavAAR', centerx, centery, centerz, radius, resolution)
 }
 
 #' test
@@ -43,6 +43,27 @@ circle <- function(centerx, centery, centerz, radius, resolution) {
 #' @export
 rotate <- function(x, y, z, pivotx, pivoty, pivotz, degrx, degry, degrz) {
     .Call('recexcavAAR_rotate', PACKAGE = 'recexcavAAR', x, y, z, pivotx, pivoty, pivotz, degrx, degry, degrz)
+}
+
+#' test
+#'
+#' @description
+#' test
+#'
+#' @param centerx
+#' @param centery
+#' @param centerz
+#' @param r
+#' @param phires
+#' @param thetares
+#'
+#' @return test
+#'
+#' @examples
+#'
+#' @export
+draw_sphere <- function(centerx, centery, centerz, r, phires = 10L, thetares = 10L) {
+    .Call('recexcavAAR_draw_sphere', PACKAGE = 'recexcavAAR', centerx, centery, centerz, r, phires, thetares)
 }
 
 #' Fills hexahedrons with a regular point raster (3D)

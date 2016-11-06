@@ -22,7 +22,7 @@ using namespace Rcpp;
 //'
 //' @export
 // [[Rcpp::export]]
-DataFrame circle(float centerx, float centery, float centerz, float radius, int resolution) {
+DataFrame draw_circle(float centerx, float centery, float centerz, float radius, int resolution) {
 
   int pnum = resolution;
   double rotation = 2 * M_PI / pnum;
@@ -102,4 +102,47 @@ DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
 
   // output
   return DataFrame::create(_["x"] = res(_,0), _["y"] = res(_,1), _["z"] = res(_,2));
+}
+
+//' test
+//'
+//' @description
+//' test
+//'
+//' @param centerx
+//' @param centery
+//' @param centerz
+//' @param r
+//' @param phires
+//' @param thetares
+//'
+//' @return test
+//'
+//' @examples
+//'
+//' @export
+// [[Rcpp::export]]
+DataFrame draw_sphere(float centerx, float centery, float centerz,
+                      float r, int phires = 10, int thetares = 10)  {
+
+  double phir = (double) phires;
+  double thetar = (double) thetares;
+
+  std::vector<float> x;
+  std::vector<float> y;
+  std::vector<float> z;
+
+  // Iterate through phi and theta
+  for (double phi = 0.; phi < 2 * M_PI; phi += M_PI / phir) { // Azimuth [0, 2M_PI]
+    for (double theta = 0.; theta < M_PI; theta += M_PI / thetar) { // Elevation [0, M_PI]
+
+      x.push_back(r * cos(phi) * sin(theta) + centerx);
+      y.push_back(r * sin(phi) * sin(theta) + centery);
+      z.push_back(r * cos(theta) + centerz);
+
+    }
+  }
+
+  // output
+  return DataFrame::create(_["x"] = wrap(x), _["y"] = wrap(y), _["z"] = wrap(z));
 }
