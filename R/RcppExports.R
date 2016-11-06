@@ -45,7 +45,11 @@ rotate <- function(x, y, z, pivotx, pivoty, pivotz, degrx, degry, degrz) {
     .Call('recexcavAAR_rotate', PACKAGE = 'recexcavAAR', x, y, z, pivotx, pivoty, pivotz, degrx, degry, degrz)
 }
 
+<<<<<<< HEAD
 #' draw_sphere
+=======
+#' test
+>>>>>>> ff09ef2ed5ddcf539eb95ae862f98fa2df9ef136
 #'
 #' @description
 #' test
@@ -60,16 +64,20 @@ rotate <- function(x, y, z, pivotx, pivoty, pivotz, degrx, degry, degrz) {
 #' @return test
 #'
 #' @examples
+<<<<<<< HEAD
 #' s <- draw_sphere(1,1,1,3)
 #'
 #' library(rgl)
 #' plot3d(s)
+=======
+>>>>>>> ff09ef2ed5ddcf539eb95ae862f98fa2df9ef136
 #'
 #' @export
 draw_sphere <- function(centerx, centery, centerz, r, phires = 10L, thetares = 10L) {
     .Call('recexcavAAR_draw_sphere', PACKAGE = 'recexcavAAR', centerx, centery, centerz, r, phires, thetares)
 }
 
+<<<<<<< HEAD
 #' scale
 #'
 #' @description
@@ -100,6 +108,8 @@ scale <- function(x, y, z, scalex = 1, scaley = 1, scalez = 1) {
     .Call('recexcavAAR_scale', PACKAGE = 'recexcavAAR', x, y, z, scalex, scaley, scalez)
 }
 
+=======
+>>>>>>> ff09ef2ed5ddcf539eb95ae862f98fa2df9ef136
 #' Fills hexahedrons with a regular point raster (3D)
 #'
 #' @description

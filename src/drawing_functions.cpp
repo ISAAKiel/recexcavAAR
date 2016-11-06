@@ -104,7 +104,11 @@ DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
   return DataFrame::create(_["x"] = res(_,0), _["y"] = res(_,1), _["z"] = res(_,2));
 }
 
+<<<<<<< HEAD
 //' draw_sphere
+=======
+//' test
+>>>>>>> ff09ef2ed5ddcf539eb95ae862f98fa2df9ef136
 //'
 //' @description
 //' test
@@ -119,10 +123,13 @@ DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
 //' @return test
 //'
 //' @examples
+<<<<<<< HEAD
 //' s <- draw_sphere(1,1,1,3)
 //'
 //' library(rgl)
 //' plot3d(s)
+=======
+>>>>>>> ff09ef2ed5ddcf539eb95ae862f98fa2df9ef136
 //'
 //' @export
 // [[Rcpp::export]]
@@ -149,6 +156,7 @@ DataFrame draw_sphere(float centerx, float centery, float centerz,
 
   // output
   return DataFrame::create(_["x"] = wrap(x), _["y"] = wrap(y), _["z"] = wrap(z));
+<<<<<<< HEAD
 }
 
 //' scale
@@ -189,4 +197,6 @@ DataFrame scale(NumericVector x, NumericVector y, NumericVector z,
 
   // output
   return DataFrame::create(_["x"] = res(_, 0), _["y"] = res(_, 1), _["z"] = res(_ ,2));
+=======
+>>>>>>> ff09ef2ed5ddcf539eb95ae862f98fa2df9ef136
 }

@@ -2,7 +2,11 @@
 % Please edit documentation in R/RcppExports.R
 \name{draw_circle}
 \alias{draw_circle}
+<<<<<<< HEAD:man/draw_circle.Rd
 \title{draw_circle}
+=======
+\title{test}
+>>>>>>> ff09ef2ed5ddcf539eb95ae862f98fa2df9ef136:man/draw_circle.Rd
 \usage{
 draw_circle(centerx, centery, centerz, radius, resolution)
 }

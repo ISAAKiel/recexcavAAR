@@ -2,7 +2,11 @@
 % Please edit documentation in R/RcppExports.R
 \name{draw_sphere}
 \alias{draw_sphere}
+<<<<<<< HEAD
 \title{draw_sphere}
+=======
+\title{test}
+>>>>>>> ff09ef2ed5ddcf539eb95ae862f98fa2df9ef136
 \usage{
 draw_sphere(centerx, centery, centerz, r, phires = 10L, thetares = 10L)
 }
@@ -16,10 +20,13 @@ test
 test
 }
 \examples{
+<<<<<<< HEAD
 s <- draw_sphere(1,1,1,3)
 
 library(rgl)
 plot3d(s)
+=======
+>>>>>>> ff09ef2ed5ddcf539eb95ae862f98fa2df9ef136
 
 }
 
