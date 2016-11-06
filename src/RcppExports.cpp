@@ -55,7 +55,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-<<<<<<< HEAD
 // scale
 DataFrame scale(NumericVector x, NumericVector y, NumericVector z, float scalex, float scaley, float scalez);
 RcppExport SEXP recexcavAAR_scale(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP scalexSEXP, SEXP scaleySEXP, SEXP scalezSEXP) {
@@ -72,8 +71,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-=======
->>>>>>> ff09ef2ed5ddcf539eb95ae862f98fa2df9ef136
 // fillhexa
 DataFrame fillhexa(DataFrame hex, double res);
 RcppExport SEXP recexcavAAR_fillhexa(SEXP hexSEXP, SEXP resSEXP) {
