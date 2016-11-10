@@ -5,24 +5,36 @@
 
 using namespace Rcpp;
 
-//' draw_circle
+//' Draws a circular point cloud (3D)
 //'
 //' @description
-//' test
+//' Draws a 2D circle on x- and y-plane around a center point in 3D space.
 //'
-//' @param centerx
-//' @param centery
-//' @param centerz
-//' @param radius
-//' @param resolution
+//' @param centerx x axis value of circle center point
+//' @param centery y axis value of circle center point
+//' @param centerz z axis value of circle center point
+//' @param radius circle radius
+//' @param resolution amount of circle points (default = 30)
 //'
-//' @return test
+//' @return
+//' data.frame with the spatial coordinates of the resulting points
 //'
 //' @examples
+//' draw_circle(
+//'   centerx = 4,
+//'   centery = 5,
+//'   centerz = 1,
+//'   radius = 3,
+//'   resolution = 20
+//' )
+//'
+//' circ <- draw_circle(1,2,3,2)
+//'
+//' plot(circ$x, circ$y)
 //'
 //' @export
 // [[Rcpp::export]]
-DataFrame draw_circle(float centerx, float centery, float centerz, float radius, int resolution) {
+DataFrame draw_circle(float centerx, float centery, float centerz, float radius, int resolution = 30) {
 
   int pnum = resolution;
   double rotation = 2 * M_PI / pnum;
@@ -39,30 +51,47 @@ DataFrame draw_circle(float centerx, float centery, float centerz, float radius,
   return DataFrame::create(_["x"] = res(_,0), _["y"] = res(_,1), _["z"] = res(_,2));
 }
 
-//' rotate
+//' Rotate a point cloud around a pivot point (3D)
 //'
 //' @description
-//' test
+//' Rotate a point cloud around a defined pivot point by defined angles. The default
+//' rotation angle around each axis is zero and the default pivot point is the center
+//' point of the point cloud (defined by mean())
 //'
-//' @param x
-//' @param y
-//' @param z
-//' @param pivotx
-//' @param pivoty
-//' @param pivotz
-//' @param degrx
-//' @param degry
-//' @param degrz
+//' @param x vector of x axis values of rotation point cloud
+//' @param y vector of y axis values of rotation point cloud
+//' @param z vector of z axis values of rotation point cloud
+//' @param degrx rotation angle around x axis in degree (default = 0)
+//' @param degry rotation angle around y axis in degree (default = 0)
+//' @param degrz rotation angle around z axis in degree (default = 0)
+//' @param pivotx x axis value of pivot point (default = mean(x))
+//' @param pivoty y axis value of pivot point (default = mean(y))
+//' @param pivotz z axis value of pivot point (default = mean(z))
 //'
-//' @return test
+//' @return
+//' data.frame with the spatial coordinates of the resulting points
 //'
 //' @examples
+//' circ <- draw_circle(1,2,3,4)
+//'
+//' plot(circ$x, circ$y)
+//'
+//' rotcirc <- rotate(circ$x, circ$y, circ$z, degrx = 45)
+//'
+//' plot(rotcirc$x, rotcirc$y)
 //'
 //' @export
 // [[Rcpp::export]]
 DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
-                 float pivotx, float pivoty, float pivotz,
-                 float degrx, float degry, float degrz)  {
+                 float degrx = 0.0, float degry = 0.0, float degrz = 0.0,
+                 float pivotx = NA_REAL, float pivoty = NA_REAL, float pivotz = NA_REAL)  {
+
+  // check for pivot point values
+  // (ugly hack to use is_na)
+  NumericVector pivot =  NumericVector::create(pivotx, pivoty, pivotz);
+  if (NumericVector::is_na(pivot(0))) { pivotx = mean(x); }
+  if (NumericVector::is_na(pivot(1))) { pivoty = mean(y); }
+  if (NumericVector::is_na(pivot(2))) { pivotz = mean(z); }
 
   int num = x.length();
 
@@ -109,20 +138,20 @@ DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
 //' @description
 //' test
 //'
-//' @param centerx
-//' @param centery
-//' @param centerz
-//' @param r
-//' @param phires
-//' @param thetares
+//' @param centerx test
+//' @param centery test
+//' @param centerz test
+//' @param r test
+//' @param phires test
+//' @param thetares test
 //'
 //' @return test
 //'
 //' @examples
 //' s <- draw_sphere(1,1,1,3)
 //'
-//' library(rgl)
-//' plot3d(s)
+//' #library(rgl)
+//' #plot3d(s)
 //'
 //' @export
 // [[Rcpp::export]]
@@ -156,25 +185,25 @@ DataFrame draw_sphere(float centerx, float centery, float centerz,
 //' @description
 //' test
 //'
-//' @param x
-//' @param y
-//' @param z
-//' @param scalex
-//' @param scaley
-//' @param scalez
+//' @param x test
+//' @param y test
+//' @param z test
+//' @param scalex test
+//' @param scaley test
+//' @param scalez test
 //'
 //' @return test
 //'
 //' @examples
 //' s <- draw_sphere(1,1,1,3)
 //'
-//' library(rgl)
-//' plot3d(s)
+//' #library(rgl)
+//' #plot3d(s)
 //'
 //' s2 <- scale(s$x, s$y, s$z, scalex = 4, scalez = 5)
 //'
-//' library(rgl)
-//' plot3d(s2)
+//' #library(rgl)
+//' #plot3d(s2)
 //'
 //' @export
 // [[Rcpp::export]]

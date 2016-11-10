@@ -2,20 +2,39 @@
 % Please edit documentation in R/RcppExports.R
 \name{draw_circle}
 \alias{draw_circle}
-\title{draw_circle}
+\title{Draws a circular point cloud (3D)}
 \usage{
-draw_circle(centerx, centery, centerz, radius, resolution)
+draw_circle(centerx, centery, centerz, radius, resolution = 30L)
 }
 \arguments{
-\item{resolution}{}
+\item{centerx}{x axis value of circle center point}
+
+\item{centery}{y axis value of circle center point}
+
+\item{centerz}{z axis value of circle center point}
+
+\item{radius}{circle radius}
+
+\item{resolution}{amount of circle points (default = 30)}
 }
 \value{
-test
+data.frame with the spatial coordinates of the resulting points
 }
 \description{
-test
+Draws a 2D circle on x- and y-plane around a center point in 3D space.
 }
 \examples{
+draw_circle(
+  centerx = 4,
+  centery = 5,
+  centerz = 1,
+  radius = 3,
+  resolution = 20
+)
+
+circ <- draw_circle(1,2,3,2)
+
+plot(circ$x, circ$y)
 
 }
 

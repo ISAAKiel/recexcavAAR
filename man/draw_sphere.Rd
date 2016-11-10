@@ -7,7 +7,17 @@
 draw_sphere(centerx, centery, centerz, r, phires = 10L, thetares = 10L)
 }
 \arguments{
-\item{thetares}{}
+\item{centerx}{test}
+
+\item{centery}{test}
+
+\item{centerz}{test}
+
+\item{r}{test}
+
+\item{phires}{test}
+
+\item{thetares}{test}
 }
 \value{
 test
@@ -18,8 +28,8 @@ test
 \examples{
 s <- draw_sphere(1,1,1,3)
 
-library(rgl)
-plot3d(s)
+#library(rgl)
+#plot3d(s)
 
 }
 

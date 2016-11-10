@@ -7,7 +7,17 @@
 scale(x, y, z, scalex = 1, scaley = 1, scalez = 1)
 }
 \arguments{
-\item{scalez}{}
+\item{x}{test}
+
+\item{y}{test}
+
+\item{z}{test}
+
+\item{scalex}{test}
+
+\item{scaley}{test}
+
+\item{scalez}{test}
 }
 \value{
 test
@@ -18,13 +28,13 @@ test
 \examples{
 s <- draw_sphere(1,1,1,3)
 
-library(rgl)
-plot3d(s)
+#library(rgl)
+#plot3d(s)
 
 s2 <- scale(s$x, s$y, s$z, scalex = 4, scalez = 5)
 
-library(rgl)
-plot3d(s2)
+#library(rgl)
+#plot3d(s2)
 
 }
 

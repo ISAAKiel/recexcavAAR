@@ -21,21 +21,21 @@ BEGIN_RCPP
 END_RCPP
 }
 // rotate
-DataFrame rotate(NumericVector x, NumericVector y, NumericVector z, float pivotx, float pivoty, float pivotz, float degrx, float degry, float degrz);
-RcppExport SEXP recexcavAAR_rotate(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP pivotxSEXP, SEXP pivotySEXP, SEXP pivotzSEXP, SEXP degrxSEXP, SEXP degrySEXP, SEXP degrzSEXP) {
+DataFrame rotate(NumericVector x, NumericVector y, NumericVector z, float degrx, float degry, float degrz, float pivotx, float pivoty, float pivotz);
+RcppExport SEXP recexcavAAR_rotate(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP degrxSEXP, SEXP degrySEXP, SEXP degrzSEXP, SEXP pivotxSEXP, SEXP pivotySEXP, SEXP pivotzSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
-    Rcpp::traits::input_parameter< float >::type pivotx(pivotxSEXP);
-    Rcpp::traits::input_parameter< float >::type pivoty(pivotySEXP);
-    Rcpp::traits::input_parameter< float >::type pivotz(pivotzSEXP);
     Rcpp::traits::input_parameter< float >::type degrx(degrxSEXP);
     Rcpp::traits::input_parameter< float >::type degry(degrySEXP);
     Rcpp::traits::input_parameter< float >::type degrz(degrzSEXP);
-    rcpp_result_gen = Rcpp::wrap(rotate(x, y, z, pivotx, pivoty, pivotz, degrx, degry, degrz));
+    Rcpp::traits::input_parameter< float >::type pivotx(pivotxSEXP);
+    Rcpp::traits::input_parameter< float >::type pivoty(pivotySEXP);
+    Rcpp::traits::input_parameter< float >::type pivotz(pivotzSEXP);
+    rcpp_result_gen = Rcpp::wrap(rotate(x, y, z, degrx, degry, degrz, pivotx, pivoty, pivotz));
     return rcpp_result_gen;
 END_RCPP
 }
