@@ -133,30 +133,38 @@ DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
   return DataFrame::create(_["x"] = res(_,0), _["y"] = res(_,1), _["z"] = res(_,2));
 }
 
-//' draw_sphere
+//' Draws a spherical point cloud (3D)
 //'
 //' @description
-//' test
+//' Draws a sphere around a center point in 3D space.
 //'
-//' @param centerx test
-//' @param centery test
-//' @param centerz test
-//' @param r test
-//' @param phires test
-//' @param thetares test
+//' @param centerx x axis value of sphere center point
+//' @param centery y axis value of sphere center point
+//' @param centerz z axis value of sphere center point
+//' @param radius sphere radius
+//' @param phires phi resolution (default = 10)
+//' @param thetares theta resolution (default = 10)
 //'
-//' @return test
+//' @return
+//' data.frame with the spatial coordinates of the resulting points
 //'
 //' @examples
-//' s <- draw_sphere(1,1,1,3)
+//' sphere <- draw_sphere(
+//'   centerx = 4,
+//'   centery = 5,
+//'   centerz = 1,
+//'   radius = 3,
+//'   phires = 20,
+//'   thetares = 20
+//' )
 //'
 //' #library(rgl)
-//' #plot3d(s)
+//' #plot3d(sphere)
 //'
 //' @export
 // [[Rcpp::export]]
 DataFrame draw_sphere(float centerx, float centery, float centerz,
-                      float r, int phires = 10, int thetares = 10)  {
+                      float radius, int phires = 10, int thetares = 10)  {
 
   double phir = (double) phires;
   double thetar = (double) thetares;
@@ -169,9 +177,9 @@ DataFrame draw_sphere(float centerx, float centery, float centerz,
   for (double phi = 0.; phi < 2 * M_PI; phi += M_PI / phir) { // Azimuth [0, 2M_PI]
     for (double theta = 0.; theta < M_PI; theta += M_PI / thetar) { // Elevation [0, M_PI]
 
-      x.push_back(r * cos(phi) * sin(theta) + centerx);
-      y.push_back(r * sin(phi) * sin(theta) + centery);
-      z.push_back(r * cos(theta) + centerz);
+      x.push_back(radius * cos(phi) * sin(theta) + centerx);
+      y.push_back(radius * sin(phi) * sin(theta) + centery);
+      z.push_back(radius * cos(theta) + centerz);
 
     }
   }
@@ -180,19 +188,20 @@ DataFrame draw_sphere(float centerx, float centery, float centerz,
   return DataFrame::create(_["x"] = wrap(x), _["y"] = wrap(y), _["z"] = wrap(z));
 }
 
-//' scale
+//' Scales a point cloud (3D)
 //'
 //' @description
-//' test
+//' Scales a 3D point cloud on every axis.
 //'
-//' @param x test
-//' @param y test
-//' @param z test
-//' @param scalex test
-//' @param scaley test
-//' @param scalez test
+//' @param x vector of x axis values of scale point cloud
+//' @param y vector of y axis values of scale point cloud
+//' @param z vector of z axis values of scale point cloud
+//' @param scalex scaling factor on x axis (default = 1)
+//' @param scaley scaling factor on y axis (default = 1)
+//' @param scalez scaling factor on z axis (default = 1)
 //'
-//' @return test
+//' @return
+//' data.frame with the spatial coordinates of the resulting points
 //'
 //' @examples
 //' s <- draw_sphere(1,1,1,3)

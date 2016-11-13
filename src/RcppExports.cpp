@@ -40,18 +40,18 @@ BEGIN_RCPP
 END_RCPP
 }
 // draw_sphere
-DataFrame draw_sphere(float centerx, float centery, float centerz, float r, int phires, int thetares);
-RcppExport SEXP recexcavAAR_draw_sphere(SEXP centerxSEXP, SEXP centerySEXP, SEXP centerzSEXP, SEXP rSEXP, SEXP phiresSEXP, SEXP thetaresSEXP) {
+DataFrame draw_sphere(float centerx, float centery, float centerz, float radius, int phires, int thetares);
+RcppExport SEXP recexcavAAR_draw_sphere(SEXP centerxSEXP, SEXP centerySEXP, SEXP centerzSEXP, SEXP radiusSEXP, SEXP phiresSEXP, SEXP thetaresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< float >::type centerx(centerxSEXP);
     Rcpp::traits::input_parameter< float >::type centery(centerySEXP);
     Rcpp::traits::input_parameter< float >::type centerz(centerzSEXP);
-    Rcpp::traits::input_parameter< float >::type r(rSEXP);
+    Rcpp::traits::input_parameter< float >::type radius(radiusSEXP);
     Rcpp::traits::input_parameter< int >::type phires(phiresSEXP);
     Rcpp::traits::input_parameter< int >::type thetares(thetaresSEXP);
-    rcpp_result_gen = Rcpp::wrap(draw_sphere(centerx, centery, centerz, r, phires, thetares));
+    rcpp_result_gen = Rcpp::wrap(draw_sphere(centerx, centery, centerz, radius, phires, thetares));
     return rcpp_result_gen;
 END_RCPP
 }

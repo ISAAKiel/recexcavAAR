@@ -2,28 +2,28 @@
 % Please edit documentation in R/RcppExports.R
 \name{scale}
 \alias{scale}
-\title{scale}
+\title{Scales a point cloud (3D)}
 \usage{
 scale(x, y, z, scalex = 1, scaley = 1, scalez = 1)
 }
 \arguments{
-\item{x}{test}
+\item{x}{vector of x axis values of scale point cloud}
 
-\item{y}{test}
+\item{y}{vector of y axis values of scale point cloud}
 
-\item{z}{test}
+\item{z}{vector of z axis values of scale point cloud}
 
-\item{scalex}{test}
+\item{scalex}{scaling factor on x axis (default = 1)}
 
-\item{scaley}{test}
+\item{scaley}{scaling factor on y axis (default = 1)}
 
-\item{scalez}{test}
+\item{scalez}{scaling factor on z axis (default = 1)}
 }
 \value{
-test
+data.frame with the spatial coordinates of the resulting points
 }
 \description{
-test
+Scales a 3D point cloud on every axis.
 }
 \examples{
 s <- draw_sphere(1,1,1,3)

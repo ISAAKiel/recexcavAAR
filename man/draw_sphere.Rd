@@ -2,34 +2,41 @@
 % Please edit documentation in R/RcppExports.R
 \name{draw_sphere}
 \alias{draw_sphere}
-\title{draw_sphere}
+\title{Draws a spherical point cloud (3D)}
 \usage{
-draw_sphere(centerx, centery, centerz, r, phires = 10L, thetares = 10L)
+draw_sphere(centerx, centery, centerz, radius, phires = 10L, thetares = 10L)
 }
 \arguments{
-\item{centerx}{test}
+\item{centerx}{x axis value of sphere center point}
 
-\item{centery}{test}
+\item{centery}{y axis value of sphere center point}
 
-\item{centerz}{test}
+\item{centerz}{z axis value of sphere center point}
 
-\item{r}{test}
+\item{radius}{sphere radius}
 
-\item{phires}{test}
+\item{phires}{phi resolution (default = 10)}
 
-\item{thetares}{test}
+\item{thetares}{theta resolution (default = 10)}
 }
 \value{
-test
+data.frame with the spatial coordinates of the resulting points
 }
 \description{
-test
+Draws a sphere around a center point in 3D space.
 }
 \examples{
-s <- draw_sphere(1,1,1,3)
+sphere <- draw_sphere(
+  centerx = 4,
+  centery = 5,
+  centerz = 1,
+  radius = 3,
+  phires = 20,
+  thetares = 20
+)
 
 #library(rgl)
-#plot3d(s)
+#plot3d(sphere)
 
 }
 

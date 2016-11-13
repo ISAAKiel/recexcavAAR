@@ -67,44 +67,53 @@ rotate <- function(x, y, z, degrx = 0.0, degry = 0.0, degrz = 0.0, pivotx = NA_r
     .Call('recexcavAAR_rotate', PACKAGE = 'recexcavAAR', x, y, z, degrx, degry, degrz, pivotx, pivoty, pivotz)
 }
 
-#' draw_sphere
+#' Draws a spherical point cloud (3D)
 #'
 #' @description
-#' test
+#' Draws a sphere around a center point in 3D space.
 #'
-#' @param centerx test
-#' @param centery test
-#' @param centerz test
-#' @param r test
-#' @param phires test
-#' @param thetares test
+#' @param centerx x axis value of sphere center point
+#' @param centery y axis value of sphere center point
+#' @param centerz z axis value of sphere center point
+#' @param radius sphere radius
+#' @param phires phi resolution (default = 10)
+#' @param thetares theta resolution (default = 10)
 #'
-#' @return test
+#' @return
+#' data.frame with the spatial coordinates of the resulting points
 #'
 #' @examples
-#' s <- draw_sphere(1,1,1,3)
+#' sphere <- draw_sphere(
+#'   centerx = 4,
+#'   centery = 5,
+#'   centerz = 1,
+#'   radius = 3,
+#'   phires = 20,
+#'   thetares = 20
+#' )
 #'
 #' #library(rgl)
-#' #plot3d(s)
+#' #plot3d(sphere)
 #'
 #' @export
-draw_sphere <- function(centerx, centery, centerz, r, phires = 10L, thetares = 10L) {
-    .Call('recexcavAAR_draw_sphere', PACKAGE = 'recexcavAAR', centerx, centery, centerz, r, phires, thetares)
+draw_sphere <- function(centerx, centery, centerz, radius, phires = 10L, thetares = 10L) {
+    .Call('recexcavAAR_draw_sphere', PACKAGE = 'recexcavAAR', centerx, centery, centerz, radius, phires, thetares)
 }
 
-#' scale
+#' Scales a point cloud (3D)
 #'
 #' @description
-#' test
+#' Scales a 3D point cloud on every axis.
 #'
-#' @param x test
-#' @param y test
-#' @param z test
-#' @param scalex test
-#' @param scaley test
-#' @param scalez test
+#' @param x vector of x axis values of scale point cloud
+#' @param y vector of y axis values of scale point cloud
+#' @param z vector of z axis values of scale point cloud
+#' @param scalex scaling factor on x axis (default = 1)
+#' @param scaley scaling factor on y axis (default = 1)
+#' @param scalez scaling factor on z axis (default = 1)
 #'
-#' @return test
+#' @return
+#' data.frame with the spatial coordinates of the resulting points
 #'
 #' @examples
 #' s <- draw_sphere(1,1,1,3)
