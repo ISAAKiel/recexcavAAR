@@ -16,7 +16,7 @@ First we need to load recexcavAAR and some external packages:
 
 ```{r, message=FALSE}
 library(devtools)
-devtools::load_all() # in your script: library(recexcavAAR)
+library(recexcavAAR)
 library(kriging)
 library(rgl)
 ```
@@ -48,12 +48,12 @@ edgesordered = rbind(
 )
 ```
 
-```{r}
+```{r, echo=FALSE, results="hide"}
 # avoid plotting in X11 window
 open3d(useNULL = TRUE)
 ```
 
-```{r fig.width=7, fig.height=5}
+```{r}
 plot3d(
   edgesordered$x, edgesordered$y, edgesordered$z,
   type="l",
@@ -68,7 +68,9 @@ bbox3d(
   yat = c(10, 12, 14, 16, 18),
   zat = c(8.5, 9, 9.5)
 )
+```
 
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
 ```
 
@@ -87,9 +89,9 @@ for (i in 1:length(spitnames)){
 
 Let's apply kriging with `recexcavAAR::kriglist`, transform the result with `recexcavAAR::spatialwide` and add the surfaces to the plot. 
 
-```{r fig.width=7, fig.height=5}
+```{r}
 # I had to choose a very low pixel value to keep the vignette small enough 
-maps <- kriglist(splist, x = 2, y = 3, z = 4, lags = 3, model = "spherical", pixels = 20)
+maps <- kriglist(splist, x = 2, y = 3, z = 4, lags = 3, model = "spherical", pixels = 30)
 
 surf <- list()
 for (i in 1:length(maps)) {
@@ -105,9 +107,13 @@ for (i in 1:length(surf)) {
     add = TRUE
   )
 }
+```
 
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
+```
 
+```{r}
 # remove surfaces from plot
 for (i in 1:length(idvec)) {
   rgl.pop(id = idvec[i])
@@ -116,7 +122,7 @@ for (i in 1:length(idvec)) {
 
 Hm... ok. But the surfaces extend beyond the surfaces of the trench... We can use `recexcavAAR::pnpmulti` to decide which points of the kriging result are within the trench polygon. Then we can remove the others and plot the result again.
 
-```{r fig.width=7, fig.height=5}
+```{r}
 for (i in 1:length(maps)) {
   rem <- recexcavAAR::pnpmulti(edges$x[1:4], edges$y[1:4], maps[[i]]$x, maps[[i]]$y)
   maps[[i]] <- maps[[i]][rem, ]
@@ -135,15 +141,17 @@ for (i in 1:length(surf)) {
     add = TRUE
   )
 }
+```
 
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
 ```
 
 Now to the actual task: During the excavation we found a lot of pottery from all over the trench. Many of the individual sherds fit together -- it's possible to reconstruct complete vessels. We would like to visualize how the sherds of one particular vessel are distributed. The spatial information for this vessel is stored in the dataset `recexcavAAR::vessel`.
 
-Some of the sherds were considered special during the excavation and were therefore measured individualy (Inv. Nr. *"KTF_..."*).
+Some of the sherds were considered special during the excavation and were therefore measured individualy (Inventar Number *"KTF_..."*).
 
-```{r fig.width=7, fig.height=5}
+```{r}
 ve <- KT_vessel
 vesselsingle <- ve[grep("KTF", ve$inv), ]
 
@@ -153,7 +161,9 @@ points3d(
   size = 8, 
   add = TRUE
 )
+```
 
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
 ```
 
@@ -203,22 +213,26 @@ sqcdf <- do.call(rbind.data.frame, sqcenters)
 
 Let's plot all of them for once. 
 
-```{r fig.width=7, fig.height=5}
+```{r}
 completeraster <- points3d(
   sqcdf$x, sqcdf$y, sqcdf$z,
   col = "darkgreen",
   add = TRUE
 )
+```
 
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
+```
 
+```{r}
 # remove point raster from plot
 rgl.pop(id = completeraster)
 ```
 
 Finally we can merge the info about the vessel sherds in `vesselmass` with the new list of square center points `sqcdf`. Now we can plot single find sherds and mass find sherds together.
 
-```{r fig.width=7, fig.height=5, warning=FALSE}
+```{r warning=FALSE}
 vmsq <- merge(vesselmass[, 1:4], sqcdf, by = c("square", "spit"), all.x = TRUE)
 
 vesselm <- vmsq[complete.cases(vmsq), ]
@@ -229,6 +243,8 @@ points3d(
   size = 8, 
   add = TRUE
 )
+```
 
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
 ```
