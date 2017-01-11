@@ -1,0 +1,93 @@
+---
+title: "recexcavAAR: Vignette >>Transforming Coordinates<<"
+author: "Benjamin Serbe"
+date: "Januar 2017"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This vignette gives an overview on the topic of 2D-Coordinate Transforming with the in recexcevARR implemented *cootrans-*function.
+
+
+##Background
+
+In archaeology you often have to deal with data acquired in an era before DGPS and tacheometry became the common surveying method. Even today some excavations use the traditional methods. These Data are mostly recorded in local defined grids which are often not suitable for mapping in Geographic Information Systems.  
+The *cootrans-*funtion provides a method to transform a set of local acquired coordinates into projected ones under given circumstances. 
+
+
+##Requirements
+
+This transformation method works only if you have at least two pairs of coordinates of which you know the local and the projected coordinates. Note that these coordinates have to be projected not geographic^1^. 
+
+
+##Limitations
+
+* This transformation method provides a two-dimensional transformation so only X- and Y-values will be calculated.
+* This method is **not** suitable for datum transformations (e.g. converting from UTM to national grids).
+
+
+##Example: A Simple transformation
+
+First load the recexcavARR package:
+
+```{r, message=FALSE}
+library(recexcavAAR)
+```
+
+For this example we use a simple dataset. At first we have the data of the inital surveying with the three major mesuring point placed by the surveyor. These are our **projected coordinates** (in this example UTM-coordinates).
+
+```{r}
+proj <- data.frame(
+	X = c(578171.033, 578168.680, 578178.780),
+	Y = c(6017854.028, 6017859.595, 6017856.277)
+)
+```
+
+After we constructed our own local grid, we add the corresponding local coordinates to the projected ones.
+
+```{r}
+coord <- data.frame(
+	proj,
+	E = c(1, 1, 9),
+	N = c(1, 7, 0)
+)
+```
+This is the data table we need to sucessfully perform a transformation for all local coordinates we acquire throughout the excavation. 
+
+Now we add some data e.g. the corners of our excavation trench or the artifacts we excavated. 
+
+```{r}
+measured_points <- data.frame(
+	E = c(1,6,1,6),
+	N = c(3,3,5,5),
+	point = c("corner1", "corner2", "corner3", "corner4")
+)
+```
+
+And now let's use the *cootrans-*function to calculate the UTM-coordinates of our trench corners.
+
+```{r}
+absolute_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2))
+```
+The first parameter in this function is our data.frame for the transformation. The dirctional shifts, rotation arcs and the scale will be calculated from these information.  
+The second parameter is a vector of the column indices for our transform table in the specific order: 
+1. the local x-value (east-value)
+2. the local y-value (north-value)
+3. the projected x-value (east-value)
+4. the projected y-value (north-value)  
+The third parameter is the data.frame with our measured local coordinates.  
+Our last parameter is a vector of the column indices of our dataset in order:
+1. the local x-value (east-value)
+2. the local y-value (north-value)  
+
+The *cootrans-*function returns the original data.frame with two addional columns with the calculated projected coordinates. 
+
+```{r}
+measured_points
+```
+
+
+^1^ For those who are not so familiar with these terms: projected coordinates use a grid system such as UTM. Geografic coordinates are e.g. "lon-lat"-coordinates. 
