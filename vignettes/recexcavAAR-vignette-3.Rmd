@@ -75,13 +75,15 @@ absolute_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2))
 The first parameter in this function is our data.frame for the transformation. The dirctional shifts, rotation arcs and the scale will be calculated from these information.  
 The second parameter is a vector of the column indices for our transform table in the specific order: 
 
+
 1. the local x-value (east-value)  
 2. the local y-value (north-value)  
 3. the projected x-value (east-value)  
 4. the projected y-value (north-value)  
 
 The third parameter is the data.frame with our measured local coordinates.  
-Our last parameter is a vector of the column indices of our dataset in order:  
+Our last parameter is a vector of the column indices of our dataset in order:
+
 1. the local x-value (east-value)  
 2. the local y-value (north-value)  
 
