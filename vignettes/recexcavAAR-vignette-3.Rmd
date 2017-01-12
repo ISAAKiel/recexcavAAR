@@ -25,7 +25,7 @@ This transformation method works only if you have at least two pairs of coordina
 
 ##Limitations
 
-* This transformation method provides a two-dimensional transformation so only X- and Y-values will be calculated.
+* This transformation method provides a two-dimensional transformation so only X- and Y-values will be calculated (4-Parameter-Helmert-Transformation).
 * This method is **not** suitable for datum transformations (e.g. converting from UTM to national grids).
 
 
@@ -92,10 +92,10 @@ Our last parameter is a vector of the column indices of our dataset in order:
 
 
 
-The *cootrans-*function returns the original data.frame with two additional columns with the calculated projected coordinates and information about the transforation
+The *cootrans-*function returns the original data.frame with two additional columns with the calculated projected coordinates and shows information about the transforation.
 
 
-In this case we an addtional warning message of high deviations within the calculation. The most likely mistake is the incorrect assignement of local and corresponding projected coordinates. This does not have to be the reason for the triggered warning message, because the internal control mechanism is rather strict. But to check the case of incorrectly defined points we can use the additional parameter "checking".
+In this case we get a addtional warning message of high deviations within the calculation. The most likely mistake is the incorrect assignement of local and corresponding projected coordinates. This does not have to be the reason for the triggered warning message because the internal control mechanism is rather strict. But to check the case of incorrectly defined points we can use the additional parameter "checking" which is set `FALSE` by default.
 
 ```{r, message=FALSE}
 absolute_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2), checking = TRUE)
@@ -111,11 +111,12 @@ coord <- data.frame(
 	Y = c(1, 7, 0)
 )
 ```
-In this case we only interchanged the Y-value of the first and second coordinate. After running the *cootrans*-function for the second time
+As shown we only interchanged the Y-value of the first and second coordinate. After running the *cootrans*-function for the second time ...
 ```{r}
 absolute_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2))
 ```
-everything seems fine. No warning messages pops up. 
+... everything seems fine. No warning messages pop up.  
+At this point we can proceed with further analyses of our now georeferenced spatial data.  
 
 ***
 **Attention!**  
