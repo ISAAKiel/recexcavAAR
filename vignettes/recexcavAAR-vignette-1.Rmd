@@ -18,7 +18,7 @@ First we need to load recexcavAAR and some external packages:
 
 ```{r, message=FALSE}
 library(devtools)
-devtools::load_all() # in your script: library(recexcavAAR)
+library(recexcavAAR)
 library(dplyr)
 library(kriging)
 library(magrittr)
@@ -37,12 +37,12 @@ edges <- data.frame(
 
 We can plot the corner points of this trench with `rgl::plot3d`:
 
-```{r}
+```{r, echo=FALSE, results="hide"}
 # avoid plotting in X11 window
 open3d(useNULL = TRUE)
 ```
 
-```{r fig.width=7, fig.height=5}
+```{r}
 plot3d(
   edges$x, edges$y, edges$z,
   type="s",
@@ -56,7 +56,9 @@ bbox3d(
   yat = c(0, 0.5, 1),
   zat = c(0, 0.5, 1, 1.5, 2)
 )
+```
 
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
 ```
 
@@ -78,7 +80,7 @@ df2 <- data.frame(
 
 Looks complicated? Becomes pretty simple when we look at an other plot. For this one we add the points to the previous plot object by calling `rgl::points3d`.
 
-```{r fig.width=7, fig.height=5}
+```{r}
 points3d(
   df1$x, df1$y, df1$z,
   col = "darkgreen",
@@ -90,7 +92,9 @@ points3d(
   col = "blue",
   add = TRUE
 )
+```
 
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
 ```
 
@@ -111,7 +115,7 @@ surf2 <- spatialwide(maps[[2]]$x, maps[[2]]$y, maps[[2]]$pred, 3)
 
 After the transformation ``rgl`` can visualize the generated surfaces.
 
-```{r fig.width=7, fig.height=5}
+```{r}
 surface3d(
   surf1$x, surf1$y, t(surf1$z),
   color = c("black", "white"),
@@ -125,7 +129,9 @@ surface3d(
   alpha = 0.5,
   add = TRUE
 )
+```
 
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
 ```
 
@@ -145,13 +151,16 @@ Now we can fill the shape with an equidistant three dimensional point raster usi
 cx = fillhexa(hexatestdf, 0.1)
 ```
 
-```{r fig.width=7, fig.height=5}
+```{r}
 completeraster <- points3d(
   cx$x, cx$y, cx$z,
   col = "red",
   add = TRUE
 )
 
+```
+
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
 
 # remove point raster from plot
@@ -160,7 +169,7 @@ rgl.pop(id = completeraster)
 
 Damn! This spit penetrates both reconstructed surfaces. We should try to determine how his volume is distributed among the three major horizons of our trench. For this purpose we apply `recexcavAAR::posdeclist` (there's also `recexcavAAR::posdec` to apply this to just one data.frame). It makes a position decision for every point of the artificial point raster we created with `recexcavAAR::fillhexa`.
 
-```{r fig.width=7, fig.height=5}
+```{r}
 cuberasterlist <- list(cx)
 
 crlist <- posdeclist(cuberasterlist, maps)
@@ -199,7 +208,9 @@ points3d(
   col = "green",
   add = TRUE
 )
+```
 
+```{r, echo=FALSE, fig.width=7, fig.height=5}
 rglwidget()
 ```
 
