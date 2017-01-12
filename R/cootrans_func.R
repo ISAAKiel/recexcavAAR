@@ -9,6 +9,7 @@
 #' @param pm_column vector with numerical index of the columns in order: local x-value, local y-value, absolute x-value, absolute y-value
 #' @param data_matrix data.frame with local x- and y-values which schould be transformed.
 #' @param dm_column vector with numerical index of the columns in order: local x-value, local y-value.
+#' @param checking=FALSE boolean wether the checking function is activated. If TRUE two coordinate plots with genereted with indexed points. returns the function to FALSE.
 #'
 #' @return Original data.frame with additional columns containing the absolute x- and y-coordinates.
 #'
@@ -32,7 +33,7 @@
 #'
 
 
-cootrans <- function(pair_matrix, pm_column, data_matrix, dm_column){
+cootrans <- function(pair_matrix, pm_column, data_matrix, dm_column, checking=FALSE){
 
   # 0. initial stuff
   # 0.1 define vector calculation function
@@ -57,46 +58,76 @@ cootrans <- function(pair_matrix, pm_column, data_matrix, dm_column){
   tx_col <- dm_column[1]
   ty_col <- dm_column[2]
 
+  # 0.3 checking function
+  if (checking == TRUE){
+    nr <- c(1:length(pair_matrix[,1]))
+    index <- data.frame(
+      pair_matrix,
+      nr
+    )
 
-  # 1. get helmert parameters
-  # 1.1 calculate local and absolute centroid
-  sp_loc <- c(mean(pair_matrix[,Lx_col]), mean(pair_matrix[,Ly_col]))
-  sp_abs <- c(mean(pair_matrix[,Ax_col]), mean(pair_matrix[,Ay_col]))
+    plot(index[,Lx_col], index[,Ly_col],
+         main = "Local coordinates",
+         xlab = "Local x-value",
+         ylab = "Local y-value")
+    text(index[,Lx_col], index[,Ly_col],
+         labels = index$nr,
+         pos = 4
+         )
 
-  # 1.2 vector attributes
-  loc_v <- v_func(pair_matrix[,Lx_col], pair_matrix[,Ly_col], sp_loc)
-  abs_v <- v_func(pair_matrix[,Ax_col], pair_matrix[,Ay_col], sp_abs)
+    x11()
+    plot(index[,Ax_col],index[,Ay_col],
+         main = "Absolute coordinates",
+         xlab = "Absolute x-value",
+         ylab = "Absolute y-value")
+    text(index[,Ax_col], index[,Ay_col],
+         labels = index$nr,
+         pos = 4
+         )
+    return(FALSE)
 
-  # 1.3 Scalation
-  vec_m <- abs_v$m / loc_v$m
-  scale <- mean(vec_m[is.infinite(vec_m) == FALSE])
-  scale_std <- stats::sd(vec_m[is.infinite(vec_m) == FALSE])
+  } else{
 
-  # 1.4 rotation arc
-  vec_a <- (abs_v$alpha - loc_v$alpha) %% (2*pi)
-  alpha <- mean(vec_a[is.nan(vec_a) == FALSE])
-  alpha_std <- stats::sd(vec_a[is.nan(vec_a) == FALSE])
+    # 1. get helmert parameters
+    # 1.1 calculate local and absolute centroid
+    sp_loc <- c(mean(pair_matrix[,Lx_col]), mean(pair_matrix[,Ly_col]))
+    sp_abs <- c(mean(pair_matrix[,Ax_col]), mean(pair_matrix[,Ay_col]))
 
-  # 1.5 out print for checking transforamtion
-  writeLines(c("Transformation:\n local centroid:   ", toString(sp_loc),
-               "\n absolute centroid:", toString(sp_abs),
-               "\n scale:", toString(scale),
-               "\n roation arc:", toString((alpha*180)/pi)), sep = " ")
-  if ((alpha_std >= 0.1) | (scale_std >= 0.1)){
-    writeLines("\n\nWARNING: High deviations! Some coordinates may be mapped incorrectly.")
+    # 1.2 vector attributes
+    loc_v <- v_func(pair_matrix[,Lx_col], pair_matrix[,Ly_col], sp_loc)
+    abs_v <- v_func(pair_matrix[,Ax_col], pair_matrix[,Ay_col], sp_abs)
+
+    # 1.3 Scalation
+    vec_m <- abs_v$m / loc_v$m
+    scale <- mean(vec_m[is.infinite(vec_m) == FALSE])
+    scale_std <- stats::sd(vec_m[is.infinite(vec_m) == FALSE])
+
+    # 1.4 rotation arc
+    vec_a <- (abs_v$alpha - loc_v$alpha) %% (2*pi)
+    alpha <- mean(vec_a[is.nan(vec_a) == FALSE])
+    alpha_std <- stats::sd(vec_a[is.nan(vec_a) == FALSE])
+
+    # 1.5 out print for checking transforamtion
+    writeLines(c("Transformation:\n local centroid:   ", toString(sp_loc),
+                 "\n absolute centroid:", toString(sp_abs),
+                 "\n scale:", toString(scale),
+                 "\n roation arc:", toString((alpha*180)/pi)), sep = " ")
+    if ((alpha_std >= 0.1) | (scale_std >= 0.1)){
+      writeLines("\n\nWARNING: High deviations! Some coordinates may be mapped incorrectly.")
+    }
+
+    # 2. transformation
+    # 2.1 vector attributes
+    vs <- v_func(data_matrix[,tx_col], data_matrix[,ty_col], sp_loc)
+
+    # 2.2 calculating new coordinates
+    Ax <- ifelse(is.nan(vs$alpha), sp_abs[1], sp_abs[1] + scale * vs$m * sin((vs$alpha + alpha)))
+    Ay <- ifelse(is.nan(vs$alpha), sp_abs[2], sp_abs[2] + scale * vs$m * cos((vs$alpha + alpha)))
+
+
+    # 3. append data
+    out_frame <- data.frame(data_matrix, abs_x = Ax, abs_y = Ay)
+
+    return(out_frame)
+    }
   }
-
-  # 2. transformation
-  # 2.1 vector attributes
-  vs <- v_func(data_matrix[,tx_col], data_matrix[,ty_col], sp_loc)
-
-  # 2.2 calculating new coordinates
-  Ax <- ifelse(is.nan(vs$alpha), sp_abs[1], sp_abs[1] + scale * vs$m * sin((vs$alpha + alpha)))
-  Ay <- ifelse(is.nan(vs$alpha), sp_abs[2], sp_abs[2] + scale * vs$m * cos((vs$alpha + alpha)))
-
-
-  # 3. append data
-  out_frame <- data.frame(data_matrix, abs_x = Ax, abs_y = Ay)
-
-  return(out_frame)
-}
