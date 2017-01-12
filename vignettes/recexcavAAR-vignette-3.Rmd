@@ -41,8 +41,8 @@ For this example we use a simple dataset. At first we have the data of the initi
 
 ```{r}
 proj <- data.frame(
-	X = c(578171.033, 578168.680, 578178.780),
-	Y = c(6017854.028, 6017859.595, 6017856.277)
+	E = c(578171.033, 578168.680, 578178.780),
+	N = c(6017854.028, 6017859.595, 6017856.277)
 )
 ```
 
@@ -51,8 +51,8 @@ After we constructed our own local grid, we add the corresponding local coordina
 ```{r}
 coord <- data.frame(
 	proj,
-	E = c(1, 1, 9),
-	N = c(1, 7, 0)
+	X = c(1, 1, 9),
+	Y = c(7, 1, 0)
 )
 ```
 This is the data table we need to successfully perform a transformation for all local coordinates we acquire throughout the excavation. 
@@ -61,8 +61,8 @@ Now we add some data e.g. the corners of our excavation trench or the artifacts 
 
 ```{r}
 measured_points <- data.frame(
-	E = c(1,6,1,6),
-	N = c(3,3,5,5),
+	x = c(1,6,1,6),
+	Y = c(3,3,5,5),
 	point = c("corner1", "corner2", "corner3", "corner4")
 )
 ```
@@ -75,28 +75,55 @@ absolute_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2))
 The first parameter in this function is our data.frame for the transformation. The directional shifts, rotation arcs and the scale will be calculated from these information.  
 The second parameter is a vector of the column indices for our transform table in the specific order: 
 
+1. the local x-value (east-value)
 
-1. the local x-value (east-value)  
-2. the local y-value (north-value)  
-3. the projected x-value (east-value)  
+2. the local y-value (north-value)
+
+3. the projected x-value (east-value)
+
 4. the projected y-value (north-value)  
 
 The third parameter is the data.frame with our measured local coordinates.  
-<<<<<<< HEAD
-Our last parameter is a vector of the column indices of our dataset in order:
-=======
 Our last parameter is a vector of the column indices of our dataset in order:  
 
 1. the local x-value (east-value)
->>>>>>> eb7d2ecec33bb6bb2904d19674476f4181eb2e6f
 
-1. the local x-value (east-value)  
 2. the local y-value (north-value)  
 
 
 
-The *cootrans-*function returns the original data.frame with two additional columns with the calculated projected coordinates. 
+The *cootrans-*function returns the original data.frame with two additional columns with the calculated projected coordinates and information about the transforation
+
+
+In this case we an addtional warning message of high deviations within the calculation. The most likely mistake is the incorrect assignement of local and corresponding projected coordinates. This does not have to be the reason for the triggered warning message, because the internal control mechanism is rather strict. But to check the case of incorrectly defined points we can use the additional parameter "checking".
+
+```{r, message=FALSE}
+absolute_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2), checking = TRUE)
+```
+
+In this case the function will return a `FALSE`-value and display two plots in seperate windows. The first with the mapped local coordinates and the second with the mapped projected coordinates. Every survey point is labled with an index number of their row.  
+In this example we spot that the local point indices 1 and 2 are not corresponding with the projected ones. So they are likely mixed up. In this case we simply rebuild the transformation data.frame:
+
+```{r}
+coord <- data.frame(
+	proj,
+	X = c(1, 1, 9),
+	Y = c(1, 7, 0)
+)
+```
+In this case we only interchanged the Y-value of the first and second coordinate. After running the *cootrans*-function for the second time
+```{r}
+absolute_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2))
+```
+everything seems fine. No warning messages pops up. 
 
 ***
+**Attention!**  
+The warning message and checking parameter only work reasonable if there are **more than two** given coordinate pairs. In case of only two points and incorrect defined coordinates the algorithm will just turn all of the measured points by 180°. So always check your output!  
+Note that a warning message is also triggered in case you convert a survey with the parameters *one local unit* is not *one projected unit*^2^.
+***
 
-^1^ For those who are not familiar with these terms: projected coordinates use a grid system such as UTM. Geographic coordinates are e.g. "lon-lat"-coordinates. 
+
+***
+^1^ For those who are not familiar with these terms: projected coordinates use a grid system such as UTM. Geographic coordinates are e.g. "lon-lat"-coordinates.  
+^2^ In most projected coordinate systems *one projected unit* equals 1 metre
