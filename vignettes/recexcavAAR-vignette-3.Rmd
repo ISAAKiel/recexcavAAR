@@ -95,33 +95,40 @@ Our last parameter is a vector of the column indices of our dataset in order:
 The *cootrans-*function returns the original data.frame with two additional columns with the calculated projected coordinates and shows information about the transforation.
 
 
-In this case we get a addtional warning message of high deviations within the calculation. The most likely mistake is the incorrect assignement of local and corresponding projected coordinates. This does not have to be the reason for the triggered warning message because the internal control mechanism is rather strict. But to check the case of incorrectly defined points we can use the additional parameter "checking" which is set `FALSE` by default.
+In this case we get an addtional warning message of high deviations within the calculation. The most likely mistake is the incorrect assignement of local and corresponding projected coordinates. This does not have to be the reason for the triggered warning message because the internal control mechanism is rather strict. But to check the case of incorrectly defined points we can use the additional parameter "checking" which is set `FALSE` by default.
 
 ```{r, message=FALSE}
-absolute_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2), checking = TRUE)
+check_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2), checking = TRUE)
 ```
 
-In this case the function will return a `FALSE`-value and display two plots in seperate windows. The first with the mapped local coordinates and the second with the mapped projected coordinates. Every survey point is labled with an index number of their row.  
-In this example we spot that the local point indices 1 and 2 are not corresponding with the projected ones. So they are likely mixed up. In this case we simply rebuild the transformation data.frame:
+In this case the function will display a combined plot with the mapped local and projected coordinates. Every survey point is labled with an index number of their row.  
+Addtionally the function now returns our transformation table with the calculated scales and roation arcs (in degrees) for each pair of coordinates. If diplay our `check_data`, we will notice the scale of pair three seems fine. In both (local and absolute) grids, we use metres as units, so the scale schould be around `1`. The scale of point one and two do not match this assumption, also the rotations arcs differ too much.  
+In this example the plots and the `check_data` show that the local point indices 1 and 2 are not corresponding with the projected ones. So they are likely mixed up. In this case we simply rebuild the transformation data.frame:
 
 ```{r}
-coord <- data.frame(
+corr_coord <- data.frame(
 	proj,
 	X = c(1, 1, 9),
 	Y = c(1, 7, 0)
 )
 ```
-As shown we only interchanged the Y-value of the first and second coordinate. After running the *cootrans*-function for the second time ...
+As shown we only interchanged the Y-value of the first and second coordinate. Now we run the *cootrans*-function for the second time and check our transformation:
 ```{r}
-absolute_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2))
+check_data <- cootrans(corr_coord, c(3,4,1,2), measured_points, c(1,2), checking = TRUE)
 ```
-... everything seems fine. No warning messages pop up.  
+And everything seems fine. No warning message pops up and the `check_data` show all scales and rotaions arcs around the same values.  
+So now let's use the *cootrans*-function one last time to get our absolute data for the excavation trench corners. 
+
+```{r}
+absolute_data <- cootrans(corr_coord, c(3,4,1,2), measured_points, c(1,2))
+```
+
 At this point we can proceed with further analyses of our now georeferenced spatial data.  
 
 ***
 **Attention!**  
 The warning message and checking parameter only work reasonable if there are **more than two** given coordinate pairs. In case of only two points and incorrect defined coordinates the algorithm will just turn all of the measured points by 180°. So always check your output!  
-Note that a warning message is also triggered in case you convert a survey with the parameters *one local unit* is not *one projected unit*^2^.
+Note that a warning message is also triggered in case you convert a survey with the parameter *one local unit* is not *one projected unit*^2^.
 ***
 
 
