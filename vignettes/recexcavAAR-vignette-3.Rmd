@@ -9,13 +9,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignette gives an overview on the topic of 2D-Coordinate Transforming with the in recexcevARR implemented *cootrans-*function.
+This vignette gives an overview on the topic of 2D-Coordinate Transforming with the now in recexcevARR implemented *cootrans-*function.
 
 
 ##Background
 
-In archaeology you often have to deal with data acquired in an era before DGPS and tacheometry became the common surveying method. Even today some excavations use the traditional methods. These data are mostly recorded in local defined grids which are often not suitable for mapping in Geographic Information Systems.  
-The *cootrans-*function provides a method to transform a set of local acquired coordinates into projected ones under given circumstances. 
+In archaeology you often have to deal with data acquired in an era before DGPS and tacheometry became the common surveying method. Even today some excavations use the traditional methods. These data are mostly recorded in local defined grids which are often not suitable for mapping in Geographic Information Systems. The common method to solve that problem is moving and rotating the survey points by hand until they fit the reality.  
+The *cootrans-*function provides a method to transform a set of local acquired coordinates into projected ones under given circumstances using mathematical calculations. 
 
 
 ##Requirements
@@ -25,11 +25,11 @@ This transformation method works only if you have at least two pairs of coordina
 
 ##Limitations
 
-* This transformation method provides a two-dimensional transformation so only X- and Y-values will be calculated (4-Parameter-Helmert-Transformation).
+* This method provides a two-dimensional transformation so only X- and Y-values will be calculated (4-Parameter-Helmert-Transformation).
 * This method is **not** suitable for datum transformations (e.g. converting from UTM to national grids).
 
 
-##Example: A Simple transformation
+##Example: A simple transformation
 
 First load the recexcavARR package:
 
@@ -73,7 +73,7 @@ And now let's use the *cootrans-*function to calculate the UTM-coordinates of ou
 absolute_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2))
 ```
 The first parameter in this function is our data.frame for the transformation. The directional shifts, rotation arcs and the scale will be calculated from these information.  
-The second parameter is a vector of the column indices for our transform table in the specific order: 
+The second parameter is a vector of the column indices of our transformation table in the specific order: 
 
 1. the local x-value (east-value)
 
@@ -83,7 +83,7 @@ The second parameter is a vector of the column indices for our transform table i
 
 4. the projected y-value (north-value)  
 
-The third parameter is the data.frame with our measured local coordinates.  
+The third parameter is the data.frame with our measured local coordinates which should be transformed.  
 Our last parameter is a vector of the column indices of our dataset in order:  
 
 1. the local x-value (east-value)
@@ -92,18 +92,18 @@ Our last parameter is a vector of the column indices of our dataset in order:
 
 
 
-The *cootrans-*function returns the original data.frame with two additional columns with the calculated projected coordinates and shows information about the transforation.
+The *cootrans-*function returns the original data.frame with two additional columns with the calculated projected coordinates and shows information about the transformation.
 
 
 In this case we get an addtional warning message of high deviations within the calculation. The most likely mistake is the incorrect assignement of local and corresponding projected coordinates. This does not have to be the reason for the triggered warning message because the internal control mechanism is rather strict. But to check the case of incorrectly defined points we can use the additional parameter "checking" which is set `FALSE` by default.
 
-```{r, message=FALSE}
+```{r, message=FALSE, fig.width=7, fig.height=5}
 check_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2), checking = TRUE)
 ```
 
 In this case the function will display a combined plot with the mapped local and projected coordinates. Every survey point is labled with an index number of their row.  
-Addtionally the function now returns our transformation table with the calculated scales and roation arcs (in degrees) for each pair of coordinates. If diplay our `check_data`, we will notice the scale of pair three seems fine. In both (local and absolute) grids, we use metres as units, so the scale schould be around `1`. The scale of point one and two do not match this assumption, also the rotations arcs differ too much.  
-In this example the plots and the `check_data` show that the local point indices 1 and 2 are not corresponding with the projected ones. So they are likely mixed up. In this case we simply rebuild the transformation data.frame:
+Addtionally the function now returns our transformation table with the calculated scales and roation arcs (in degrees) for each pair of coordinates. If we display our `check_data`, we will notice the scale of pair three seems fine. In both (local and absolute) grids, we use metres as units, so the scale schould be around `1`. The scale of point one and two do not match this assumption, also the rotations arcs differ too much.  
+The displayed plots and the `check_data` show that the local points with the indices 1 and 2 are not corresponding with the projected ones. So they are likely mixed up. In this case we simply rebuild the transformation data.frame:
 
 ```{r}
 corr_coord <- data.frame(
@@ -113,7 +113,7 @@ corr_coord <- data.frame(
 )
 ```
 As shown we only interchanged the Y-value of the first and second coordinate. Now we run the *cootrans*-function for the second time and check our transformation:
-```{r}
+```{r, fig.width=7, fig.height=5}
 check_data <- cootrans(corr_coord, c(3,4,1,2), measured_points, c(1,2), checking = TRUE)
 ```
 And everything seems fine. No warning message pops up and the `check_data` show all scales and rotaions arcs around the same values.  
@@ -128,10 +128,7 @@ At this point we can proceed with further analyses of our now georeferenced spat
 ***
 **Attention!**  
 The warning message and checking parameter only work reasonable if there are **more than two** given coordinate pairs. In case of only two points and incorrect defined coordinates the algorithm will just turn all of the measured points by 180°. So always check your output!  
-Note that a warning message is also triggered in case you convert a survey with the parameter *one local unit* is not *one projected unit*^2^.
-***
-
 
 ***
 ^1^ For those who are not familiar with these terms: projected coordinates use a grid system such as UTM. Geographic coordinates are e.g. "lon-lat"-coordinates.  
-^2^ In most projected coordinate systems *one projected unit* equals 1 metre
+
