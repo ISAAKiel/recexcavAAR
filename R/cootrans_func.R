@@ -9,7 +9,7 @@
 #' @param pm_column vector with numerical index of the columns in order: local x-value, local y-value, absolute x-value, absolute y-value
 #' @param data_matrix data.frame with local x- and y-values which schould be transformed.
 #' @param dm_column vector with numerical index of the columns in order: local x-value, local y-value.
-#' @param checking=FALSE boolean wether the checking function is activated. If TRUE showes combined coordinate plots with indexed points.
+#' @param checking boolean switch to turn on the checking ability. Default: FALSE. If TRUE showes combined coordinate plots with indexed points and changes return.
 #'
 #' @return Original data.frame with additional columns containing the absolute x- and y-coordinates. In case of 'checking = TRUE' returns pair_matrix data.frame with additional columns of scale and rotation arc in degrees.
 #'
@@ -96,24 +96,30 @@ cootrans <- function(pair_matrix, pm_column, data_matrix, dm_column, checking=FA
       nr
     )
 
-    par(mfrow = c(1,2))
-    plot(index[,Lx_col], index[,Ly_col],
+    # change par settings
+    graphics::par(mfrow = c(1,2))
+
+    # plot
+    graphics::plot(index[,Lx_col], index[,Ly_col],
          main = "Local coordinates",
          xlab = "Local x-value",
          ylab = "Local y-value",
          cex = 2)
-    text(index[,Lx_col], index[,Ly_col],
+    graphics::text(index[,Lx_col], index[,Ly_col],
          labels = index$nr,
          cex = 0.7)
 
-    plot(index[,Ax_col],index[,Ay_col],
+    graphics::plot(index[,Ax_col],index[,Ay_col],
          main = "Absolute coordinates",
          xlab = "Absolute x-value",
          ylab = "Absolute y-value",
          cex = 2)
-    text(index[,Ax_col], index[,Ay_col],
+    graphics::text(index[,Ax_col], index[,Ay_col],
          labels = index$nr,
          cex = 0.7)
+
+    # restore original par settings
+    graphics::par(mfrow = c(1,1))
 
     out_frame <- data.frame(pair_matrix, scalation = vec_m, rotation = (vec_a*180/pi))
 

@@ -4,7 +4,7 @@
 \alias{cootrans}
 \title{Tool for transforming local metric coordinates}
 \usage{
-cootrans(pair_matrix, pm_column, data_matrix, dm_column)
+cootrans(pair_matrix, pm_column, data_matrix, dm_column, checking = FALSE)
 }
 \arguments{
 \item{pair_matrix}{data.frame or matrix with pairs of local and corresponding absolute coordinates (Minimum two!)}
@@ -14,9 +14,11 @@ cootrans(pair_matrix, pm_column, data_matrix, dm_column)
 \item{data_matrix}{data.frame with local x- and y-values which schould be transformed.}
 
 \item{dm_column}{vector with numerical index of the columns in order: local x-value, local y-value.}
+
+\item{checking}{boolean switch to turn on the checking ability. Default: FALSE. If TRUE showes combined coordinate plots with indexed points and changes return.}
 }
 \value{
-Original data.frame with additional columns containing the absolute x- and y-coordinates.
+Original data.frame with additional columns containing the absolute x- and y-coordinates. In case of 'checking = TRUE' returns pair_matrix data.frame with additional columns of scale and rotation arc in degrees.
 }
 \description{
 This function transforms local metric coordinates to absolute coordinates of referenced
@@ -39,6 +41,8 @@ data_table <- data.frame(
 )
 
 new_frame <- cootrans(coord_data, c(1,2,3,4), data_table, c(1,2))
+
+check_data <- cootrans(coord_data, c(1,2,3,4), data_table, c(1,2), checking = TRUE)
 
 }
 
