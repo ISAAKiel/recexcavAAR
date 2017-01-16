@@ -18,7 +18,7 @@ Imports:
 Suggests:
     devtools (>= 1.12.0),
     dplyr (>= 0.5.0),
-    knitr,
+    knitr (>= 1.15.1),
     magrittr (>= 1.5),
     rgl (>= 0.96.0),
     rmarkdown (>= 1.0),

@@ -9,6 +9,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, echo=FALSE}
+# check if pandoc is available
+if (requireNamespace("rmarkdown") && !rmarkdown::pandoc_available("1.13.1"))
+stop("These vignettes assume pandoc version 1.13.1; older versions will not work.")
+# see https://r-forge.r-project.org/forum/message.php?msg_id=43797&group_id=234
+```
+
 First we need to load recexcavAAR and some external packages:
 
 - **dplyr:** filter function
