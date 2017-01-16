@@ -9,7 +9,7 @@
 #' @param pm_column vector with numerical index of the columns in order: local x-value, local y-value, absolute x-value, absolute y-value
 #' @param data_matrix data.frame with local x- and y-values which schould be transformed.
 #' @param dm_column vector with numerical index of the columns in order: local x-value, local y-value.
-#' @param checking boolean switch to turn on the checking ability. Default: FALSE. If TRUE showes combined coordinate plots with indexed points and changes return.
+#' @param checking boolean switch to turn on the checking ability. Default: FALSE. If TRUE showes combined coordinate plots with indexed points and alters return of function.
 #'
 #' @return Original data.frame with additional columns containing the absolute x- and y-coordinates. In case of 'checking = TRUE' returns pair_matrix data.frame with additional columns of scale and rotation arc in degrees.
 #'

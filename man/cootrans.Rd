@@ -15,7 +15,7 @@ cootrans(pair_matrix, pm_column, data_matrix, dm_column, checking = FALSE)
 
 \item{dm_column}{vector with numerical index of the columns in order: local x-value, local y-value.}
 
-\item{checking}{boolean switch to turn on the checking ability. Default: FALSE. If TRUE showes combined coordinate plots with indexed points and changes return.}
+\item{checking}{boolean switch to turn on the checking ability. Default: FALSE. If TRUE showes combined coordinate plots with indexed points and alters return of function.}
 }
 \value{
 Original data.frame with additional columns containing the absolute x- and y-coordinates. In case of 'checking = TRUE' returns pair_matrix data.frame with additional columns of scale and rotation arc in degrees.
