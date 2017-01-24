@@ -55,9 +55,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// scale
-DataFrame scale(NumericVector x, NumericVector y, NumericVector z, double scalex, double scaley, double scalez);
-RcppExport SEXP recexcavAAR_scale(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP scalexSEXP, SEXP scaleySEXP, SEXP scalezSEXP) {
+// rescale
+DataFrame rescale(NumericVector x, NumericVector y, NumericVector z, double scalex, double scaley, double scalez);
+RcppExport SEXP recexcavAAR_rescale(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP scalexSEXP, SEXP scaleySEXP, SEXP scalezSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -67,7 +67,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type scalex(scalexSEXP);
     Rcpp::traits::input_parameter< double >::type scaley(scaleySEXP);
     Rcpp::traits::input_parameter< double >::type scalez(scalezSEXP);
-    rcpp_result_gen = Rcpp::wrap(scale(x, y, z, scalex, scaley, scalez));
+    rcpp_result_gen = Rcpp::wrap(rescale(x, y, z, scalex, scaley, scalez));
     return rcpp_result_gen;
 END_RCPP
 }

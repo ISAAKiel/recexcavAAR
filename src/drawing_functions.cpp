@@ -110,10 +110,6 @@ DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
   double rady = (degry*M_PI)/180;
   double radz = (degrz*M_PI)/180;
 
-  Rcout << radx << std::endl;
-  Rcout << rady << std::endl;
-  Rcout << radz << std::endl;
-
   NumericMatrix res(num, 3);
 
   for (int p1 = 0; p1 < num; p1++) {
@@ -224,14 +220,14 @@ DataFrame draw_sphere(double centerx, double centery, double centerz,
 //' #library(rgl)
 //' #plot3d(s)
 //'
-//' s2 <- scale(s$x, s$y, s$z, scalex = 4, scalez = 5)
+//' s2 <- rescale(s$x, s$y, s$z, scalex = 4, scalez = 5)
 //'
 //' #library(rgl)
 //' #plot3d(s2)
 //'
 //' @export
 // [[Rcpp::export]]
-DataFrame scale(NumericVector x, NumericVector y, NumericVector z,
+DataFrame rescale(NumericVector x, NumericVector y, NumericVector z,
                 double scalex = 1, double scaley = 1, double scalez = 1) {
 
   NumericMatrix res(x.size(), 3);

@@ -132,14 +132,14 @@ draw_sphere <- function(centerx, centery, centerz, radius, phires = 10L, thetare
 #' #library(rgl)
 #' #plot3d(s)
 #'
-#' s2 <- scale(s$x, s$y, s$z, scalex = 4, scalez = 5)
+#' s2 <- rescale(s$x, s$y, s$z, scalex = 4, scalez = 5)
 #'
 #' #library(rgl)
 #' #plot3d(s2)
 #'
 #' @export
-scale <- function(x, y, z, scalex = 1, scaley = 1, scalez = 1) {
-    .Call('recexcavAAR_scale', PACKAGE = 'recexcavAAR', x, y, z, scalex, scaley, scalez)
+rescale <- function(x, y, z, scalex = 1, scaley = 1, scalez = 1) {
+    .Call('recexcavAAR_rescale', PACKAGE = 'recexcavAAR', x, y, z, scalex, scaley, scalez)
 }
 
 #' Fills hexahedrons with a regular point raster (3D)
