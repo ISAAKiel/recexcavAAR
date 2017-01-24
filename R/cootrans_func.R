@@ -80,12 +80,17 @@ cootrans <- function(pair_matrix, pm_column, data_matrix, dm_column, checking=FA
   alpha_std <- stats::sd(vec_a[is.nan(vec_a) == FALSE])
 
   # 1.5 out print for checking transforamtion
-  writeLines(c("Transformation:\n local centroid:   ", toString(sp_loc),
-               "\n absolute centroid:", toString(sp_abs),
-               "\n scale:", toString(sc),
-               "\n roation arc:", toString((alpha*180)/pi)), sep = " ")
+  message(
+    paste(c(
+      "Transformation:", "\n",
+      "local centroid:", sp_loc, "\n",
+      "absolute centroid:", sp_abs, "\n",
+      "scale:", sc, "\n",
+      "rotation arc:", (alpha*180)/pi
+    ), collapse = " ")
+  )
   if ((alpha_std >= 0.1) | (sc_std >= 0.1)){
-    writeLines("\n\nWARNING: High deviations! Some coordinates may be mapped incorrectly.")
+    warning("High deviations! Some coordinates may be mapped incorrectly.")
   }
 
   # 1.6 special: checking function
