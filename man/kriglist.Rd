@@ -45,7 +45,7 @@ df2 <- data.frame(
 
 lpoints <- list(df1, df2)
 
-kriglist(lpoints, lags = 3, model = "spherical")
+surfacelist <- kriglist(lpoints, lags = 3, model = "spherical")
 
 }
 
