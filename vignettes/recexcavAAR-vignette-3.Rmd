@@ -1,5 +1,5 @@
 ---
-title: "recexcavAAR: Vignette >>Transforming Coordinates<<"
+title: "recexcavAAR: Vignette >>Transforming coordinates<<"
 author: "Benjamin Serbe"
 date: "Januar 2017"
 output: rmarkdown::html_vignette

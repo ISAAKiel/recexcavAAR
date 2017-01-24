@@ -1,5 +1,5 @@
 ---
-title: "recexcavAAR: Vignette >>Ifri el Baroud<<"
+title: "recexcavAAR: Vignette >>Semiautomatic spit attribution<<"
 author: "Clemens Schmid"
 date: "July 2016"
 output: rmarkdown::html_vignette

@@ -1,5 +1,5 @@
 ---
-title: "recexcavAAR: Vignette >>Kakcus-Turján<<"
+title: "recexcavAAR: Vignette >>Trench visualisation<<"
 author: "Clemens Schmid"
 date: "August 2016"
 output: rmarkdown::html_vignette
