@@ -34,7 +34,7 @@ using namespace Rcpp;
 //'
 //' @export
 // [[Rcpp::export]]
-DataFrame draw_circle(float centerx, float centery, float centerz, float radius, int resolution = 30) {
+DataFrame draw_circle(double centerx, double centery, double centerz, double radius, int resolution = 30) {
 
   int pnum = resolution;
   double rotation = 2 * M_PI / pnum;
@@ -72,19 +72,30 @@ DataFrame draw_circle(float centerx, float centery, float centerz, float radius,
 //' data.frame with the spatial coordinates of the resulting points
 //'
 //' @examples
-//' circ <- draw_circle(1,2,3,4)
+//' circ <- draw_circle(0,0,0,5)
 //'
-//' plot(circ$x, circ$y)
+//' #library(rgl)
+//' #plot3d(
+//' #  circ,
+//' #  xlim = c(-6,6),
+//' #  ylim = c(-6,6),
+//' #  zlim = c(-6,6)
+//' #)
 //'
 //' rotcirc <- rotate(circ$x, circ$y, circ$z, degrx = 45)
 //'
-//' plot(rotcirc$x, rotcirc$y)
+//' #plot3d(
+//' #  rotcirc,
+//' #  xlim = c(-6,6),
+//' #  ylim = c(-6,6),
+//' #  zlim = c(-6,6)
+//' #)
 //'
 //' @export
 // [[Rcpp::export]]
 DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
-                 float degrx = 0.0, float degry = 0.0, float degrz = 0.0,
-                 float pivotx = NA_REAL, float pivoty = NA_REAL, float pivotz = NA_REAL)  {
+                 double degrx = 0.0, double degry = 0.0, double degrz = 0.0,
+                 double pivotx = NA_REAL, double pivoty = NA_REAL, double pivotz = NA_REAL)  {
 
   // check for pivot point values
   // (ugly hack to use is_na)
@@ -95,33 +106,37 @@ DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
 
   int num = x.length();
 
-  float radx = (degrx*M_PI)/180;
-  float rady = (degry*M_PI)/180;
-  float radz = (degrz*M_PI)/180;
+  double radx = (degrx*M_PI)/180;
+  double rady = (degry*M_PI)/180;
+  double radz = (degrz*M_PI)/180;
+
+  Rcout << radx << std::endl;
+  Rcout << rady << std::endl;
+  Rcout << radz << std::endl;
 
   NumericMatrix res(num, 3);
 
   for (int p1 = 0; p1 < num; p1++) {
 
     // move
-    float xi = x(p1) - pivotx;
-    float yi = y(p1) - pivoty;
-    float zi = z(p1) - pivotz;
+    double xi = x(p1) - pivotx;
+    double yi = y(p1) - pivoty;
+    double zi = z(p1) - pivotz;
 
     // rotation along z
-    float xii = xi * cos(radz) - yi * sin(radz);
-    float yii = xi * sin(radz) + yi * cos(radz);
-    float zii = zi;
+    double xii = xi * cos(radz) - yi * sin(radz);
+    double yii = xi * sin(radz) + yi * cos(radz);
+    double zii = zi;
 
     // rotation along y
-    float xiii = xii * cos(rady) - zii * sin(rady);
-    float yiii = yii;
-    float ziii = zii * sin(rady) + xii * cos(radz);
+    double xiii = xii * cos(rady) - zii * sin(rady);
+    double yiii = yii;
+    double ziii = xii * sin(rady) + zii * cos(rady);
 
     // rotation along x
-    float xiiii = xiii;
-    float yiiii = yiii * cos(radx) - ziii * sin(radx);
-    float ziiii = ziii * sin(radx) + yiii * cos(radx);
+    double xiiii = xiii;
+    double yiiii = yiii * cos(radx) - ziii * sin(radx);
+    double ziiii = yiii * sin(radx) + ziii * cos(radx);
 
     res(p1, 0) = xiiii + pivotx;
     res(p1, 1) = yiiii + pivoty;
@@ -163,15 +178,15 @@ DataFrame rotate(NumericVector x, NumericVector y, NumericVector z,
 //'
 //' @export
 // [[Rcpp::export]]
-DataFrame draw_sphere(float centerx, float centery, float centerz,
-                      float radius, int phires = 10, int thetares = 10)  {
+DataFrame draw_sphere(double centerx, double centery, double centerz,
+                      double radius, int phires = 10, int thetares = 10)  {
 
   double phir = (double) phires;
   double thetar = (double) thetares;
 
-  std::vector<float> x;
-  std::vector<float> y;
-  std::vector<float> z;
+  std::vector<double> x;
+  std::vector<double> y;
+  std::vector<double> z;
 
   // Iterate through phi and theta
   for (double phi = 0.; phi < 2 * M_PI; phi += M_PI / phir) { // Azimuth [0, 2M_PI]
@@ -217,7 +232,7 @@ DataFrame draw_sphere(float centerx, float centery, float centerz,
 //' @export
 // [[Rcpp::export]]
 DataFrame scale(NumericVector x, NumericVector y, NumericVector z,
-                float scalex = 1, float scaley = 1, float scalez = 1) {
+                double scalex = 1, double scaley = 1, double scalez = 1) {
 
   NumericMatrix res(x.size(), 3);
 

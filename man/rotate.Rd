@@ -35,13 +35,24 @@ rotation angle around each axis is zero and the default pivot point is the cente
 point of the point cloud (defined by mean())
 }
 \examples{
-circ <- draw_circle(1,2,3,4)
+circ <- draw_circle(0,0,0,5)
 
-plot(circ$x, circ$y)
+#library(rgl)
+#plot3d(
+#  circ,
+#  xlim = c(-6,6),
+#  ylim = c(-6,6),
+#  zlim = c(-6,6)
+#)
 
 rotcirc <- rotate(circ$x, circ$y, circ$z, degrx = 45)
 
-plot(rotcirc$x, rotcirc$y)
+#plot3d(
+#  rotcirc,
+#  xlim = c(-6,6),
+#  ylim = c(-6,6),
+#  zlim = c(-6,6)
+#)
 
 }
 

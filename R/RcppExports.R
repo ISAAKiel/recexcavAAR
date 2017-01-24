@@ -54,13 +54,24 @@ draw_circle <- function(centerx, centery, centerz, radius, resolution = 30L) {
 #' data.frame with the spatial coordinates of the resulting points
 #'
 #' @examples
-#' circ <- draw_circle(1,2,3,4)
+#' circ <- draw_circle(0,0,0,5)
 #'
-#' plot(circ$x, circ$y)
+#' #library(rgl)
+#' #plot3d(
+#' #  circ,
+#' #  xlim = c(-6,6),
+#' #  ylim = c(-6,6),
+#' #  zlim = c(-6,6)
+#' #)
 #'
 #' rotcirc <- rotate(circ$x, circ$y, circ$z, degrx = 45)
 #'
-#' plot(rotcirc$x, rotcirc$y)
+#' #plot3d(
+#' #  rotcirc,
+#' #  xlim = c(-6,6),
+#' #  ylim = c(-6,6),
+#' #  zlim = c(-6,6)
+#' #)
 #'
 #' @export
 rotate <- function(x, y, z, degrx = 0.0, degry = 0.0, degrz = 0.0, pivotx = NA_real_, pivoty = NA_real_, pivotz = NA_real_) {
