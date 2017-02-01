@@ -3,29 +3,36 @@ library(jpeg)
 
 # download and load picture
 download.file(
-  url = 'https://www.thefactsite.com/wp-content/uploads/2013/01/chewbacca.jpg',
+  url = 'https://upload.wikimedia.org/wikipedia/en/6/6d/Chewbacca-2-.jpg',
   destfile = "chewbacca.jpg",
   mode = 'wb'
 )
 
-jj <- readJPEG("chewbacca.jpg", native = TRUE)
+chewie <- readJPEG("chewbacca.jpg", native = TRUE)
 
-# sample data
+# create some sample data
 x <- sort(rnorm(1000))
 y <- rnorm(1000)
 z <- rnorm(1000) + atan2(x, y)
 
-# plot
-plot3d(x, y, z, col = rainbow(1000))
+# plot sample data
+plot3d(x, y, z, col = rainbow(1000), size = 5)
+
+# add picture
 show2d(
+  # plot raster
   {
-  plot(0:1,0:1,type="n",ann=FALSE,axes=FALSE)
-  rasterImage(jj,0,0,1,1)
+    par(mar = rep(0, 4))
+    plot(
+      0:1, 0:1, type="n",
+      ann = FALSE, axes = FALSE,
+      xaxs = "i", yaxs = "i"
+    )
+    rasterImage(chewie, 0, 0, 1, 1)
   },
-  # coord order: lower left, lower right, upper right and upper left
-  x = c(-3,2,2,-3),
-  y = c(-1,-1,1,1),
-  z = c(-3,-3,2,2)
+  # image position and extent
+  # coordinate order: lower left, lower right, upper right and upper left
+  x = c(-2,  1,  1, -2),
+  y = c(-1, -1,  1,  1),
+  z = c(-3, -3,  2,  2)
 )
-
-

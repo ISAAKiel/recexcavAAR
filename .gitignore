@@ -13,3 +13,6 @@ vignettes/*.html
 vignettes/*.pdf
 vignettes/*.R
 inst/doc/
+
+# downloaded example data
+*.jpg
