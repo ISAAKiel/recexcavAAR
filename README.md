@@ -9,10 +9,11 @@ recexcavAAR
 
 R package for 3D reconstruction and analysis of excavations. It provides methods to reconstruct natural and artificial surfaces based on field measurements. This allows to spatially contextualize documented subunits and features. Intended to be part of a 3D visualization workflow. 
 
-The following **vignettes** explain the implemented functions:
+The following **vignettes** explain some of the implemented functions:
 
-* [**Ifri el Baroud**](https://isaakiel.github.io/recexcavAAR-vignette-1.html)
-* [**Kakcus-Turján**](https://isaakiel.github.io/recexcavAAR-vignette-2.html) 
+* [**>>Semiautomatic spit attribution<<**](https://isaakiel.github.io/recexcavAAR-vignette-1.html)
+* [**>>Trench visualisation<<**](https://isaakiel.github.io/recexcavAAR-vignette-2.html) 
+* [**>>Transforming coordinates<<**](https://isaakiel.github.io/recexcavAAR-vignette-3.html) 
 
 Installation
 ------------
