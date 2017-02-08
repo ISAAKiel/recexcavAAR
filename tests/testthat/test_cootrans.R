@@ -14,7 +14,12 @@ data_table <- data.frame(
 )
 
 new_frame <- suppressMessages(
-  cootrans(coord_data, c(1, 2, 3, 4), data_table, c(1, 2))
+  cootrans(
+    pair_matrix = coord_data,
+    pm_column = c(1, 2, 3, 4),
+    data_matrix = data_table,
+    dm_column = c(1, 2)
+  )
 )
 
 wrong_data <- data.frame(
@@ -25,7 +30,14 @@ wrong_data <- data.frame(
 )
 
 check_data <- suppressMessages(
-  cootrans(wrong_data, c(1, 2, 3, 4), data_table, c(1, 2), checking = TRUE)
+  cootrans(
+    pair_matrix = wrong_data,
+    pm_column = c(1, 2, 3, 4),
+    data_matrix = data_table,
+    dm_column = c(1, 2),
+    checking = TRUE,
+    checkplot = FALSE
+  )
 )
 #####
 #####
@@ -71,5 +83,5 @@ test_that("with testing=TRUE resulting check_data data.frame is the original dat
 
 test_that("with testing=TRUE output data.frame has the correct colnames",
           { expect_equal(colnames(check_data), c("loc_x", "loc_y", "abs_x", "abs_y", "scalation", "rotation"))
-            }
+           }
           )
