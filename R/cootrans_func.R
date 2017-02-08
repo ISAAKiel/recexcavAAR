@@ -10,6 +10,7 @@
 #' @param data_matrix data.frame with local x- and y-values which schould be transformed.
 #' @param dm_column vector with numerical index of the columns in order: local x-value, local y-value.
 #' @param checking boolean switch to turn on the checking ability. Default: FALSE. If TRUE showes combined coordinate plots with indexed points and alters return of function.
+#' @param checkplot boolean switch to turn off the checking plot. Default: TRUE. Only matters if checking == TRUE.
 #'
 #' @return Original data.frame with additional columns containing the absolute x- and y-coordinates. In case of 'checking = TRUE' returns pair_matrix data.frame with additional columns of scale and rotation arc in degrees.
 #'
@@ -35,7 +36,14 @@
 #'
 
 
-cootrans <- function(pair_matrix, pm_column, data_matrix, dm_column, checking=FALSE){
+cootrans <- function(
+  pair_matrix,
+  pm_column,
+  data_matrix,
+  dm_column,
+  checking = FALSE,
+  checkplot = TRUE
+  ){
 
   # 0. initial stuff
   # 0.1 define vector calculation function
@@ -94,39 +102,45 @@ cootrans <- function(pair_matrix, pm_column, data_matrix, dm_column, checking=FA
   }
 
   # 1.6 special: checking function
-  if (checking == TRUE){
+  if(checking){
     nr <- c(1:length(pair_matrix[,1]))
     index <- data.frame(
       pair_matrix,
       nr
     )
 
-    # change par settings
-    graphics::par(mfrow = c(1,2))
+    if(checkplot){
+      # change par settings
+      graphics::par(mfrow = c(1,2))
 
-    # plot
-    graphics::plot(index[,Lx_col], index[,Ly_col],
-         main = "Local coordinates",
-         xlab = "Local x-value",
-         ylab = "Local y-value",
-         cex = 2)
-    graphics::text(index[,Lx_col], index[,Ly_col],
-         labels = index$nr,
-         cex = 0.7)
+      # plot
+      graphics::plot(index[,Lx_col], index[,Ly_col],
+           main = "Local coordinates",
+           xlab = "Local x-value",
+           ylab = "Local y-value",
+           cex = 2)
+      graphics::text(index[,Lx_col], index[,Ly_col],
+           labels = index$nr,
+           cex = 0.7)
 
-    graphics::plot(index[,Ax_col],index[,Ay_col],
-         main = "Absolute coordinates",
-         xlab = "Absolute x-value",
-         ylab = "Absolute y-value",
-         cex = 2)
-    graphics::text(index[,Ax_col], index[,Ay_col],
-         labels = index$nr,
-         cex = 0.7)
+      graphics::plot(index[,Ax_col],index[,Ay_col],
+           main = "Absolute coordinates",
+           xlab = "Absolute x-value",
+           ylab = "Absolute y-value",
+           cex = 2)
+      graphics::text(index[,Ax_col], index[,Ay_col],
+           labels = index$nr,
+           cex = 0.7)
 
-    # restore original par settings
-    graphics::par(mfrow = c(1,1))
+      # restore original par settings
+      graphics::par(mfrow = c(1,1))
+    }
 
-    out_frame <- data.frame(pair_matrix, scalation = vec_m, rotation = (vec_a*180/pi))
+    out_frame <- data.frame(
+      pair_matrix,
+      scalation = vec_m,
+      rotation = (vec_a*180/pi)
+    )
 
   }
   else{
