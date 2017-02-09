@@ -85,3 +85,32 @@ test_that("with testing=TRUE output data.frame has the correct colnames",
           { expect_equal(colnames(check_data), c("loc_x", "loc_y", "abs_x", "abs_y", "scalation", "rotation"))
            }
           )
+
+test_that("transformation works correctly",
+          { simple_coord <- data.frame(
+              loc_x = c(1, 3, 1, 3),
+              loc_y = c(1, 1, 3, 3),
+              abs_x = c(7, 7, 5, 5),
+              abs_y = c(5, 7, 5, 7)
+            )
+            test_data <- data.frame(
+              index = c(1, 2, 3),
+              x = c(3, 6, 4),
+              y = c(2, 1, 4)
+            )
+            #the expected results where calculated using the original python-script
+            exp_frame <- data.frame(
+              test_data,
+              abs_x = c(6, 7, 4),
+              abs_y = c(7, 10, 8)
+            )
+            exp_check <- data.frame(
+              simple_coord,
+              scalation = c(1, 1, 1, 1),
+              rotation = c(270, 270, 270, 270)
+            )
+
+            expect_identical(cootrans(simple_coord, c(1,2,3,4), test_data, c(2,3)), exp_frame)
+            expect_identical(cootrans(simple_coord, c(1,2,3,4), test_data, c(2,3), checking = TRUE), exp_check)
+            }
+          )
