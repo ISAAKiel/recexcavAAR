@@ -79,8 +79,8 @@ cootrans <- function(
 
   # 1.3 Scalation
   vec_m <- abs_v$m / loc_v$m
-  sc <- mean(vec_m[is.infinite(vec_m) == FALSE])
-  sc_std <- stats::sd(vec_m[is.infinite(vec_m) == FALSE])
+  sc <- mean(vec_m[is.infinite(vec_m) == FALSE & is.nan(vec_m) == FALSE])
+  sc_std <- stats::sd(vec_m[is.infinite(vec_m) == FALSE & is.nan(vec_m) == FALSE])
 
   # 1.4 rotation arc
   vec_a <- (abs_v$alpha - loc_v$alpha) %% (2*pi)
