@@ -86,31 +86,60 @@ test_that("with testing=TRUE output data.frame has the correct colnames",
            }
           )
 
-test_that("transformation works correctly",
+test_that("transformation runs correctly. And even with points corresponding with the centroids (previous scale-NaN Bug)",
           { simple_coord <- data.frame(
-              loc_x = c(1, 3, 1, 3),
-              loc_y = c(1, 1, 3, 3),
-              abs_x = c(7, 7, 5, 5),
-              abs_y = c(5, 7, 5, 7)
+              loc_x = c(1, 3, 1, 3, 2),
+              loc_y = c(1, 1, 3, 3, 2),
+              abs_x = c(7, 7, 5, 5, 6),
+              abs_y = c(5, 7, 5, 7, 6)
             )
             test_data <- data.frame(
-              index = c(1, 2, 3),
-              x = c(3, 6, 4),
-              y = c(2, 1, 4)
+              index = c(1, 2, 3, 4),
+              x = c(3, 6, 4, 2),
+              y = c(2, 1, 4, 2)
             )
             #the expected results where calculated using the original python-script
             exp_frame <- data.frame(
               test_data,
-              abs_x = c(6, 7, 4),
-              abs_y = c(7, 10, 8)
+              abs_x = c(6, 7, 4, 6),
+              abs_y = c(7, 10, 8, 6)
             )
             exp_check <- data.frame(
               simple_coord,
-              scalation = c(1, 1, 1, 1),
-              rotation = c(270, 270, 270, 270)
+              scalation = c(1, 1, 1, 1, NaN),
+              rotation = c(270, 270, 270, 270, NaN)
             )
 
-            expect_identical(cootrans(simple_coord, c(1,2,3,4), test_data, c(2,3)), exp_frame)
-            expect_identical(cootrans(simple_coord, c(1,2,3,4), test_data, c(2,3), checking = TRUE), exp_check)
+            expect_equal(cootrans(simple_coord, c(1,2,3,4), test_data, c(2,3)), exp_frame)
+            expect_equal(cootrans(simple_coord, c(1,2,3,4), test_data, c(2,3), checking = TRUE), exp_check)
             }
           )
+
+test_that("transformation runs correctly. One points corresponding with the centroid (!div0 problem)",
+          { simple_coord <- data.frame(
+            loc_x = c(1, 3, 1, 3, 2),
+            loc_y = c(1, 1, 3, 3, 2),
+            abs_x = c(7, 7, 5, 5, 6.1),
+            abs_y = c(5, 7, 5, 7, 6.1)
+          )
+          test_data <- data.frame(
+            index = c(1, 2, 3, 4),
+            x = c(3, 6, 4, 2),
+            y = c(2, 1, 4, 2)
+          )
+          #the expected results where calculated using the original python-script
+          exp_frame <- data.frame(
+            test_data,
+            abs_x = c(6.02, 7.020099990001998, 4.019800019996, 6.02),
+            abs_y = c(7.020099990001999, 10.020399960007996, 8.020199980003998, 6.02)
+          )
+          exp_check <- data.frame(
+            simple_coord,
+            scalation = c(1.000199980003999, 0.9800000000000004, 1.0199999999999994, 1.000199980003999, Inf),
+            rotation = c(271.1457628381751, 270.0, 270.0, 268.85423716182487, NaN)
+          )
+
+          expect_equal(cootrans(simple_coord, c(1,2,3,4), test_data, c(2,3)), exp_frame)
+          expect_equal(cootrans(simple_coord, c(1,2,3,4), test_data, c(2,3), checking = TRUE), exp_check)
+          }
+)
