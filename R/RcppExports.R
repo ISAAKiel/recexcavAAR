@@ -188,7 +188,7 @@ fillhexa <- function(hex, res) {
 #'
 #' Based on this solution:
 #' Copyright (c) 1970-2003, Wm. Randolph Franklin
-#' \url{https://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html}
+#' \url{http://wrf.ecse.rpi.edu/pmwiki/pmwiki.php/Main/Software#toc24}
 #'
 #' @details
 #' For discussion see: \url{http://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon/2922778#2922778}

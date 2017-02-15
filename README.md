@@ -2,7 +2,7 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/ISAAKiel/recexcavAAR/master.svg)](https://codecov.io/github/ISAAKiel/recexcavAAR?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/recexcavAAR)](https://cran.r-project.org/package=recexcavAAR) 
 [![](http://cranlogs.r-pkg.org/badges/recexcavAAR)](https://CRAN.R-project.org/package=recexcavAAR)
-[![license](https://img.shields.io/badge/license-GPL%202-B50B82.svg)](http://www.r-project.org/Licenses/GPL-2)
+[![license](https://img.shields.io/badge/license-GPL%202-B50B82.svg)](https://www.r-project.org/Licenses/GPL-2)
 
 recexcavAAR
 -----------

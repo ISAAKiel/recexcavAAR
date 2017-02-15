@@ -1,3 +1,12 @@
+recexcavAAR 0.3
+----------------------------------------------------------------
+
+* added coordinate transformation function and related vignette
+
+* improved vignettes
+
+* added some basic 3D drawing functions
+
 recexcavAAR 0.2.2
 ----------------------------------------------------------------
 
