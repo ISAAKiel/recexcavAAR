@@ -1,7 +1,7 @@
 ---
 title: "recexcavAAR: Vignette >>Transforming coordinates<<"
 author: "Benjamin Serbe"
-date: "Januar 2017"
+date: "January 2017"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
@@ -109,7 +109,13 @@ check_data <- cootrans(coord, c(3,4,1,2), measured_points, c(1,2), checking = TR
 ```
 
 In this case the function will display a combined plot with the mapped local and projected coordinates. Every survey point is labled with an index number of their row.  
-Addtionally the function now returns our transformation table with the calculated scales and roation arcs (in degrees) for each pair of coordinates. If we display our `check_data`, we will notice the scale of pair three seems fine. In both (local and absolute) grids, we use metres as units, so the scale schould be around `1`. The scale of point one and two do not match this assumption, also the rotations arcs differ too much.  
+Addtionally the function now returns our transformation table with the calculated scales and roation arcs (in degrees) for each pair of coordinates. 
+
+```{r}
+check_data
+```
+
+If we display our `check_data`, we will notice the scale of pair three seems fine. In both (local and absolute) grids, we use metres as units, so the scale schould be around `1`. The scale of point one and two do not match this assumption, also the rotations arcs differ too much.  
 The displayed plots and the `check_data` show that the local points with the indices 1 and 2 are not corresponding with the projected ones. So they are likely mixed up. In this case we simply rebuild the transformation data.frame:
 
 ```{r}
@@ -123,6 +129,7 @@ As shown we only interchanged the Y-value of the first and second coordinate. No
 ```{r, fig.width=7, fig.height=5}
 check_data <- cootrans(corr_coord, c(3,4,1,2), measured_points, c(1,2), checking = TRUE)
 ```
+
 And everything seems fine. No warning message pops up and the `check_data` show all scales and rotaions arcs around the same values.  
 So now let's use the *cootrans*-function one last time to get our absolute data for the excavation trench corners. 
 
