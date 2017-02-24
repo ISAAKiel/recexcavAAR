@@ -4,7 +4,7 @@ author: "Benjamin Serbe"
 date: "January 2017"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Vignette >>Transforming coordinates<<}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

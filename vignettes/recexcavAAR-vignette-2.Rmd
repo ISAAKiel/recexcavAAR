@@ -4,7 +4,7 @@ author: "Clemens Schmid"
 date: "August 2016"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette >>Kakcus-Turján<<}
+  %\VignetteIndexEntry{Vignette >>Trench visualisation<<}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

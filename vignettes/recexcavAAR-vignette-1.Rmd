@@ -4,7 +4,7 @@ author: "Clemens Schmid"
 date: "July 2016"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette >>Ifri el Baroud<<}
+  %\VignetteIndexEntry{Vignette >>Semiautomatic spit attribution<<}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
