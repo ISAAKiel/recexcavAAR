@@ -61,4 +61,3 @@ posdeclist(cubelist, maps)
 \seealso{
 Other posdecfuncs: \code{\link{posdec}}
 }
-

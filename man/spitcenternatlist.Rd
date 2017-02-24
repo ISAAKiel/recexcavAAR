@@ -61,4 +61,3 @@ spitcenternatlist(hexs, maps)
 Other centerdetfuncs: \code{\link{spitcenternat}},
   \code{\link{spitcenter}}
 }
-

@@ -19,4 +19,3 @@ A dataset containing coordinates of niveau measurements of a fictional excavatio
 Other KT_data: \code{\link{KT_squarecorners}},
   \code{\link{KT_vessel}}
 }
-

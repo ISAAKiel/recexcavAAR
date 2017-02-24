@@ -46,4 +46,3 @@ pnp(df$x, df$y, 2, 1.5)
 \seealso{
 Other pnpfuncs: \code{\link{pnpmulti}}
 }
-

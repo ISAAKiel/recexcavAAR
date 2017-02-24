@@ -45,4 +45,3 @@ center <- spitcenter(hexatestdf)
 Other centerdetfuncs: \code{\link{spitcenternatlist}},
   \code{\link{spitcenternat}}
 }
-

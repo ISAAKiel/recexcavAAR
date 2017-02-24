@@ -37,4 +37,3 @@ s2 <- rescale(s$x, s$y, s$z, scalex = 4, scalez = 5)
 #plot3d(s2)
 
 }
-

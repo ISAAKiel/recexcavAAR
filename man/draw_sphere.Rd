@@ -39,4 +39,3 @@ sphere <- draw_sphere(
 #plot3d(sphere)
 
 }
-

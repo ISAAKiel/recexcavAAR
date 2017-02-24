@@ -48,4 +48,3 @@ new_frame <- cootrans(coord_data, c(1,2,3,4), data_table, c(1,2))
 check_data <- cootrans(coord_data, c(1,2,3,4), data_table, c(1,2), checking = TRUE)
 
 }
-

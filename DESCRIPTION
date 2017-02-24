@@ -11,7 +11,7 @@ Description: A toolset for 3D reconstruction and analysis of excavations. It pro
 Date: 2017-02-15
 License: GPL-2
 LazyData: TRUE
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 URL: https://github.com/ISAAKiel/recexcavAAR
 Imports:
     Rcpp (>= 0.12.7)

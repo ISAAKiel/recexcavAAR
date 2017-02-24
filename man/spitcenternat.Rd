@@ -53,4 +53,3 @@ spitcenternat(hexatestdf, maps)
 Other centerdetfuncs: \code{\link{spitcenternatlist}},
   \code{\link{spitcenter}}
 }
-

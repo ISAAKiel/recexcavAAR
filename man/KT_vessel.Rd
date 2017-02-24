@@ -24,4 +24,3 @@ others only spit and square attribution is possible.
 Other KT_data: \code{\link{KT_spits}},
   \code{\link{KT_squarecorners}}
 }
-

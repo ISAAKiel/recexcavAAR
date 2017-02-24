@@ -34,4 +34,3 @@ spatiallong(sw$x, sw$y, sw$z)
 \seealso{
 Other transfuncs: \code{\link{spatialwide}}
 }
-
