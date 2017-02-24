@@ -16,3 +16,6 @@ inst/doc/
 
 # downloaded example data
 *.jpg
+
+# reverse dependencies: devtools::revdep_check()
+revdep
