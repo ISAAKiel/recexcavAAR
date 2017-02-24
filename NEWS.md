@@ -1,4 +1,4 @@
-recexcavAAR 0.3
+recexcavAAR 0.3.0
 ----------------------------------------------------------------
 
 * added coordinate transformation function and related vignette
