@@ -1,3 +1,8 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* added a init.c file to register the c++-functions
+
 ## Improvements for new submission 
 
   * new functions (coordinate transformation and 3D drawing)
@@ -28,21 +33,14 @@
 
 ## R CMD check results in my test environments
 
-There were no ERRORs or WARNINGs. I see three NOTEs:
+There were no ERRORs or WARNINGs. I see two NOTEs:
 
-  * checking CRAN incoming feasibility ... NOTE  
-    Maintainer: 'Clemens Schmid <clemens@nevrome.de>'  
-    Possibly mis-spelled words in DESCRIPTION:  
+  * Possibly mis-spelled words in DESCRIPTION:  
     subunits (9:221)  
     toolset (9:16)  
     workflow (9:286)  
-  * File 'recexcavAAR/libs/i386/recexcavAAR.dll':  
-    Found no calls to: 'R_registerRoutines', 'R_useDynamicSymbols'  
-    File 'recexcavAAR/libs/x64/recexcavAAR.dll':  
-    Found no calls to: 'R_registerRoutines', 'R_useDynamicSymbols'  
-    It is good practice to register native routines and to disable symbol
-    search.  
-    See 'Writing portable packages' in the 'Writing R Extensions' manual.
   * Examples with CPU or elapsed time > 5s  
              user system elapsed  
     posdeclist 13.968  0.028  14.028  
+    
+I think both NOTEs are negligible, because they don't interfere with the 	functionality of the package in any way. 
