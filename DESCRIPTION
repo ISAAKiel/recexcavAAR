@@ -1,7 +1,7 @@
 Package: recexcavAAR
 Type: Package
 Title: 3D Reconstruction of Archaeological Excavations
-Version: 0.3.0
+Version: 0.3.0.9000
 Authors@R: c(
   person("Clemens", "Schmid", email = "clemens@nevrome.de", role = c("cre", "cph", "aut")),
   person("Benjamin", "Serbe", email = "b.serbe@web.de", role = c("aut"))
