@@ -25,7 +25,6 @@ Suggests:
     rmarkdown (>= 1.0),
     roxygen2 (>= 5.0.1),
     testthat (>= 1.0.2),
-    rgdal (>= 1.2),
     sp (>= 1.2)
 VignetteBuilder: knitr
 Depends:
