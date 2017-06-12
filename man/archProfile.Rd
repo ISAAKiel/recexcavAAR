@@ -7,11 +7,11 @@
 archProfile(fotogram_pts, profile_col, view_col)
 }
 \arguments{
+\item{fotogram_pts}{SpatialDataFrame A SpatialDataFrame containing the control points}
+
 \item{profile_col}{Name of the column containing the profile group variable (Profilenumber)}
 
 \item{view_col}{Name of the profile containing the viewing direction}
-
-\item{fotogram_pts}{A SpatialDataFrame containing the control points}
 }
 \value{
 SpatialDataFrame with the new coordinates

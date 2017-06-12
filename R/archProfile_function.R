@@ -11,7 +11,7 @@
 #'
 #'
 #'
-#' @export
+#'
 #'
 
 #Import of data
