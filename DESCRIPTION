@@ -24,8 +24,7 @@ Suggests:
     rgl (>= 0.96.0),
     rmarkdown (>= 1.0),
     roxygen2 (>= 5.0.1),
-    testthat (>= 1.0.2),
-    sp (>= 1.2)
+    testthat (>= 1.0.2)
 VignetteBuilder: knitr
 Depends:
     R (>= 3.3.2),
