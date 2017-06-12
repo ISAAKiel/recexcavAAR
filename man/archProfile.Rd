@@ -11,16 +11,11 @@ archProfile(fotogram_pts, profile_col, view_col)
 
 \item{view_col}{Name of the profile containing the viewing direction}
 
-\item{SpatialDataFrame}{A SpatialDataFrame containing the control points}
+\item{fotogram_pts}{A SpatialDataFrame containing the control points}
 }
 \value{
 SpatialDataFrame with the new coordinates
 }
 \description{
 Tool for rotating profile control points form rectifiying images
-}
-\examples{
-
-export <- archProfile(fotogram_pts = coord_data, profile_col = "pr", view_col = "ansicht")
-
 }

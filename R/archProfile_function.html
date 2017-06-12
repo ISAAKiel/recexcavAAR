@@ -118,16 +118,14 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">archProfile_function.R</h1>
 <h4 class="author"><em>moritz</em></h4>
-<h4 class="date"><em>Mon Jun 12 19:48:14 2017</em></h4>
+<h4 class="date"><em>Mon Jun 12 20:28:13 2017</em></h4>
 
 </div>
 
 
 <p>Tool for rotating profile control points form rectifiying images</p>
-<p><span class="citation">@param</span> SpatialDataFrame A SpatialDataFrame containing the control points <span class="citation">@param</span> profile_col Name of the column containing the profile group variable (Profilenumber) <span class="citation">@param</span> view_col Name of the profile containing the viewing direction</p>
+<p><span class="citation">@param</span> fotogram_pts SpatialDataFrame A SpatialDataFrame containing the control points <span class="citation">@param</span> profile_col Name of the column containing the profile group variable (Profilenumber) <span class="citation">@param</span> view_col Name of the profile containing the viewing direction</p>
 <p><span class="citation">@return</span> SpatialDataFrame with the new coordinates</p>
-<p><span class="citation">@examples</span></p>
-<p>export &lt;- archProfile(fotogram_pts = coord_data, profile_col = “pr”, view_col = “ansicht”)</p>
 <p><span class="citation">@export</span></p>
 <pre class="r"><code>#Import of data
 archProfile &lt;- function(fotogram_pts, profile_col, view_col){

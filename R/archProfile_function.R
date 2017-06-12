@@ -1,7 +1,7 @@
 #' Tool for rotating profile control points form rectifiying images
 #'
 #'
-#' @param SpatialDataFrame A SpatialDataFrame containing the control points
+#' @param fotogram_pts SpatialDataFrame A SpatialDataFrame containing the control points
 #' @param profile_col Name of the column containing the profile group variable (Profilenumber)
 #' @param view_col Name of the profile containing the viewing direction
 #'
