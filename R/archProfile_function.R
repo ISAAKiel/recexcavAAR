@@ -40,10 +40,7 @@ while(view_id<length(colnames(fotogram_pts@data)) && colnames(fotogram_pts@data)
 #Dazu Koordinaten in Dataframe schreiben
 coord <- data.frame(fotogram_pts@coords[ ,1], fotogram_pts@coords[ ,2], fotogram_pts@coords[ ,3],fotogram_pts@data[ ,profile_id],fotogram_pts@data[, view_id])
 colnames(coord) <- c("x", "y", "z", "pr","view")
-<<<<<<< HEAD
-=======
-plot(coord$x,coord$y)
->>>>>>> c5b14f0396199ba8d21e1f5d9bdc75f69311d55f
+
 
 #Jetzt muss jedes Profil einzeln bearbeitet werden
 #Nas raus
