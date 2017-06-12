@@ -7,9 +7,9 @@
 #'
 #' @return SpatialDataFrame with the new coordinates
 #'
-#' @examples
 #'
-#' export <- archProfile(fotogram_pts = coord_data, profile_col = "pr", view_col = "ansicht")
+#'
+#'
 #'
 #' @export
 #'
