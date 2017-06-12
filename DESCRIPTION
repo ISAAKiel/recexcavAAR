@@ -5,6 +5,7 @@ Version: 0.3.0.9000
 Authors@R: c(
   person("Clemens", "Schmid", email = "clemens@nevrome.de", role = c("cre", "cph", "aut")),
   person("Benjamin", "Serbe", email = "b.serbe@web.de", role = c("aut"))
+  person("Mennenga", "Moritz", email = "mennenga@nihk.de", role = c("aut"))
   )
 Maintainer: Clemens Schmid <clemens@nevrome.de>
 Description: A toolset for 3D reconstruction and analysis of excavations. It provides methods to reconstruct natural and artificial surfaces based on field measurements. This allows to spatially contextualize documented subunits and features. Intended to be part of a 3D visualization workflow.
@@ -23,7 +24,8 @@ Suggests:
     rgl (>= 0.96.0),
     rmarkdown (>= 1.0),
     roxygen2 (>= 5.0.1),
-    testthat (>= 1.0.2)
+    testthat (>= 1.0.2),
+    rgdal (>= 1.2-5)
 VignetteBuilder: knitr
 Depends:
     R (>= 3.3.2),
