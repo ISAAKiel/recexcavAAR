@@ -68,6 +68,7 @@ NULL
 
 #' }
 #'
+#' @family fotogram
 #'
 #' @name fotogram_pts
 NULL
