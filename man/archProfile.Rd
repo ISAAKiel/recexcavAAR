@@ -25,5 +25,4 @@ library(recexcavAAR)
 fotogram_sdf <- SpatialPointsDataFrame(coords = fotogram_pts[ ,c(1,2,3)], data = fotogram_pts, proj4string = CRS('+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs'))
 profile <- archProfile(fotogram_pts = fotogram_sdf, profile_col = "pr", view_col = "view")
 
-
 }
