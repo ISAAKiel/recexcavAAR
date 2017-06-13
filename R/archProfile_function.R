@@ -6,9 +6,8 @@
 #' @param view_col Name of the profile containing the viewing direction
 #' @return SpatialDataFrame with the new coordinates
 #' @examples
-#' table <- read.csv("data-raw\\fotogram_pts.csv")
-#' table$X <- NULL
-#' fotogram_sdf <- SpatialPointsDataFrame(coords=table[,c(1,2,3)], data = table, proj4string = CRS('+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs'))
+#'
+#' fotogram_sdf <- SpatialPointsDataFrame(coords = fotogram_pts[ ,c(1,2,3)], data = fotogram_pts, proj4string = CRS('+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs'))
 #' profile <- archProfile(fotogram_pts = fotogram_sdf, profile_col = "pr", view_col = "view")
 #'
 #'
