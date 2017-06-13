@@ -1,18 +1,18 @@
 #' Tool for rotating profile control points form rectifiying images
 #'
 #'
-#' @param fotogram_pts SpatialDataFrame A SpatialDataFrame containing the control points
+#' @param fotogram_pts SpatialDataFrame A SpatialDataFrame containing the control points (3 Dimensions)
 #' @param profile_col Name of the column containing the profile group variable (Profilenumber)
 #' @param view_col Name of the profile containing the viewing direction
-#'
 #' @return SpatialDataFrame with the new coordinates
+#' @examples
+#' table <- read.csv("data-raw\\fotogram_pts.csv")
+#' table$X <- NULL
+#' fotogram_sdf <- SpatialPointsDataFrame(coords=table[,c(1,2,3)], data = table, proj4string = CRS('+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs'))
+#' profile <- archProfile(fotogram_pts = fotogram_sdf, profile_col = "pr", view_col = "view")
 #'
 #'
-#'
-#'
-#'
-#'
-#'
+
 
 #Import of data
 archProfile <- function(fotogram_pts, profile_col, view_col){

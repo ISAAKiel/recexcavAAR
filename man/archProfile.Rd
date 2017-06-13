@@ -7,7 +7,7 @@
 archProfile(fotogram_pts, profile_col, view_col)
 }
 \arguments{
-\item{fotogram_pts}{SpatialDataFrame A SpatialDataFrame containing the control points}
+\item{fotogram_pts}{SpatialDataFrame A SpatialDataFrame containing the control points (3 Dimensions)}
 
 \item{profile_col}{Name of the column containing the profile group variable (Profilenumber)}
 
@@ -18,4 +18,12 @@ SpatialDataFrame with the new coordinates
 }
 \description{
 Tool for rotating profile control points form rectifiying images
+}
+\examples{
+table <- read.csv("data-raw\\\\fotogram_pts.csv")
+table$X <- NULL
+fotogram_sdf <- SpatialPointsDataFrame(coords=table[,c(1,2,3)], data = table, proj4string = CRS('+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs'))
+profile <- archProfile(fotogram_pts = fotogram_sdf, profile_col = "pr", view_col = "view")
+
+
 }
