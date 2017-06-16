@@ -7,7 +7,7 @@
 #' @return SpatialDataFrame with the new coordinates
 #' @examples
 #'
-#' fotogram_sdf <- sp::SpatialPointsDataFrame(coords = fotogram_pts[ ,c(2,3,4)],
+#' fotogram_sdf <- sp::SpatialPointsDataFrame(coords = fotogram_pts[ ,c(1,2,3)],
 #' data <- fotogram_pts,
 #' proj4string = sp::CRS('+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs'))
 #'
