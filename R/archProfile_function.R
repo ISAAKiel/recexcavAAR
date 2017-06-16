@@ -22,7 +22,6 @@ archProfile <- function(fotogram_pts, profile_col, view_col){
   #Die Datei muss zwei Spalten haben, zum einen die mit der Gruppierung
   #für die Profile (z.B. Profilnummer), und (optional) eine
   #Spalte mit der view von N/S/E/W, damit das Profil richtig gedreht werden kann
-
   #Spalte mit dem Namen raussuchen und den Spaltenindex merken
   profile_id <- 1
   while(profile_id<length(colnames(fotogram_pts@data)) &&
@@ -103,6 +102,7 @@ archProfile <- function(fotogram_pts, profile_col, view_col){
     #Dafür die Drehwinkel bestimmen (rad -> deg)
 
 
+
     if (slope < 0 && coord_proc$view[1] == "N" ||
         slope < 0 && coord_proc$view[1] == "E"){
       slope_deg <- 180 - abs((atan(slope) * 180) / pi) * -1
@@ -112,21 +112,20 @@ archProfile <- function(fotogram_pts, profile_col, view_col){
     } else if (slope > 0 && coord_proc$view[1] == "S" ||
                slope > 0 && coord_proc$view[1] == "E") {
       slope_deg <- ((atan(slope)*180)/pi)*-1
-    } else if (slope > 0 && coord_proc$view[i] == "N" ||
-               slope > 0 && coord_proc$view[i] == "W") {
+    } else if (slope > 0 && coord_proc$view[1] == "N" ||
+               slope > 0 && coord_proc$view[1] == "W") {
       slope_deg <- 180 - ((atan(slope)*180)/pi)
-    } else if (slope == 0 && coord_proc$view[i] == "N" ){
+    } else if (slope == 0 && coord_proc$view[1] == "N" ){
       slope_deg <- 180
-    } else if (slope == 0 && coord_proc$view[i] == "N" ){
+    } else if (slope == 0 && coord_proc$view[1] == "N" ){
       slope_deg <- 0
     }
 
-
     #Nun den Drehpunkt bestimmen.
     #X-Wert ist die Mitte zwischen den x-Koordinaten
-    center_x <- (max(coord_proc$x)+min(coord_proc$x))/2
+    center_x <- sum(coord_proc$x)/length(coord_proc$x)
     #Y-Wert
-    center_y <- (max(coord_proc$y)+min(coord_proc$y))/2
+    center_y <- sum(coord_proc$y)/length(coord_proc$y)
     #Nun um diesen Punkt drehen
 
     coord_trans <- coord_proc
@@ -158,18 +157,19 @@ archProfile <- function(fotogram_pts, profile_col, view_col){
 
     #Steigungswinkel berechnen
     z_slope <- coef(z_fm)[2]
-    if (z_slope <0){
-      #Rotation um den Punkt
-      z_slope_deg <- ((atan(z_slope)*180)/pi)
+
+    if (z_slope < 0){
+
+      z_slope_deg <- (90 - abs((atan(z_slope)*180)/pi))*-1
     } else if (z_slope > 0){
-      z_slope_deg <- 360 - ((atan(z_slope)*180)/pi)
+      z_slope_deg <- 90 - ((atan(z_slope)*180)/pi)
     } else if (z_slope == 0){
       z_slope_deg <- 0
     }
 
 
-    z_center_y <- (max(coord_trans$y)+min(coord_trans$y))/2
-    z_center_z <- (max(coord_trans$z)+min(coord_trans$z))/2
+    z_center_y <- sum(coord_trans$y)/length(coord_trans$y)
+    z_center_z <- sum(coord_trans$z)/length(coord_trans$z)
 
     z_coord <- coord_trans
 
