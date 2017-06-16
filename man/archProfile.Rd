@@ -11,7 +11,7 @@ archProfile(fotogram_pts, profile_col, view_col)
 
 \item{profile_col}{Name of the column containing the profile group variable (Profilenumber)}
 
-\item{view_col}{Name of the profile containing the viewing direction}
+\item{view_col}{Name of the profile containing the viewing direction (N,S,W,E)}
 }
 \value{
 SpatialDataFrame with the new coordinates
@@ -21,7 +21,7 @@ Tool for rotating profile control points form rectifiying images
 }
 \examples{
 
-fotogram_sdf <- sp::SpatialPointsDataFrame(coords = fotogram_pts[ ,c(1,2,3)],
+fotogram_sdf <- sp::SpatialPointsDataFrame(coords = fotogram_pts[ ,c(2,3,4)],
 data <- fotogram_pts,
 proj4string = sp::CRS('+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs'))
 
