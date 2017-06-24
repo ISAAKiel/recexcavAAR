@@ -5,14 +5,21 @@ date: "17. Juni 2017"
 output: html_document
 ---
 
-Hier eine kleine Erklärung zur Fundktionsweise:
+Hier eine kleine Erklärung zur Funktionsweise:
 
 ##Ziel
-Ziel ist es die Fotogrammetriepunkte eines Profils, die mit x, y und z Koordinaten beschrieben sind so zu rotieren und zu klappen, dass man im GIS in der 2D Aufsicht diese georeferenzieren kann. Im Georeferencer gibt es den Transformationstyp projektiv, der eine Entzerrung ermöglicht.
+Ziel ist es die Fotogrammetriepunkte eines Profils, die mit x, y und z Koordinaten beschrieben sind so zu rotieren und zu klappen, dass man im GIS in der 2D Aufsicht diese georeferenzieren kann. 
+
+Im Georeferencer gibt es den Transformationstyp projektiv, der eine Entzerrung ermöglicht.
+
+Sind die Entzerrungen nicht an ihrer 3D-Position nötig, würde das für die meisten Fälle ausreichen.
+
+Während bei PhoToPlan das BKS über die Punkte gelegt wird, werden hier die Punkte so rotiert, dass die Ansicht im GIS zum BKS wird.
 
 ##Durchführung
-In der Ansicht im GIS würden die Messpunkte zunächst so aussehen.
-Das Profil ist in diesem Fall um 20° nach hinten gekippt, d.h. die Punkte in SO liegen weiter unten.
+Laden der Daten und auslesen nur eines Profils
+
+Eingabe ist dabei ein SpatialDataFrame (shape)
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
 devtools::load_all()
@@ -21,27 +28,36 @@ fotogram_sdf <- sp::SpatialPointsDataFrame(coords = fotogram_pts[ ,c(1,2,3)],
 data <- fotogram_pts,
 proj4string = sp::CRS('+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs'))
 
-#Fuer das Beidpiel nur ein Profil
+#Fuer das Beispiel nur ein Profil
 fotogram_sdf <- fotogram_sdf[fotogram_sdf@data$pr == 3,]
-plot(fotogram_sdf@data$x,fotogram_sdf@data$y,asp=1)
 
 
 ```
 
+In der Ansicht im GIS würden die Messpunkte zunächst so aussehen.
+Das Profil ist in diesem Fall um 20° nach hinten gekippt, d.h. die Punkte in Süd-Ost liegen weiter unten.
+
+```{r, echo=TRUE, fig.width=7, fig.height=7}
+
+plot(fotogram_sdf@data$x,fotogram_sdf@data$y,asp=1)
+
+```
+
+
 Um die Daten in den 2D Raum zu bringen und nach vorne zu klappen, müssen sie zunächst gedreht werden. Das ist später auch praktischer, wenn die Daten für den Druck exportiert werden sollen. 
-*Hier könnte überlegt werden, ob man den Schritt auch optional macht, d.h. die Profile nachher wieder zurückdreht, so würde es die Möglichkeit geben, dass die Profile später an der alten Stelle liegen*
+*Hier könnte überlegt werden, ob man den Schritt auch optional macht, d.h. die Profile nachher wieder zurückdreht, so würde es die Möglichkeit geben, dass die Profile später auf der Schnittline des Befundes liegen*
 
 Zwei Parameter sind wichtig, zum einen die Profilnummer, um die Profile einzeln zu bearbeiten und die Ansicht auf das Profil, denn diese bestimmt, in welche Richtung das Profil gedreht werden muss.
 
-Da die Spalten nicht immer gleich sind - wohingegen die Koordinatenspalten in einem SDF fest definier sind ;-) - können die Beschriftungen als Parameter übergeben werden und die Spalten werden herausgesucht.
+Da die Spalten nicht immer gleich sind - wohingegen die Koordinatenspalten in einem SpatialDataFrame fest definiert sind - können die Beschriftungen als Parameter übergeben werden und die Spalten werden herausgesucht.
 
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
 fotogram_pts <- NULL
 fotogram_pts <- fotogram_sdf
 
-profile_col <- "pr"
-view_col <- "view"
+profile_col <- "pr" #Normalerweise bei Funktionsaufruf übergeben
+view_col <- "view" #Normalerweise bei Funktionsaufruf übergeben
 
   profile_id <- 1
   while(profile_id<length(colnames(fotogram_pts@data)) &&
@@ -94,7 +110,7 @@ Nun werden die Daten vorbereitet
 
 Für jedes Profil werden dann folgende Schritte durchgeführt:
 Zunächst wird ein df erstellt, in dem nur die Daten des aktuellen Profils sind.
-Dann wird die Drehung des Profils in die Horizontale eingeleitet. Dazu wird die Regressionsgerade durch die Punkte bestimmt.
+Dann wird die Drehung des Profils parallel zur X-Achse eingeleitet. Dazu wird die Regressionsgerade durch die Punkte bestimmt um die Steigung zu ermitteln.
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
     i<-1 #Zähvariable aus der Schleife, in diesem Fall 1
@@ -117,7 +133,6 @@ Dann wird die Drehung des Profils in die Horizontale eingeleitet. Dazu wird die 
     abline(fm)
 ```
 
-*Es stellt sich die Frage, ob es sinnvoll ist die inneren Punkte herauszunehmen, da diese evt nicht mittig liegen und dann zu starken Einfluss bekommen*
 
 Die Steigung der Gerade bestimmt den Winkel um den die Punkte rotiert werden müssen. Dabei müssen zwei Sachen beachtet werden. Ist die Steigung poitiv oder negativ und, von wo wird das Profil betrachet
 
@@ -162,7 +177,7 @@ slope_deg
 
 
 Nun muss der Drehpunkt bestimmt werden. Der liegt mittig aller Punkte
-
+*Hier könnte ein Problem entstehen, möglicherweise ist es sinnvoller nur die Maximalwerte zu nehmen, allerdings liegen der Drehpunkt dann nicht auf der Steigungsgeraden, (die könnte man auch nur aus den äußeren berechnen, das muss man dann passend machen)*
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
     #Nun den Drehpunkt bestimmen.
@@ -176,13 +191,16 @@ Nun muss der Drehpunkt bestimmt werden. Der liegt mittig aller Punkte
     
 ```
 
-Der nächste Schritt beinhaltet das Drehen (Ansicht von Nord).
+Der nächste Schritt beinhaltet das Drehen (Im Beispiel: Ansicht von Nord).
 Dafür wird wiederum ein df angelegt, in den die transformierten und rotierten Werte kommen.
      *http://www.matheboard.de/archive/460078/thread.html*
 Hier besonders wichtig:
+
 *coord_proc$z[z]+center_y-mean(coord_proc$z)*
+
 Dadurch liegen die FG-Punkte später mittig über dem Profil
 
+*Da es bei langen Profilen einen Fehler gibt, könnte der Nutzer diese in einer Spalte gruppieren, dann muss an dieser Stelle dafür gesorgt werden, dass die Segmente einzeln berechnet und danach nebeneinander dargestellt werden. Das würde die aktuelle Ungenauigkeit einfach lösen*
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
     coord_trans <- coord_proc
@@ -212,9 +230,13 @@ Jetzt könnten schon die z und y Werte getauscht werden und man hat die Frontala
     plot(coord_trans$y,coord_trans$z,asp=1)
 ```
 
-Es ist also gekippt. Die Entzerrung geht so nicht, da die Blickwinkel immer orthogonal zu den Achsen ist.
+Es ist also gekippt. Die Entzerrung geht so nicht, da der Blickwinkel immer orthogonal zu der Z-Achse sein muss, damit keine Verzerrung entsteht
+.
 Also müssen die oben durchgeführten Schritte für die Rotation um die z-Achse wiederholt werden.
-Hier gab es das Problem mit den zu großen Zahlen.
+
+Hier gab es das Problem, dass nicht mit den echten Koordinatenwerten die lm durchgeführt werden konnte, da gibt es scheinbar ein Problem mit den langen Zahlen. Also wir der Wert an 0 angepasst und die Steigung dann übernommen (*
+    z_yw <- c(coord_trans$y -  min(c(coord_trans$y,coord_trans$z)))
+    z_zw <- c(coord_trans$z -  min(c(coord_trans$y,coord_trans$z)))* ).
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
 #Jetzt das ganze für die z-Achse, um eine Kippung des Profils zu minimieren
@@ -255,7 +277,7 @@ Dann die Bestimmung des Drehpunktes
 ```
 
 
-Und wieder drehen, diemal um die X-Achse
+Und wieder drehen, diesmal um die X-Achse
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
     
@@ -284,9 +306,8 @@ Und wieder drehen, diemal um die X-Achse
     
 ```
 
-Und dann die umwandlung in einen sdf, wobei x und y vertauscht sind, sodass ich die Ansicht auf das Profil bekomme:
 
-
+Wenn dies für alle Profile durchgeführt worden ist, folgt die Umwandlung in einen sdf, wobei x und y vertauscht sind, sodass ich die Ansicht auf das Profil bekomme:
 
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
@@ -305,8 +326,9 @@ Und dann die umwandlung in einen sdf, wobei x und y vertauscht sind, sodass ich 
 - Import auch via table (für GIS)
 
 - Prüfen warum bei langen Profilen nicht genau
-  - Rotation um dritte Achse nötig?
-  - Fehler durch innenliegende Punkte
+  -> Das größte Problem sind die Unterschiede in der Y-Achse. Sind die Werte hier unterschiedlich (nach der Rotation parallel zur X-Achse), funktionier das Klappen nicht richtig.
+  -> Lösung wäre das getrennte umrechnen der Punkte verschiedener Ebenen bzw. das der Einzelsegmente eines langen Profils (am besten mit Gruppierung, dann muss sich der Nutzer um nichts kümmern)
   
 - Welchen Einfluss haben unregelmäßig verteilte Punkte innerhalb des Profiles?
-  - Sollten nur die Eckpunkte zur Berechnung von Rotationsachse genutzt werden (Reaktion des lm)?
+  -> Sollten nur die Eckpunkte zur Berechnung von Rotationsachse genutzt werden (Reaktion des lm)?
+  -> Nach Tests ist der Einfluss zu vernachlässigen
