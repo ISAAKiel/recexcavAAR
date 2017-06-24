@@ -332,3 +332,6 @@ Wenn dies für alle Profile durchgeführt worden ist, folgt die Umwandlung in ei
 - Welchen Einfluss haben unregelmäßig verteilte Punkte innerhalb des Profiles?
   -> Sollten nur die Eckpunkte zur Berechnung von Rotationsachse genutzt werden (Reaktion des lm)?
   -> Nach Tests ist der Einfluss zu vernachlässigen
+  
+- Berechnung des Fehlers
+  -> Abstand zweier Punkte im Orginalzusand und in der Aufsicht?
