@@ -4,7 +4,8 @@
 \alias{archProfile}
 \title{Tool for rotating profile control points form rectifiying images}
 \usage{
-archProfile(fotogram_pts, profile_col, view_col, view = "projected")
+archProfile(fotogram_pts, profile_col, view_col, view = "projected",
+  direction = "horizontal")
 }
 \arguments{
 \item{fotogram_pts}{SpatialDataFrame A SpatialDataFrame containing the control points (3 Dimensions)}
@@ -14,6 +15,8 @@ archProfile(fotogram_pts, profile_col, view_col, view = "projected")
 \item{view_col}{Name of the profile containing the viewing direction (N,S,W,E)}
 
 \item{view}{Direction of view on the Profile (surface = orthogonal to the surface of the profile, Standard is a view on a vertial intersecting pane (like a drawing)).}
+
+\item{direction}{Position of the profile control points. (horizontal = Profile is horizontal, the relative heigth is still correct, good for catalouge export; original = the points are on the profile section)}
 }
 \value{
 SpatialDataFrame with the new coordinates

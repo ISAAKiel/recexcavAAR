@@ -1,15 +1,32 @@
 ## fotogram_pts = vector
 ## profile_col = string
 ## view_col = string
+## view_ = selection projected;surface
+## direction_ = selection horizontal;original
 ## output = output vector
 
 
-profile_id <- 1
-while(profile_id<length(colnames(fotogram_pts@data)) &&
-colnames(fotogram_pts@data)[profile_id] != profile_col)
-{
-    profile_id <- profile_id+1
+
+
+
+if (view_ == 0){
+view <- "projected"
+} else {
+view <- "surface"
 }
+
+if (direction_ == 0){
+direction <- "horizontal"
+} else {
+direction <- "original"
+}
+
+  profile_id <- 1
+  while(profile_id<length(colnames(fotogram_pts@data)) &&
+        colnames(fotogram_pts@data)[profile_id] != profile_col)
+  {
+    profile_id <- profile_id+1
+  }
 
   view_id <- 1
   while(view_id<length(colnames(fotogram_pts@data)) &&
@@ -38,15 +55,12 @@ colnames(fotogram_pts@data)[profile_id] != profile_col)
 
   i <- 1
   while (i <= length(prnames)){
+
     coord_proc <- coord[which (coord$pr==prnames[i]), ]
     yw <- c(coord_proc$y)
     xw <- c(coord_proc$x)
     fm <- lm(yw ~ xw)
-
-    slope <- coef(fm)[2]
-
-
-
+	slope <- coef(fm)[2]
 
     if (slope < 0 && coord_proc$view[1] == "N" ||
         slope < 0 && coord_proc$view[1] == "E"){
@@ -83,11 +97,14 @@ colnames(fotogram_pts@data)[profile_id] != profile_col)
         coord_proc$pr[z])
 
     }
+if (view == "surface"){
 
     z_yw <- c(coord_trans$y -  min(c(coord_trans$y,coord_trans$z)))
     z_zw <- c(coord_trans$z -  min(c(coord_trans$y,coord_trans$z)))
 
     z_fm <- lm(z_zw ~ z_yw)
+
+
     z_slope <- coef(z_fm)[2]
 
     if (z_slope < 0){
@@ -115,17 +132,49 @@ colnames(fotogram_pts@data)[profile_id] != profile_col)
 
         coord_trans$pr[z])
 
-
     }
     coord_trans <- z_coord
+ }
 
+    if (direction == "original"){
+      y_xw <- c(coord_trans$x -  min(c(coord_trans$x,coord_trans$z)))
+      y_zw <- c(coord_trans$z -  min(c(coord_trans$x,coord_trans$z)))
+
+      y_fm <- lm(y_zw ~ y_xw)
+
+
+      y_slope_deg <- slope_deg * -1
+
+
+      y_center_x <- sum(coord_trans$x)/length(coord_trans$x)
+      y_center_z <- sum(coord_trans$z)/length(coord_trans$z)
+
+      y_coord <- coord_trans
+
+      for (z in 1:nrow(y_coord)){
+        y_coord[z,] <- c(
+          y_center_x + (coord_trans$x[z] - y_center_x) * cos(y_slope_deg / 180 * pi) -
+            (coord_trans$z[z] - y_center_z) * sin(y_slope_deg / 180 * pi),
+          coord_trans$y[z],
+          y_center_z + (coord_trans$x[z] - y_center_x) * sin(y_slope_deg / 180 * pi) +
+            (coord_trans$z[z] - y_center_z) * cos(y_slope_deg / 180 * pi),
+          coord_trans$pr[z])
+
+      }
+      coord_trans <- y_coord
+
+}
 
     coord_export[which (coord$pr==prnames[i]), ] <- coord_trans
     i<-i+1
     coord_proc <- NULL
     coord_trans <- NULL
-    z_coord <- NULL
-  }
+
+    if (view == "surface"){
+      z_coord <- NULL
+    }
+
+    }
 
 
 
@@ -133,4 +182,8 @@ colnames(fotogram_pts@data)[profile_id] != profile_col)
   export <- SpatialPointsDataFrame(coords=coord_export[,c(1,3)],
                                    data = coord_export,
                                    proj4string = (fotogram_pts@proj4string))
+
+
+
+
 output = export

@@ -5,6 +5,7 @@
 #' @param profile_col Name of the column containing the profile group variable (Profilenumber)
 #' @param view_col Name of the profile containing the viewing direction (N,S,W,E)
 #' @param view Direction of view on the Profile (surface = orthogonal to the surface of the profile, Standard is a view on a vertial intersecting pane (like a drawing)).
+#' @param direction Position of the profile control points. (horizontal = Profile is horizontal, the relative heigth is still correct, good for catalouge export; original = the points are on the profile section)
 #' @return SpatialDataFrame with the new coordinates
 #' @examples
 #'
@@ -19,7 +20,9 @@
 #' )
 #'
 #' @export
-archProfile <- function(fotogram_pts, profile_col, view_col, view = "projected"){
+archProfile <- function(fotogram_pts, profile_col, view_col, view = "projected", direction = "horizontal"){
+
+
   #Die Datei muss zwei Spalten haben, zum einen die mit der Gruppierung
   #für die Profile (z.B. Profilnummer), und (optional) eine
   #Spalte mit der view von N/S/E/W, damit das Profil richtig gedreht werden kann
@@ -147,47 +150,80 @@ archProfile <- function(fotogram_pts, profile_col, view_col, view = "projected")
       #http://www.matheboard.de/archive/460078/thread.html
 
     }
-if (view == "surface"){
-    #Jetzt das ganze für die z-Achse, um eine Kippung des Profils zu minimieren
 
-    z_yw <- c(coord_trans$y -  min(c(coord_trans$y,coord_trans$z)))
-    z_zw <- c(coord_trans$z -  min(c(coord_trans$y,coord_trans$z)))
+    if (view == "surface"){
+      #Jetzt das ganze für die z-Achse, um eine Kippung des Profils zu minimieren
 
-    z_fm <- lm(z_zw ~ z_yw)
+      z_yw <- c(coord_trans$y -  min(c(coord_trans$y,coord_trans$z)))
+      z_zw <- c(coord_trans$z -  min(c(coord_trans$y,coord_trans$z)))
+
+      z_fm <- lm(z_zw ~ z_yw)
 
 
-    #Steigungswinkel berechnen
-    z_slope <- coef(z_fm)[2]
+      #Steigungswinkel berechnen
+      z_slope <- coef(z_fm)[2]
 
-    if (z_slope < 0){
+      if (z_slope < 0){
 
-      z_slope_deg <- (90 - abs((atan(z_slope)*180)/pi))*-1
-    } else if (z_slope > 0){
-      z_slope_deg <- 90 - ((atan(z_slope)*180)/pi)
-    } else if (z_slope == 0){
-      z_slope_deg <- 0
+        z_slope_deg <- (90 - abs((atan(z_slope)*180)/pi))*-1
+      } else if (z_slope > 0){
+        z_slope_deg <- 90 - ((atan(z_slope)*180)/pi)
+      } else if (z_slope == 0){
+        z_slope_deg <- 0
+      }
+
+
+      z_center_y <- sum(coord_trans$y)/length(coord_trans$y)
+      z_center_z <- sum(coord_trans$z)/length(coord_trans$z)
+
+      z_coord <- coord_trans
+
+      for (z in 1:nrow(z_coord)){
+        z_coord[z,] <- c(
+          coord_trans$x[z],
+          z_center_y + (coord_trans$y[z] - z_center_y) * cos(z_slope_deg / 180 * pi) -
+            (coord_trans$z[z] - z_center_z) * sin(z_slope_deg / 180 * pi),
+          z_center_z + (coord_trans$y[z] - z_center_y) * sin(z_slope_deg / 180 * pi) +
+            (coord_trans$z[z] - z_center_z) * cos(z_slope_deg / 180 * pi),
+
+          coord_trans$pr[z])
+        #http://www.matheboard.de/archive/460078/thread.html
+
+      }
+      coord_trans <- z_coord
     }
 
 
-    z_center_y <- sum(coord_trans$y)/length(coord_trans$y)
-    z_center_z <- sum(coord_trans$z)/length(coord_trans$z)
+    if (direction == "original"){
+      y_xw <- c(coord_trans$x -  min(c(coord_trans$x,coord_trans$z)))
+      y_zw <- c(coord_trans$z -  min(c(coord_trans$x,coord_trans$z)))
 
-    z_coord <- coord_trans
+      y_fm <- lm(y_zw ~ y_xw)
 
-    for (z in 1:nrow(z_coord)){
-      z_coord[z,] <- c(
-        coord_trans$x[z],
-        z_center_y + (coord_trans$y[z] - z_center_y) * cos(z_slope_deg / 180 * pi) -
-          (coord_trans$z[z] - z_center_z) * sin(z_slope_deg / 180 * pi),
-        z_center_z + (coord_trans$y[z] - z_center_y) * sin(z_slope_deg / 180 * pi) +
-          (coord_trans$z[z] - z_center_z) * cos(z_slope_deg / 180 * pi),
 
-        coord_trans$pr[z])
-      #http://www.matheboard.de/archive/460078/thread.html
+      #Der Drehwinkel ist in diesem Falle der negative Drehwinkel des ersten Schrittes
+      y_slope_deg <- slope_deg * -1
 
+
+      y_center_x <- sum(coord_trans$x)/length(coord_trans$x)
+      y_center_z <- sum(coord_trans$z)/length(coord_trans$z)
+
+      y_coord <- coord_trans
+
+      for (z in 1:nrow(y_coord)){
+        y_coord[z,] <- c(
+          y_center_x + (coord_trans$x[z] - y_center_x) * cos(y_slope_deg / 180 * pi) -
+            (coord_trans$z[z] - y_center_z) * sin(y_slope_deg / 180 * pi),
+          coord_trans$y[z],
+          y_center_z + (coord_trans$x[z] - y_center_x) * sin(y_slope_deg / 180 * pi) +
+            (coord_trans$z[z] - y_center_z) * cos(y_slope_deg / 180 * pi),
+          coord_trans$pr[z])
+        #http://www.matheboard.de/archive/460078/thread.html
+
+      }
+      coord_trans <- y_coord
     }
-    coord_trans <- z_coord
-}
+
 
     #Dann passend in den dataframe speichern
     coord_export[which (coord$pr==prnames[i]), ] <- coord_trans
@@ -200,7 +236,7 @@ if (view == "surface"){
       z_coord <- NULL
     }
 
-    }
+  }
 
 
 
@@ -209,6 +245,7 @@ if (view == "surface"){
   export <- SpatialPointsDataFrame(coords=coord_export[,c(1,3)],
                                    data = coord_export,
                                    proj4string = (fotogram_pts@proj4string))
+
 
 return(export)
 }
