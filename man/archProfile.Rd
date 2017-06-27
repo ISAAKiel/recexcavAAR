@@ -4,7 +4,7 @@
 \alias{archProfile}
 \title{Tool for rotating profile control points form rectifiying images}
 \usage{
-archProfile(fotogram_pts, profile_col, view_col)
+archProfile(fotogram_pts, profile_col, view_col, view = "projected")
 }
 \arguments{
 \item{fotogram_pts}{SpatialDataFrame A SpatialDataFrame containing the control points (3 Dimensions)}
@@ -12,6 +12,8 @@ archProfile(fotogram_pts, profile_col, view_col)
 \item{profile_col}{Name of the column containing the profile group variable (Profilenumber)}
 
 \item{view_col}{Name of the profile containing the viewing direction (N,S,W,E)}
+
+\item{view}{Direction of view on the Profile (surface = orthogonal to the surface of the profile, Standard is a view on a vertial intersecting pane (like a drawing)).}
 }
 \value{
 SpatialDataFrame with the new coordinates
@@ -28,7 +30,7 @@ proj4string = sp::CRS('+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs'))
 profile <- archProfile(
   fotogram_pts = fotogram_sdf,
   profile_col = "pr",
-  view_col = "view"
+  view_col = "view",
 )
 
 }

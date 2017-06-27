@@ -4,6 +4,7 @@
 #' @param fotogram_pts SpatialDataFrame A SpatialDataFrame containing the control points (3 Dimensions)
 #' @param profile_col Name of the column containing the profile group variable (Profilenumber)
 #' @param view_col Name of the profile containing the viewing direction (N,S,W,E)
+#' @param view Direction of view on the Profile (surface = orthogonal to the surface of the profile, Standard is a view on a vertial intersecting pane (like a drawing)).
 #' @return SpatialDataFrame with the new coordinates
 #' @examples
 #'
@@ -14,11 +15,11 @@
 #' profile <- archProfile(
 #'   fotogram_pts = fotogram_sdf,
 #'   profile_col = "pr",
-#'   view_col = "view"
+#'   view_col = "view",
 #' )
 #'
 #' @export
-archProfile <- function(fotogram_pts, profile_col, view_col){
+archProfile <- function(fotogram_pts, profile_col, view_col, view = "projected"){
   #Die Datei muss zwei Spalten haben, zum einen die mit der Gruppierung
   #für die Profile (z.B. Profilnummer), und (optional) eine
   #Spalte mit der view von N/S/E/W, damit das Profil richtig gedreht werden kann
@@ -146,7 +147,7 @@ archProfile <- function(fotogram_pts, profile_col, view_col){
       #http://www.matheboard.de/archive/460078/thread.html
 
     }
-
+if (view == "surface"){
     #Jetzt das ganze für die z-Achse, um eine Kippung des Profils zu minimieren
 
     z_yw <- c(coord_trans$y -  min(c(coord_trans$y,coord_trans$z)))
@@ -186,7 +187,7 @@ archProfile <- function(fotogram_pts, profile_col, view_col){
 
     }
     coord_trans <- z_coord
-
+}
 
     #Dann passend in den dataframe speichern
     coord_export[which (coord$pr==prnames[i]), ] <- coord_trans
@@ -194,8 +195,12 @@ archProfile <- function(fotogram_pts, profile_col, view_col){
     #temporären dataframe löschen
     coord_proc <- NULL
     coord_trans <- NULL
-    z_coord <- NULL
-  }
+
+    if (view == "surface"){
+      z_coord <- NULL
+    }
+
+    }
 
 
 
