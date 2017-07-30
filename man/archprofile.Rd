@@ -42,7 +42,7 @@ fotogram_sdf <- sp::SpatialPointsDataFrame(
 profile <- archprofile(
   fotogram_pts = fotogram_sdf,
   profile_col = "pr",
-  view_col = "view",
+  view_col = "view"
 )
 
 }
