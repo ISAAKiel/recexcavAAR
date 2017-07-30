@@ -1,12 +1,19 @@
 #' Tool for rotating profile control points form rectifiying images
 #'
-#'
-#' @param fotogram_pts SpatialDataFrame A SpatialDataFrame containing the control points (3 Dimensions)
-#' @param profile_col Name of the column containing the profile group variable (Profilenumber)
-#' @param view_col Name of the profile containing the viewing direction (N,S,W,E)
-#' @param view Direction of view on the Profile (surface = orthogonal to the surface of the profile, Standard is a view on a vertial intersecting pane (like a drawing)).
-#' @param direction Position of the profile control points. (horizontal = Profile is horizontal, the relative heigth is still correct, good for catalouge export; original = the points are on the profile section)
-#' @return SpatialDataFrame with the new coordinates
+#' @param fotogram_pts SpatialPointsDataFrame. A sp::SpatialPointsDataFrame containing the control points (3 Dimensions).
+#' @param profile_col character. Name of the column containing the profile group variable (profile number).
+#' @param view_col character. Name of the profile containing the viewing direction ("N","S","W","E").
+#' @param view character. Direction of view on the Profile.
+#' \itemize{
+#'   \item{"projected"}{: (default) on a vertial intersecting pane like a drawing}
+#'   \item{"surface"}{: orthogonal to the surface of the profile}
+#' }
+#' @param direction character. Position of the profile control points.
+#' \itemize{
+#'   \item{"horizontal"}{: (default) profile is horizontal, the relative heigth is still correct, good for catalogue export}
+#'   \item{"original"}{:  the points are on the profile section}
+#' }
+#' @return sp::SpatialPointsDataFrame with the new coordinates.
 #' @examples
 #'
 #' fotogram_sdf <- sp::SpatialPointsDataFrame(coords = fotogram_pts[ ,c(1,2,3)],
