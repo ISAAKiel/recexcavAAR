@@ -12,36 +12,36 @@ Check these declarations against the C/Fortran source code.
 */
 
 /* .Call calls */
-extern SEXP recexcavAAR_draw_circle(SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP recexcavAAR_draw_sphere(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP recexcavAAR_fillhexa(SEXP, SEXP);
-extern SEXP recexcavAAR_pnp(SEXP, SEXP, SEXP, SEXP);
-extern SEXP recexcavAAR_pnpmulti(SEXP, SEXP, SEXP, SEXP);
-extern SEXP recexcavAAR_posdec(SEXP, SEXP);
-extern SEXP recexcavAAR_posdeclist(SEXP, SEXP);
-extern SEXP recexcavAAR_rescale(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP recexcavAAR_rotate(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP recexcavAAR_spatiallong(SEXP, SEXP, SEXP);
-extern SEXP recexcavAAR_spatialwide(SEXP, SEXP, SEXP, SEXP);
-extern SEXP recexcavAAR_spitcenter(SEXP);
-extern SEXP recexcavAAR_spitcenternat(SEXP, SEXP);
-extern SEXP recexcavAAR_spitcenternatlist(SEXP, SEXP);
+extern SEXP _recexcavAAR_draw_circle(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _recexcavAAR_draw_sphere(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _recexcavAAR_fillhexa(SEXP, SEXP);
+extern SEXP _recexcavAAR_pnp(SEXP, SEXP, SEXP, SEXP);
+extern SEXP _recexcavAAR_pnpmulti(SEXP, SEXP, SEXP, SEXP);
+extern SEXP _recexcavAAR_posdec(SEXP, SEXP);
+extern SEXP _recexcavAAR_posdeclist(SEXP, SEXP);
+extern SEXP _recexcavAAR_rescale(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _recexcavAAR_rotate(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _recexcavAAR_spatiallong(SEXP, SEXP, SEXP);
+extern SEXP _recexcavAAR_spatialwide(SEXP, SEXP, SEXP, SEXP);
+extern SEXP _recexcavAAR_spitcenter(SEXP);
+extern SEXP _recexcavAAR_spitcenternat(SEXP, SEXP);
+extern SEXP _recexcavAAR_spitcenternatlist(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-  {"recexcavAAR_draw_circle",       (DL_FUNC) &recexcavAAR_draw_circle,       5},
-  {"recexcavAAR_draw_sphere",       (DL_FUNC) &recexcavAAR_draw_sphere,       6},
-  {"recexcavAAR_fillhexa",          (DL_FUNC) &recexcavAAR_fillhexa,          2},
-  {"recexcavAAR_pnp",               (DL_FUNC) &recexcavAAR_pnp,               4},
-  {"recexcavAAR_pnpmulti",          (DL_FUNC) &recexcavAAR_pnpmulti,          4},
-  {"recexcavAAR_posdec",            (DL_FUNC) &recexcavAAR_posdec,            2},
-  {"recexcavAAR_posdeclist",        (DL_FUNC) &recexcavAAR_posdeclist,        2},
-  {"recexcavAAR_rescale",           (DL_FUNC) &recexcavAAR_rescale,           6},
-  {"recexcavAAR_rotate",            (DL_FUNC) &recexcavAAR_rotate,            9},
-  {"recexcavAAR_spatiallong",       (DL_FUNC) &recexcavAAR_spatiallong,       3},
-  {"recexcavAAR_spatialwide",       (DL_FUNC) &recexcavAAR_spatialwide,       4},
-  {"recexcavAAR_spitcenter",        (DL_FUNC) &recexcavAAR_spitcenter,        1},
-  {"recexcavAAR_spitcenternat",     (DL_FUNC) &recexcavAAR_spitcenternat,     2},
-  {"recexcavAAR_spitcenternatlist", (DL_FUNC) &recexcavAAR_spitcenternatlist, 2},
+  {"_recexcavAAR_draw_circle",       (DL_FUNC) &_recexcavAAR_draw_circle,       5},
+  {"_recexcavAAR_draw_sphere",       (DL_FUNC) &_recexcavAAR_draw_sphere,       6},
+  {"_recexcavAAR_fillhexa",          (DL_FUNC) &_recexcavAAR_fillhexa,          2},
+  {"_recexcavAAR_pnp",               (DL_FUNC) &_recexcavAAR_pnp,               4},
+  {"_recexcavAAR_pnpmulti",          (DL_FUNC) &_recexcavAAR_pnpmulti,          4},
+  {"_recexcavAAR_posdec",            (DL_FUNC) &_recexcavAAR_posdec,            2},
+  {"_recexcavAAR_posdeclist",        (DL_FUNC) &_recexcavAAR_posdeclist,        2},
+  {"_recexcavAAR_rescale",           (DL_FUNC) &_recexcavAAR_rescale,           6},
+  {"_recexcavAAR_rotate",            (DL_FUNC) &_recexcavAAR_rotate,            9},
+  {"_recexcavAAR_spatiallong",       (DL_FUNC) &_recexcavAAR_spatiallong,       3},
+  {"_recexcavAAR_spatialwide",       (DL_FUNC) &_recexcavAAR_spatialwide,       4},
+  {"_recexcavAAR_spitcenter",        (DL_FUNC) &_recexcavAAR_spitcenter,        1},
+  {"_recexcavAAR_spitcenternat",     (DL_FUNC) &_recexcavAAR_spitcenternat,     2},
+  {"_recexcavAAR_spitcenternatlist", (DL_FUNC) &_recexcavAAR_spitcenternatlist, 2},
   {NULL, NULL, 0}
 };
 
