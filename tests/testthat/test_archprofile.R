@@ -22,6 +22,6 @@ load("data/archprofile_output_1_correct.RData")
 
 test_that(
   "the output of archprofile is the same as before the code refactoring for a very limited example",  {
-    expect_identical(archprofile_output_1, archprofile_output_1_correct)
+    expect_equal(archprofile_output_1, archprofile_output_1_correct)
   }
 )
