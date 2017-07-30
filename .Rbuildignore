@@ -6,3 +6,4 @@ data-raw
 playground
 ^cran-comments\.md$
 ^revdep$
+^qgis$
