@@ -13,14 +13,14 @@
 #' data <- fotogram_pts,
 #' proj4string = sp::CRS('+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs'))
 #'
-#' profile <- archProfile(
+#' profile <- archprofile(
 #'   fotogram_pts = fotogram_sdf,
 #'   profile_col = "pr",
 #'   view_col = "view",
 #' )
 #'
 #' @export
-archProfile <- function(fotogram_pts, profile_col, view_col, view = "projected", direction = "horizontal"){
+archprofile <- function(fotogram_pts, profile_col, view_col, view = "projected", direction = "horizontal"){
 
 
   #Die Datei muss zwei Spalten haben, zum einen die mit der Gruppierung
