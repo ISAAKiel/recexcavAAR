@@ -1,4 +1,4 @@
-#' Tool for rotating profile control points form rectifiying images
+#' Tool for rotating profile control points for rectifiying images
 #'
 #' @param fotogram_pts SpatialPointsDataFrame. A sp::SpatialPointsDataFrame containing the control points (3 Dimensions).
 #' @param profile_col character. Name of the column containing the profile group variable (profile number).
@@ -31,14 +31,14 @@
 #' @export
 archprofile <- function(fotogram_pts, profile_col, view_col,
                         view = "projected",  direction = "horizontal") {
-  #Die Datei muss zwei Spalten haben, zum einen die mit der Gruppierung
-  #für die Profile (z.B. Profilnummer), und (optional) eine
-  #Spalte mit der view von N/S/E/W, damit das Profil richtig gedreht werden kann
+  #The file needs two more colums, one for the grouping of the profile
+  #(e.g. profilenumber), and a
+  #column with the point of view (view from N/S/E/W) for the rotating direction
 
-  #Die Punkte müssen umden Mittelpunkt rotiert werden,
-  #sodass sie parallel zur x achse liegen
-  #Bedingung alle Pkt müssen möglichst auf einer Ebene liegen
-  #Dazu Koordinaten in data.frame schreiben
+  #All points need to be rotated around the profile's centre,
+  #therefore they are parallel to the x axis
+  #All points need to be (theortical) on a plane
+  #At first writing the coordinates and attributes in a dataframe
   coord <- data.frame(
     x = fotogram_pts@coords[, 1],
     y = fotogram_pts@coords[, 2],
@@ -47,17 +47,15 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
     view = fotogram_pts@data[, view_col]
   )
 
-  #Jetzt muss jedes Profil einzeln bearbeitet werden
-  #NAs raus
+  #Now starting with each profile individual
+  #possible nas has to be omitted
   coord <- na.omit(coord)
-  #Alle Namen der Profile ermitteln, da sich daraus die
-  #Anzahl der Schleifenduchläufe bestimmt
+  #Getting all names of the profiles, to use the amount
+  #for the n of iterations of the loop
   prnames <- levels(as.factor(coord$pr))
-  #Eine Tabelle, die für den Export da ist,
-  #mit der gleichen Datenlänge wie die importierte
-  #Da dieser df am ende immer wieder neue daten angehängt bekommt
-  #und das rbind mit df blöd ist, wird hier eine Kopie der orginaltabelle überschrieben
-  #damit fehler auffallen, sind alle Spalten = 0; Auch wenn es sehr unelegant ist
+  #A dataframe with the same length as the import is needed for the export ,
+  #A copy of the import df is used. All colums have 0 values for seeing errors
+
   coord_export <- coord
   coord_export$view <- NULL
   coord_export$pr <- 0
@@ -65,18 +63,12 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
   coord_export$y <- 0
 
   i <- 1
-  #Jetzt jedes Profil durchlaufen
+  #Now going for every profile
   while (i <= length(prnames)) {
-    #Alle Daten des iten Profils auslesen und in temporären dataframe schreiben
+    #Writing all data of the actual profile in a teporary dataframe
     coord_proc <- coord[which(coord$pr == prnames[i]),]
-    #nun die Mittelline bestimmen -> lineare Regression
-    #Entspricht dem BKS in AutoCAD, allerdings in 2D.
-    #Je gerader die Profile, desto genauer. Man könnte auch mit Matritzen arbeiten,
-    #ich denke aber, dass das übertrieben ist.
-
-    #Um die Abweichungen in des ungeraden Profils etwas auszugleichen,
-    #wird eine Augleichsgerade zwischen die Punkte geschrieben
-    #Dazu wird eine lineare Regression verwendet
+    #A linear regression is used to get the gradient of the profile,
+    #the regression balances the askew profile
     yw <- c(coord_proc$y)
     xw <- c(coord_proc$x)
     fm <- lm(yw ~ xw)
