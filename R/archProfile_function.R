@@ -71,25 +71,32 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
 
     #A linear regression is used to get the gradient of the profile,
     #the regression balances the askew profile
+    #######Error -> It seems as if the slope of the regression is na if a profile is nearly N-S oriented
+
+    #First step is to rotate the profile control points around z-axis
+    #therefore the angle of the profile to the x axis is necessary
+
     yw <- c(coord_proc$y)
     xw <- c(coord_proc$x)
     fm <- lm(yw ~ xw)
 
-    #Um die Fotogrammetrienaegel korrekt anzeigen zu koennen, sollen diese gedreht werden.
-    #Dazu muss der Winkel zwischen der Regressionsgerade und der x-Achse berechnet werden
-    #Steigung der Gerade
+    #extrakte the solpe of the profile
     slope <- coef(fm)[2]
 
-    #Nun muss unterschieden werden, ob das Profil im oder gegen der
-    #Uhrzeigersinn gedreht werden muss.
-    #Das wird durch 2 Parameter bestimmt, Steigung und view.
-    #Es gibt vier Faelle (Sonderfaelle sind m = 0)
-    #1. m = - view = N/E -> im Uhrzeigersinn
-    #2. m = - view = S/W -> gegen Uhrzeigersinn
-    #3. m = + view = S/E -> im Uhrzeigersinn
-    #4. m = + view = N/W -> gegen Uhrzeigersinn
-    #Dafuer die Drehwinkel bestimmen (rad -> deg)
+    #Now we have to take care if the profile needs to be rotade clock or counterclockwise
 
+    #This is determined by two factors the slope and the direction of view
+    #The view is defined by the position of the observer (view from east)
+    #There are four cases (+ special case m = 0)
+    #1. m = - view = N/E -> clockwise
+    #2. m = - view = S/W -> counterclockwise
+    #3. m = + view = S/E -> clockwise
+    #4. m = + view = N/W -> counterclockwise
+    #Find Rotationangle for this cases (rad -> deg)
+
+    ################
+    #Critical code start
+    ################
     view_proc <- coord_proc$view[1]
 
     if (slope < 0 && view_proc %in% c("N", "E")) {
@@ -105,20 +112,24 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
     } else if (slope == 0 && view_proc == "N") {
       slope_deg <- 0
     }
-
-    #Nun den Drehpunkt bestimmen.
-    #X-Wert ist die Mitte zwischen den x-Koordinaten
+    ################
+    #Critical code end
+    ################
+    #Next step is to find the rotation point
+    #This is in the middle of the profile
     center_x <- sum(coord_proc$x) / nrow(coord_proc)
-    #Y-Wert
     center_y <- sum(coord_proc$y) / nrow(coord_proc)
-    #Nun um diesen Punkt drehen
 
+    #Rotate around the point and use a temp dataframe
     coord_trans <- coord_proc
-
-    #Die Spalte view faellt raus
+    #df without the view column
     coord_trans$view <- NULL
-    #Fuer jeden Punkt des Profils mittels Translation
-    #und Rotation den neuen Punkt bestimmen
+
+    ################
+    #Critical code start
+    ################
+    #We use translation and rotation to find the new points
+    #The mean y-Value will be added to the z-Value, therefore the control points are on the profile in the end
     for (z in 1:nrow(coord_proc)) {
       coord_trans[z,] <- c(
         center_x + (coord_proc$x[z] - center_x) *
@@ -127,24 +138,28 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
         center_y + (coord_proc$x[z] - center_x) *
           sin(slope_deg / 180 * pi) + (coord_proc$y[z] - center_y) *
           cos(slope_deg / 180 * pi),
-        coord_proc$z[z] + center_y - mean(coord_proc$z), as.numeric(as.character(coord_trans$pr[z]))
+        coord_proc$z[z] + center_y - mean(coord_proc$z),
+        as.numeric(as.character(coord_trans$pr[z]))
       )
-
+      ################
+      #Critical code end
+      ################
 
       #http://www.matheboard.de/archive/460078/thread.html
     }
 
-
+  #If the aim is to get the view of the surface, we have to do the same with a rotation on the x-axis
     if (view == "surface") {
-      #Jetzt das ganze fuer die z-Achse, um eine Kippung des Profils zu minimieren
 
       z_yw <- c(coord_trans$y - min(c(coord_trans$y, coord_trans$z)))
       z_zw <- c(coord_trans$z - min(c(coord_trans$y, coord_trans$z)))
       z_fm <- lm(z_zw ~ z_yw)
 
-      #Steigungswinkel berechnen
-      z_slope <- coef(z_fm)[2]
 
+      z_slope <- coef(z_fm)[2]
+      ################
+      #Critical code start
+      ################
       if (z_slope < 0) {
         z_slope_deg <- -(90 - abs((atan(z_slope) * 180) / pi))
       } else if (z_slope > 0) {
@@ -152,12 +167,16 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
       } else if (z_slope == 0) {
         z_slope_deg <- 0
       }
-
+      ################
+      #Critical code end
+      ################
       z_center_y <- sum(coord_trans$y) / nrow(coord_trans)
       z_center_z <- sum(coord_trans$z) / nrow(coord_trans)
 
       z_coord <- coord_trans
-
+      ################
+      #Critical code start
+      ################
       for (z in 1:nrow(z_coord)) {
         z_coord[z,] <- c(
           coord_trans$x[z],
@@ -169,8 +188,13 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
         )
         #http://www.matheboard.de/archive/460078/thread.html
       }
+      ################
+      #Critical code end
+      ################
       coord_trans <- z_coord
     }
+#If the direction is horizontal we don't have to do anything. The points are now parallel to the x-axis
+#If the direction is original, we have to rotate them back to the profile cut line
 
     if (direction == "original") {
       y_xw <- c(coord_trans$x -  min(c(coord_trans$x, coord_trans$z)))
@@ -178,7 +202,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
       y_fm <- lm(y_zw ~ y_xw)
 
 
-      #Der Drehwinkel ist in diesem Falle der negative Drehwinkel des ersten Schrittes
+      #the rotation angle is the neagtaive angle of the rotaion of step one
       y_slope_deg <- -slope_deg
 
       y_center_x <- sum(coord_trans$x) / nrow(coord_trans)
@@ -186,7 +210,9 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
 
       y_coord <- coord_trans
 
-
+      ################
+      #Critical code start
+      ################
       for (z in 1:nrow(y_coord)) {
         y_coord[z,] <- c(
           y_center_x + (coord_trans$x[z] - y_center_x) * cos(y_slope_deg / 180 * pi) -
@@ -198,13 +224,17 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
         )
         #http://www.matheboard.de/archive/460078/thread.html
       }
+      ################
+      #Critical code end
+      ################
       coord_trans <- y_coord
     }
-    #Dann passend in den dataframe speichern
+    #Teh result will be saved in the export dataframe
     coord_export[which(coord$pr == prnames[i]),] <- coord_trans
     coord_export[which(coord$pr == prnames[i]),]$pr <- as.numeric(as.character(coord_trans$pr))
+    #next profile
     i <- i + 1
-    #temporaeren dataframe loeschen
+    #delete temp dataframes
     coord_proc <- NULL
     coord_trans <- NULL
 
@@ -214,7 +244,8 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
 
   }
 
-  #Das ganze zu einem Spatialdataframe machen
+  #Now we can build a spataildataframe where y = z
+  #
   export <- SpatialPointsDataFrame(
     coords = coord_export[, c(1, 3)],
     data = coord_export,
