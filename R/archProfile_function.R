@@ -65,8 +65,10 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
   i <- 1
   #Now going for every profile
   while (i <= length(prnames)) {
+
     #Writing all data of the actual profile in a teporary dataframe
     coord_proc <- coord[which(coord$pr == prnames[i]),]
+
     #A linear regression is used to get the gradient of the profile,
     #the regression balances the askew profile
     yw <- c(coord_proc$y)
@@ -112,6 +114,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
     #Nun um diesen Punkt drehen
 
     coord_trans <- coord_proc
+
     #Die Spalte view fällt raus
     coord_trans$view <- NULL
     #Für jeden Punkt des Profils mittels Translation
@@ -124,11 +127,13 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
         center_y + (coord_proc$x[z] - center_x) *
           sin(slope_deg / 180 * pi) + (coord_proc$y[z] - center_y) *
           cos(slope_deg / 180 * pi),
-        coord_proc$z[z] + center_y - mean(coord_proc$z),
-        coord_proc$pr[z]
+        coord_proc$z[z] + center_y - mean(coord_proc$z), as.numeric(as.character(coord_trans$pr[z]))
       )
+
+
       #http://www.matheboard.de/archive/460078/thread.html
     }
+
 
     if (view == "surface") {
       #Jetzt das ganze für die z-Achse, um eine Kippung des Profils zu minimieren
@@ -181,6 +186,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
 
       y_coord <- coord_trans
 
+
       for (z in 1:nrow(y_coord)) {
         y_coord[z,] <- c(
           y_center_x + (coord_trans$x[z] - y_center_x) * cos(y_slope_deg / 180 * pi) -
@@ -197,6 +203,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
 
 
     #Dann passend in den dataframe speichern
+
     coord_export[which(coord$pr == prnames[i]),] <- coord_trans
     i <- i + 1
     #temporären dataframe löschen
