@@ -61,7 +61,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
   coord_export$pr <- 0
   coord_export$x <- 0
   coord_export$y <- 0
-
+  coord_export$z <- 0
   i <- 1
   #Now going for every profile
   while (i <= length(prnames)) {
@@ -75,7 +75,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
     xw <- c(coord_proc$x)
     fm <- lm(yw ~ xw)
 
-    #Um die Fotogrammetrienägel korrekt anzeigen zu können, sollen diese gedreht werden.
+    #Um die Fotogrammetrienaegel korrekt anzeigen zu koennen, sollen diese gedreht werden.
     #Dazu muss der Winkel zwischen der Regressionsgerade und der x-Achse berechnet werden
     #Steigung der Gerade
     slope <- coef(fm)[2]
@@ -83,12 +83,12 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
     #Nun muss unterschieden werden, ob das Profil im oder gegen der
     #Uhrzeigersinn gedreht werden muss.
     #Das wird durch 2 Parameter bestimmt, Steigung und view.
-    #Es gibt vier Fälle (Sonderfälle sind m = 0)
+    #Es gibt vier Faelle (Sonderfaelle sind m = 0)
     #1. m = - view = N/E -> im Uhrzeigersinn
     #2. m = - view = S/W -> gegen Uhrzeigersinn
     #3. m = + view = S/E -> im Uhrzeigersinn
     #4. m = + view = N/W -> gegen Uhrzeigersinn
-    #Dafür die Drehwinkel bestimmen (rad -> deg)
+    #Dafuer die Drehwinkel bestimmen (rad -> deg)
 
     view_proc <- coord_proc$view[1]
 
@@ -115,9 +115,9 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
 
     coord_trans <- coord_proc
 
-    #Die Spalte view fällt raus
+    #Die Spalte view faellt raus
     coord_trans$view <- NULL
-    #Für jeden Punkt des Profils mittels Translation
+    #Fuer jeden Punkt des Profils mittels Translation
     #und Rotation den neuen Punkt bestimmen
     for (z in 1:nrow(coord_proc)) {
       coord_trans[z,] <- c(
@@ -136,7 +136,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
 
 
     if (view == "surface") {
-      #Jetzt das ganze für die z-Achse, um eine Kippung des Profils zu minimieren
+      #Jetzt das ganze fuer die z-Achse, um eine Kippung des Profils zu minimieren
 
       z_yw <- c(coord_trans$y - min(c(coord_trans$y, coord_trans$z)))
       z_zw <- c(coord_trans$z - min(c(coord_trans$y, coord_trans$z)))
@@ -165,7 +165,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
             (coord_trans$z[z] - z_center_z) * sin(z_slope_deg / 180 * pi),
           z_center_z + (coord_trans$y[z] - z_center_y) * sin(z_slope_deg / 180 * pi) +
             (coord_trans$z[z] - z_center_z) * cos(z_slope_deg / 180 * pi),
-          coord_trans$pr[z]
+          as.numeric(as.character(coord_trans$pr[z]))
         )
         #http://www.matheboard.de/archive/460078/thread.html
       }
@@ -194,19 +194,17 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
           coord_trans$y[z],
           y_center_z + (coord_trans$x[z] - y_center_x) * sin(y_slope_deg / 180 * pi) +
             (coord_trans$z[z] - y_center_z) * cos(y_slope_deg / 180 * pi),
-          coord_trans$pr[z]
+          as.numeric(as.character(coord_trans$pr[z]))
         )
         #http://www.matheboard.de/archive/460078/thread.html
       }
       coord_trans <- y_coord
     }
-
-
     #Dann passend in den dataframe speichern
-
     coord_export[which(coord$pr == prnames[i]),] <- coord_trans
+    coord_export[which(coord$pr == prnames[i]),]$pr <- as.numeric(as.character(coord_trans$pr))
     i <- i + 1
-    #temporären dataframe löschen
+    #temporaeren dataframe loeschen
     coord_proc <- NULL
     coord_trans <- NULL
 
