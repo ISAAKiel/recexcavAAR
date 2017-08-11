@@ -1,6 +1,6 @@
 #' Tool for rotating profile control points for rectifiying images
 #'
-#' @param fotogram_pts SpatialPointsDataFrame. A sp::SpatialPointsDataFrame or dataframe containing the control points (3 Dimensions).
+#' @param fotogram_pts SpatialPointsDataFrame or Dataframe. A sp::SpatialPointsDataFrame or dataframe containing the control points (3 Dimensions).
 #' @param profile_col character. Name of the column containing the profile group variable (profile number).
 #' @param view_col character. Name of the profile containing the viewing direction ("N","S","W","E").
 #' @param view character. Direction of view on the Profile.
