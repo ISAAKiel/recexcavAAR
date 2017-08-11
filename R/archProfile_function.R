@@ -1,9 +1,12 @@
 #' Tool for rotating profile control points for rectifiying images
 #'
-#' @param fotogram_pts SpatialPointsDataFrame. A sp::SpatialPointsDataFrame containing the control points (3 Dimensions).
+#' @param fotogram_pts SpatialPointsDataFrame. A sp::SpatialPointsDataFrame or dataframe containing the control points (3 Dimensions).
 #' @param profile_col character. Name of the column containing the profile group variable (profile number).
 #' @param view_col character. Name of the profile containing the viewing direction ("N","S","W","E").
 #' @param view character. Direction of view on the Profile.
+#' @param x character. (optional) If input is a dataframe, column with x coordinates.
+#' @param y character. (optional) If input is a dataframe, column with y coordinates.
+#' @param z character. (optional) If input is a dataframe, column with z coordinates.
 #' \itemize{
 #'   \item{"projected"}{: (default) on a vertial intersecting pane like a drawing}
 #'   \item{"surface"}{: orthogonal to the surface of the profile}
@@ -29,23 +32,39 @@
 #' )
 #'
 #' @export
-archprofile <- function(fotogram_pts, profile_col, view_col,
+archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
                         view = "projected",  direction = "horizontal") {
   #The file needs two more colums, one for the grouping of the profile
   #(e.g. profilenumber), and a
   #column with the point of view (view from N/S/E/W) for the rotating direction
 
+
   #All points need to be rotated around the profile's centre,
   #therefore they are parallel to the x axis
   #All points need to be (theortical) on a plane
   #At first writing the coordinates and attributes in a dataframe
-  coord <- data.frame(
+#If input is a spatialdataframe
+  if(typeof(fotogram_pts)=="S4"){
+    coord <- data.frame(
     x = fotogram_pts@coords[, 1],
     y = fotogram_pts@coords[, 2],
     z = fotogram_pts@coords[, 3],
     pr = fotogram_pts@data[, profile_col],
     view = fotogram_pts@data[, view_col]
   )
+  }
+# If input is a dataframe
+  if(typeof(fotogram_pts)=="list"){
+      coord <- data.frame(
+      x = fotogram_pts[,x],
+      y = fotogram_pts[, y],
+      z = fotogram_pts[, z],
+      pr = fotogram_pts[, profile_col],
+      view = fotogram_pts[, view_col]
+    )
+  }
+
+
 
   #Now starting with each profile individual
   #possible nas has to be omitted
@@ -65,7 +84,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
   i <- 1
   #Now going for every profile
   while (i <= length(prnames)) {
-
+    print(prnames[i])
     #Writing all data of the actual profile in a teporary dataframe
     coord_proc <- coord[which(coord$pr == prnames[i]),]
 
@@ -75,9 +94,8 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
 
     #First step is to rotate the profile control points around z-axis
     #therefore the angle of the profile to the x axis is necessary
-
-    yw <- c(coord_proc$y)
-    xw <- c(coord_proc$x)
+    yw <- c(coord_proc$y) - min(coord_proc$y)
+    xw <- c(coord_proc$x) - min(coord_proc$x)
     fm <- lm(yw ~ xw)
 
     #extrakte the solpe of the profile
@@ -98,7 +116,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
     #Critical code start
     ################
     view_proc <- coord_proc$view[1]
-
+print(slope)
     if (slope < 0 && view_proc %in% c("N", "E")) {
       slope_deg <- 180 - abs((atan(slope) * 180) / pi) * -1
     } else if (slope < 0 && view_proc %in% c("S", "W")) {
@@ -246,11 +264,20 @@ archprofile <- function(fotogram_pts, profile_col, view_col,
 
   #Now we can build a spataildataframe where y = z
   #
-  export <- SpatialPointsDataFrame(
-    coords = coord_export[, c(1, 3)],
-    data = coord_export,
-    proj4string = fotogram_pts@proj4string
-  )
+  #If input is sdf, export sdf
+  if(typeof(fotogram_pts)=="S4"){
+    export <- SpatialPointsDataFrame(
+      coords = coord_export[, c(1, 3)],
+      data = coord_export,
+      proj4string = fotogram_pts@proj4string
+      )
+  } else if (typeof(fotogram_pts)=="list"){
+    export <- data.frame(coord_export[,1],
+                     coord_export[,2],
+                     coord_export[,4]
+                     )
+
+  }
 
   return(export)
 }
