@@ -2,6 +2,7 @@
 #'
 #' @param fotogram_pts SpatialPointsDataFrame or Dataframe. A sp::SpatialPointsDataFrame or dataframe containing the control points (3 Dimensions).
 #' @param view_col character. Name of the profile containing the viewing direction ("N","S","W","E").
+#' @param view character. Direction of view on the Profile.
 #' @param x character. (optional) If input is a dataframe, column with x coordinates.
 #' @param y character. (optional) If input is a dataframe, column with y coordinates.
 #' @param z character. (optional) If input is a dataframe, column with z coordinates.
@@ -40,6 +41,15 @@ archoneprofile <- function(fotogram_pts, view_col, x, y, z,
   #therefore they are parallel to the x axis
   #All points need to be (theortical) on a plane
   #At first writing the coordinates and attributes in a dataframe
+  #Test if data contains only allowed view directions
+  if(identical(setdiff(levels(as.factor(fotogram_pts[,view_col])), c("E","N","S","W")),character(0)))
+  {
+    #Everything is ok
+  } else {
+    stop('View direction is only allowed to contain N, S, E, W')
+  }
+
+
   #If input is a spatialdataframe
   if(typeof(fotogram_pts)=="S4"){
     coord <- data.frame(

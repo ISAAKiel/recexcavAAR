@@ -43,6 +43,15 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
   #therefore they are parallel to the x axis
   #All points need to be (theortical) on a plane
   #At first writing the coordinates and attributes in a dataframe
+#Test if data contains only allowed view directions
+  if(identical(setdiff(levels(as.factor(fotogram_pts[,view_col])), c("E","N","S","W")),character(0)))
+  {
+    #Everything is ok
+  } else {
+    stop('View direction is only allowed to contain N, S, E, W')
+  }
+
+
 #If input is a spatialdataframe
   if(typeof(fotogram_pts)=="S4"){
     coord <- data.frame(
