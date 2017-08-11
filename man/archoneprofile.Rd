@@ -43,9 +43,9 @@ fotogram_sdf <- sp::SpatialPointsDataFrame(
   proj4string = sp::CRS("+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs")
 )
 
-profile <- archprofile_oneprofile(
+profile <- archoneprofile(
   fotogram_pts = fotogram_sdf,
-  view_col = "view"
+  view_col = "view", view = "projected", direction = "horizontal"
 )
 
 }
