@@ -84,7 +84,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
   i <- 1
   #Now going for every profile
   while (i <= length(prnames)) {
-    print(prnames[i])
+
     #Writing all data of the actual profile in a teporary dataframe
     coord_proc <- coord[which(coord$pr == prnames[i]),]
 
@@ -116,7 +116,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
     #Critical code start
     ################
     view_proc <- coord_proc$view[1]
-print(slope)
+
     if (slope < 0 && view_proc %in% c("N", "E")) {
       slope_deg <- 180 - abs((atan(slope) * 180) / pi) * -1
     } else if (slope < 0 && view_proc %in% c("S", "W")) {
