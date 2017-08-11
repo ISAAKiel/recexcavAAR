@@ -1,9 +1,7 @@
 #' Tool for rotating profile control points for rectifiying images
 #'
 #' @param fotogram_pts SpatialPointsDataFrame or Dataframe. A sp::SpatialPointsDataFrame or dataframe containing the control points (3 Dimensions).
-#' @param profile_col character. Name of the column containing the profile group variable (profile number).
 #' @param view_col character. Name of the profile containing the viewing direction ("N","S","W","E").
-#' @param view character. Direction of view on the Profile.
 #' @param x character. (optional) If input is a dataframe, column with x coordinates.
 #' @param y character. (optional) If input is a dataframe, column with y coordinates.
 #' @param z character. (optional) If input is a dataframe, column with z coordinates.
@@ -16,7 +14,7 @@
 #'   \item{"horizontal"}{: (default) profile is horizontal, the relative heigth is still correct, good for catalogue export}
 #'   \item{"original"}{:  the points are on the profile section}
 #' }
-#' @return sp::SpatialPointsDataFrame with the new coordinates.
+#' @return sp::SpatialPointsDataFrame with the new coordinates or dataframe
 #'
 #' @examples
 #' fotogram_sdf <- sp::SpatialPointsDataFrame(
@@ -25,14 +23,13 @@
 #'   proj4string = sp::CRS("+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs")
 #' )
 #'
-#' profile <- archprofile(
+#' profile <- archprofile_oneprofile(
 #'   fotogram_pts = fotogram_sdf,
-#'   profile_col = "pr",
 #'   view_col = "view"
 #' )
 #'
 #' @export
-archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
+archoneprofile <- function(fotogram_pts, view_col, x, y, z,
                         view = "projected",  direction = "horizontal") {
   #The file needs two more colums, one for the grouping of the profile
   #(e.g. profilenumber), and a
@@ -43,32 +40,30 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
   #therefore they are parallel to the x axis
   #All points need to be (theortical) on a plane
   #At first writing the coordinates and attributes in a dataframe
-#If input is a spatialdataframe
+  #If input is a spatialdataframe
   if(typeof(fotogram_pts)=="S4"){
     coord <- data.frame(
-    x = fotogram_pts@coords[, 1],
-    y = fotogram_pts@coords[, 2],
-    z = fotogram_pts@coords[, 3],
-    pr = fotogram_pts@data[, profile_col],
-    view = fotogram_pts@data[, view_col]
-  )
+      x = fotogram_pts@coords[, 1],
+      y = fotogram_pts@coords[, 2],
+      z = fotogram_pts@coords[, 3],
+      view = fotogram_pts@data[, view_col]
+    )
   }
 
-# If input is a dataframe
-  if(typeof(fotogram_pts) == "list" && !missing(z) ||
-     typeof(fotogram_pts) == "list" && !missing(y) ||
-     typeof(fotogram_pts) == "list" && !missing(x)){
+  # If input is a dataframe
+  if(typeof(fotogram_pts)=="list" && !missing(z) ||
+     typeof(fotogram_pts)=="list" && !missing(y) ||
+     typeof(fotogram_pts)=="list" && !missing(x)){
 
-      coord <- data.frame(
+    coord <- data.frame(
       x = fotogram_pts[,x],
       y = fotogram_pts[, y],
       z = fotogram_pts[, z],
-      pr = fotogram_pts[, profile_col],
       view = fotogram_pts[, view_col]
     )
-  } else if(typeof(fotogram_pts) == "list" && missing(z) ||
-            typeof(fotogram_pts) == "list" && missing(y) ||
-            typeof(fotogram_pts) == "list" && missing(x)) {
+  } else if(typeof(fotogram_pts)=="list" && missing(z) ||
+            typeof(fotogram_pts)=="list" && missing(y) ||
+            typeof(fotogram_pts)=="list" && missing(x)) {
     stop('Coordinates missing')
   }
 
@@ -77,24 +72,19 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
   #Now starting with each profile individual
   #possible nas has to be omitted
   coord <- na.omit(coord)
-  #Getting all names of the profiles, to use the amount
-  #for the n of iterations of the loop
-  prnames <- levels(as.factor(coord$pr))
+
   #A dataframe with the same length as the import is needed for the export ,
   #A copy of the import df is used. All colums have 0 values for seeing errors
 
   coord_export <- coord
   coord_export$view <- NULL
-  coord_export$pr <- 0
   coord_export$x <- 0
   coord_export$y <- 0
   coord_export$z <- 0
-  i <- 1
-  #Now going for every profile
-  while (i <= length(prnames)) {
+
 
     #Writing all data of the actual profile in a teporary dataframe
-    coord_proc <- coord[which(coord$pr == prnames[i]),]
+    coord_proc <- coord
 
     #A linear regression is used to get the gradient of the profile,
     #the regression balances the askew profile
@@ -150,7 +140,6 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
     coord_trans <- coord_proc
     #df without the view column
     coord_trans$view <- NULL
-
     ################
     #Critical code start
     ################
@@ -164,8 +153,8 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
         center_y + (coord_proc$x[z] - center_x) *
           sin(slope_deg / 180 * pi) + (coord_proc$y[z] - center_y) *
           cos(slope_deg / 180 * pi),
-        coord_proc$z[z] + center_y - mean(coord_proc$z),
-        as.numeric(as.character(coord_trans$pr[z]))
+        coord_proc$z[z] + center_y - mean(coord_proc$z)
+
       )
       ################
       #Critical code end
@@ -174,7 +163,7 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
       #http://www.matheboard.de/archive/460078/thread.html
     }
 
-  #If the aim is to get the view of the surface, we have to do the same with a rotation on the x-axis
+    #If the aim is to get the view of the surface, we have to do the same with a rotation on the x-axis
     if (view == "surface") {
 
       z_yw <- c(coord_trans$y - min(c(coord_trans$y, coord_trans$z)))
@@ -209,8 +198,8 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
           z_center_y + (coord_trans$y[z] - z_center_y) * cos(z_slope_deg / 180 * pi) -
             (coord_trans$z[z] - z_center_z) * sin(z_slope_deg / 180 * pi),
           z_center_z + (coord_trans$y[z] - z_center_y) * sin(z_slope_deg / 180 * pi) +
-            (coord_trans$z[z] - z_center_z) * cos(z_slope_deg / 180 * pi),
-          as.numeric(as.character(coord_trans$pr[z]))
+            (coord_trans$z[z] - z_center_z) * cos(z_slope_deg / 180 * pi)
+
         )
         #http://www.matheboard.de/archive/460078/thread.html
       }
@@ -219,8 +208,8 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
       ################
       coord_trans <- z_coord
     }
-#If the direction is horizontal we don't have to do anything. The points are now parallel to the x-axis
-#If the direction is original, we have to rotate them back to the profile cut line
+    #If the direction is horizontal we don't have to do anything. The points are now parallel to the x-axis
+    #If the direction is original, we have to rotate them back to the profile cut line
 
     if (direction == "original") {
       y_xw <- c(coord_trans$x -  min(c(coord_trans$x, coord_trans$z)))
@@ -245,8 +234,8 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
             (coord_trans$z[z] - y_center_z) * sin(y_slope_deg / 180 * pi),
           coord_trans$y[z],
           y_center_z + (coord_trans$x[z] - y_center_x) * sin(y_slope_deg / 180 * pi) +
-            (coord_trans$z[z] - y_center_z) * cos(y_slope_deg / 180 * pi),
-          as.numeric(as.character(coord_trans$pr[z]))
+            (coord_trans$z[z] - y_center_z) * cos(y_slope_deg / 180 * pi)
+
         )
         #http://www.matheboard.de/archive/460078/thread.html
       }
@@ -256,10 +245,9 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
       coord_trans <- y_coord
     }
     #Teh result will be saved in the export dataframe
-    coord_export[which(coord$pr == prnames[i]),] <- coord_trans
-    coord_export[which(coord$pr == prnames[i]),]$pr <- as.numeric(as.character(coord_trans$pr))
-    #next profile
-    i <- i + 1
+    coord_export <- coord_trans
+
+
     #delete temp dataframes
     coord_proc <- NULL
     coord_trans <- NULL
@@ -268,22 +256,22 @@ archprofile <- function(fotogram_pts, profile_col, view_col, x, y, z,
       z_coord <- NULL
     }
 
-  }
+
 
   #Now we can build a spataildataframe where y = z
   #
   #If input is sdf, export sdf
-  if(typeof(fotogram_pts) == "S4"){
+  if(typeof(fotogram_pts)=="S4"){
     export <- SpatialPointsDataFrame(
       coords = coord_export[, c(1, 3)],
       data = coord_export,
       proj4string = fotogram_pts@proj4string
-      )
-  } else if (typeof(fotogram_pts) == "list"){
-    export <- data.frame(xcoord = coord_export[,1],
-                     ycoord = coord_export[,3],
-                     pr = coord_export[,4]
-                     )
+    )
+  } else if (typeof(fotogram_pts)=="list"){
+    export <- data.frame(xcoord=coord_export[,1],
+                         ycoord=coord_export[,3]
+
+    )
 
   }
 
