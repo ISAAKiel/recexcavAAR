@@ -1,6 +1,7 @@
 ## fotogram_pts = vector
 ## profile_col = string
 ## view_col = string
+## z_col = string
 ## view_ = selection projected;surface
 ## direction_ = selection horizontal;original
 ## output = output vector
@@ -10,33 +11,23 @@ require(rgdal)
 
 
 
-
 if (view_ == 0){
-view <- "projected"
+  view <- "projected"
 } else {
-view <- "surface"
+  view <- "surface"
 }
 
 if (direction_ == 0){
-direction <- "horizontal"
+  direction <- "horizontal"
 } else {
-direction <- "original"
+  direction <- "original"
 }
 
-
-
-#Test if data contains only allowed view directions
-  if(identical(setdiff(levels(as.factor(fotogram_pts[,view_col])), c("E","N","S","W")),character(0)))
-  {
-    #Everything is ok
-  } else {
-    stop('View direction is only allowed to contain N, S, E, W')
-  }
 
   coord <- data.frame(
     x = fotogram_pts@coords[, 1],
     y = fotogram_pts@coords[, 2],
-    z = fotogram_pts@coords[, 3],
+    z = fotogram_pts@data[, z_col],
     pr = fotogram_pts@data[, profile_col],
     view = fotogram_pts@data[, view_col]
   )
