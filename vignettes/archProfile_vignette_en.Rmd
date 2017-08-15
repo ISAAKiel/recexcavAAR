@@ -184,21 +184,19 @@ Now we have to find the angle of rotation for this cases (rad -> deg)
 #Steigung der Gerade
 slope <- coef(fm)[2]
 
-if (slope < 0 && coord_proc$view[1] == "N" ||
-    slope < 0 && coord_proc$view[1] == "E"){
+    view_proc <- coord_proc$view[1]
+
+if (slope < 0 && view_proc %in% c("N", "E")) {
   slope_deg <- 180 - abs((atan(slope) * 180) / pi) * -1
-} else if (slope < 0 && coord_proc$view[1] == "S" ||
-           slope < 0 && coord_proc$view[1] == "W"){
-  slope_deg <- abs((atan(slope)*180)/pi)
-} else if (slope > 0 && coord_proc$view[1] == "S" ||
-           slope > 0 && coord_proc$view[1] == "E") {
-  slope_deg <- ((atan(slope)*180)/pi)*-1
-} else if (slope > 0 && coord_proc$view[1] == "N" ||
-           slope > 0 && coord_proc$view[1] == "W") {
-  slope_deg <- 180 - ((atan(slope)*180)/pi)
-} else if (slope == 0 && coord_proc$view[1] == "N" ){
+} else if (slope < 0 && view_proc %in% c("S", "W")) {
+  slope_deg <- abs((atan(slope) * 180) / pi)
+} else if (slope > 0 && view_proc %in% c("S", "E")) {
+  slope_deg <- ((atan(slope) * 180) / pi) * -1
+} else if (slope > 0 && view_proc %in% c("N", "W")) {
+  slope_deg <- 180 - ((atan(slope) * 180) / pi)
+} else if (slope == 0 && view_proc == "N") {
   slope_deg <- 180
-} else if (slope == 0 && coord_proc$view[1] == "N" ){
+} else if (slope == 0 && view_proc == "N") {
   slope_deg <- 0
 }
 
@@ -206,10 +204,9 @@ slope_deg
 ```
 
 
-Nun muss der Drehpunkt bestimmt werden. Der liegt mittig aller Punkte
-*Hier könnte ein Problem entstehen, möglicherweise ist es sinnvoller nur die Maximalwerte zu nehmen, allerdings liegen der Drehpunkt dann nicht auf der Steigungsgeraden, (die könnte man auch nur aus den äußeren berechnen, das muss man dann passend machen)*
+Now it is neccessary to determine the rotation point. 
 
-  ```{r, echo=TRUE, fig.width=7, fig.height=7}
+```{r, echo=TRUE, fig.width=7, fig.height=7}
 #Nun den Drehpunkt bestimmen.
 #X-Wert ist die Mitte zwischen den x-Koordinaten
 center_x <- sum(coord_proc$x)/length(coord_proc$x)
