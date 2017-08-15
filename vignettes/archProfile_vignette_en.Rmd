@@ -25,11 +25,19 @@ These are the input options
 
 - *profile_col*: The column with the information of the profilenames
 
-- *view*: There are two possibilities for the transformation of data. In the *surface* option, the points are processed for an orthogonal view on the profile. In the *projected* case, the data is transformed for a view on a vertical sectional pane (like a traditional drwaing on an excavation). Standart: *surface*
+- *view*: There are two possibilities for the transformation of data. 
 
-- *direction*: The position of the fgc in relation to the profile. The *original* option exports the data (nearly) parallel to the cutting line. *horizontal* will show the profile parallel to the x-axis (internal differences in height are still present). Standart: *horizontal*
+   In the *surface* option, the points are processed for an orthogonal view on the profile. 
 
-```{r, echo=TRUE, fig.width=7, fig.height=7}
+   In the *projected* case, the data is transformed for a view on a vertical sectional pane (like a traditional drwaing on an excavation). Standart: *surface*
+
+- *direction*: The position of the fgc in relation to the profile.
+
+   The *original* option exports the data (nearly) parallel to the cutting line. 
+
+   *horizontal* will show the profile parallel to the x-axis (internal differences in height are still present). Standart: *horizontal*
+
+```{r, echo=TRUE, fig.width=7, fig.height=7, warning= FALSE, message=FALSE}
 devtools::load_all()
 library(sp)
 fotogram_sdf <- sp::SpatialPointsDataFrame(coords = fotogram_pts[ ,c(1,2,3)],
@@ -52,6 +60,7 @@ plot(fotogram_sdf@data$x,fotogram_sdf@data$y,asp=1)
 
 ```
 
+###Step one: Rotating on the z-axis
 
 Um die Daten in den 2D Raum zu bringen und nach vorne zu klappen, müssen sie zunächst gedreht werden. Das ist später auch praktischer, wenn die Daten für den Druck exportiert werden sollen.
 
