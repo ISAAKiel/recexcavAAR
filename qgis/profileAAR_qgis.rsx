@@ -25,13 +25,6 @@ direction <- "original"
 
 
 
-#Test if data contains only allowed view directions
-  if(identical(setdiff(levels(as.factor(fotogram_pts[,view_col])), c("E","N","S","W")),character(0)))
-  {
-    #Everything is ok
-  } else {
-    stop('View direction is only allowed to contain N, S, E, W')
-  }
 
   coord <- data.frame(
     x = fotogram_pts@coords[, 1],
