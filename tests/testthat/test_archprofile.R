@@ -25,3 +25,20 @@ test_that(
     expect_equal(archprofile_output_1, archprofile_output_1_correct)
   }
 )
+
+
+archprofile_output_2 <- archprofile(
+  fotogram_pts = archprofile_input_1,
+  profile_col = "pr",
+  view_col = "pr1",
+  direction = "original",
+  view = "surface"
+)
+
+load("data/archprofile_output_2_correct.RData")
+
+test_that(
+  "the output of archprofile is the same as before the code refactoring for a very limited example when using direction = original and view = surface",  {
+    expect_equal(archprofile_output_2, archprofile_output_2_correct)
+  }
+)
