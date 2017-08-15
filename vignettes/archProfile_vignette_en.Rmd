@@ -21,21 +21,13 @@ These are the input options
 
 - *(Spatial)dataframe*: Input data
 
-- *view_col*: The column with the information of the direction of view (the position of the observer towards the profile -> "N, E, S, W")
+- *view_col*: The column with the information of the direction of view (the position of the observer towards the profile -> "N, E, S, W"). This information influences the direction of rotation.
 
-- *profile_col*: The column with the information of the profilenames
+- *profile_col*: The column with the information of the profilenames.
 
-- *view*: There are two possibilities for the transformation of data. 
+- *view*: There are two possibilities for the transformation of data. In the *surface* option, the points are processed for an orthogonal view on the profile. In the *projected* case, the data is transformed for a view on a vertical sectional pane (like a traditional drwaing on an excavation). Standart: *surface*
 
-   In the *surface* option, the points are processed for an orthogonal view on the profile. 
-
-   In the *projected* case, the data is transformed for a view on a vertical sectional pane (like a traditional drwaing on an excavation). Standart: *surface*
-
-- *direction*: The position of the fgc in relation to the profile.
-
-   The *original* option exports the data (nearly) parallel to the cutting line. 
-
-   *horizontal* will show the profile parallel to the x-axis (internal differences in height are still present). Standart: *horizontal*
+- *direction*: The position of the fgc in relation to the profile. The *original* option exports the data (nearly) parallel to the cutting line. *horizontal* will show the profile parallel to the x-axis (internal differences in height are still present). Standart: *horizontal*
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7, warning= FALSE, message=FALSE}
 devtools::load_all()
@@ -56,115 +48,135 @@ The profile is tilt by 20° backwards. I.e. the points in south-east are below.
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
 
-plot(fotogram_sdf@data$x,fotogram_sdf@data$y,asp=1)
+plot(fotogram_sdf@data$x, fotogram_sdf@data$y, asp = 1)
 
 ```
 
-###Step one: Rotating on the z-axis
+###Step one: Preparing the data
 
-Um die Daten in den 2D Raum zu bringen und nach vorne zu klappen, müssen sie zunächst gedreht werden. Das ist später auch praktischer, wenn die Daten für den Druck exportiert werden sollen.
+To bring the data into the 2.5D space and to fold them forward, they must first be rotated. This step is also more practical when the data is to be exported for printing in the GIS.
 
-
-  Zwei Parameter sind wichtig, zum einen die Profilnummer, um die Profile einzeln zu bearbeiten und die Ansicht auf das Profil, denn diese bestimmt, in welche Richtung das Profil gedreht werden muss.
-
-Da die Spalten nicht immer gleich sind - wohingegen die Koordinatenspalten in einem SpatialDataFrame fest definiert sind - können die Beschriftungen als Parameter übergeben werden und die Spalten werden herausgesucht.
-
+At first we have to define the options. in this case we use the standart options for the profiles.
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
 fotogram_pts <- NULL
 fotogram_pts <- fotogram_sdf
 
-profile_col <- "pr" #Normalerweise bei Funktionsaufruf übergeben
-view_col <- "view" #Normalerweise bei Funktionsaufruf übergeben
+#The fuction for a sdf is called by 
+#profile <- archprofile(
+#   fotogram_pts = fotogram_sdf,
+#   profile_col = "pr",
+#   view_col = "view"
+# )
 
-profile_id <- 1
-while(profile_id<length(colnames(fotogram_pts@data)) &&
-      colnames(fotogram_pts@data)[profile_id] != profile_col)
-{
-  profile_id <- profile_id+1
-}
-
-#Spalte mit dem NAmen raussuchen und den Spaltenindex merken
-view_id <- 1
-while(view_id<length(colnames(fotogram_pts@data)) &&
-      colnames(fotogram_pts@data)[view_id] != view_col)
-{
-  view_id <- view_id+1
-}
-fotogram_pts@data
-print(view_id)
-print(profile_id)
+#In this example everything will be done step by step
+profile_col <- "pr"
+view_col <- "view"
+view <- "projected"
+direction <- "horizontal"
 
 ```
 
-Nun werden die Daten vorbereitet
+Now we are checking if the data is a spatialdataframe (in this case it is important, that the sdf has a @coords[, 3] column, if not it is a 2D sdf and not to use) or a dataframe (containing x, y, z). The coordinates and the relevant data is stored in a dataframe.
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
-coord <- data.frame(fotogram_pts@coords[ ,1],
-                    fotogram_pts@coords[ ,2],
-                    fotogram_pts@coords[ ,3],
-                    fotogram_pts@data[ ,profile_id],
-                    fotogram_pts@data[, view_id])
+
+#If input is a spatialdataframe
+  if(typeof(fotogram_pts)=="S4"){
+    coord <- data.frame(
+    x = fotogram_pts@coords[, 1],
+    y = fotogram_pts@coords[, 2],
+    z = fotogram_pts@coords[, 3],
+    pr = fotogram_pts@data[, profile_col],
+    view = fotogram_pts@data[, view_col]
+  )
+  }
+
+# If input is a dataframe
+  if(typeof(fotogram_pts) == "list" && !missing(z) ||
+     typeof(fotogram_pts) == "list" && !missing(y) ||
+     typeof(fotogram_pts) == "list" && !missing(x)){
+
+      coord <- data.frame(
+      x = fotogram_pts[,x],
+      y = fotogram_pts[, y],
+      z = fotogram_pts[, z],
+      pr = fotogram_pts[, profile_col],
+      view = fotogram_pts[, view_col]
+    )
+  } else if(typeof(fotogram_pts) == "list" && missing(z) ||
+            typeof(fotogram_pts) == "list" && missing(y) ||
+            typeof(fotogram_pts) == "list" && missing(x)) {
+    stop('Coordinates missing')
+  }
+
 colnames(coord) <- c("x", "y", "z", "pr","view")
 
+fotogram_pts@data
 
-#Jetzt muss jedes Profil einzeln bearbeitet werden
-#Nas raus
-coord <- na.omit(coord)
-#Alle Namen der Profile ermitteln, da sich daraus die
-#Anzahl der Schleifenduchläufe bestimmt
-prnames <- levels(as.factor(coord$pr))
-#Eine Tabelle, die für den Export da ist,
-#mit der gleichen Datenlänge wie die importierte
-#Da dieser df am ende immer wieder neue daten angehängt bekommt
-#und das rbind mit df blöd ist, wird hier eine Kopie der orginaltabelle überschrieben
-#damit fehler auffallen, sind alle Spalten = 0; Auch wenn es sehr unelegant ist
-coord_export <- coord
-coord_export$view <- NULL
-coord_export$pr <- 0
-coord_export$x <- 0
-coord_export$y <- 0
 ```
 
-Für jedes Profil werden dann folgende Schritte durchgeführt:
-  Zunächst wird ein df erstellt, in dem nur die Daten des aktuellen Profils sind.
-Dann wird die Drehung des Profils parallel zur X-Achse eingeleitet. Dazu wird die Regressionsgerade durch die Punkte bestimmt um die Steigung zu ermitteln.
+For performance reasons, some additional steps will be done:
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
-i<-1 #Zähvariable aus der Schleife, in diesem Fall 1
+  #Now starting with each profile individual
+  #possible nas has to be omitted
+  coord <- na.omit(coord)
+  #Getting all names of the profiles, to use the amoun for the n of iterations of the loop
+  prnames <- levels(as.factor(coord$pr))
+  
+  #A dataframe with the same length as the import is used for the export,
+  #A copy of the import df is used. All colums have 0 values for seeing errors
 
-#Alle Daten des iten Profils auslesen und in temporären dataframe schreiben
-coord_proc <- coord[which (coord$pr==prnames[i]), ]
-#nun die Mittelline bestimmen -> lieare Regression
-#Entspricht dem BKS in AutoCAD, allerdings in 2D.
-#Je gerader die Profile, desto genauer. Man könnte auch mit Matritzen arbeiten,
-#ich denke aber, dass das übertrieben ist.
+  coord_export <- coord
+  coord_export$view <- NULL
+  coord_export$pr <- 0
+  coord_export$x <- 0
+  coord_export$y <- 0
+  coord_export$z <- 0
+```
 
-#Um die Abweichungen in des ungeraden Profils etwas auszugleichen,
-#wird eine Augleichsgerade zwischen die Punkte geschrieben
-#Dazu wird eine lineare Regression verwendet
-yw <- c(coord_proc$y)
-xw <- c(coord_proc$x)
-fm <- lm(yw ~ xw)
+##Step two: roating on the z-axis
+
+For each profile we start with rotating the profile parallel to the x-axis:
+  
+Therefore we use a dataframe containig only the data of one (the actual) profile.  
+For roating the fgcs, the slope of the profile in relation th the x-axis is determined. For this step a linear regression is used.
+
+```{r, echo=TRUE, fig.width=7, fig.height=7}
+i<-1 #Countingvariable (in this case 1, normally the amount of profiles)
+
+
+    #Writing all data of the actual profile in a teporary dataframe
+    coord_proc <- coord[which(coord$pr == prnames[i]),]
+
+    #A linear regression is used to get the gradient of the profile,
+    #the regression balances the askew profile
+    #First step is to rotate the profile control points around z-axis
+    #therefore the angle of the profile to the x axis is necessary
+    yw <- c(coord_proc$y) - min(coord_proc$y)
+    xw <- c(coord_proc$x) - min(coord_proc$x)
+    fm <- lm(yw ~ xw)
+
+    #extrakte the solpe of the profile
+    slope <- coef(fm)[2]
 
 plot(xw, yw, asp=1)
 abline(fm)
 ```
 
+The slope of the straight and the point of view determines the angle of rotation. It will be distinguished between positive and negative slopes and the four main cardinal directions.The view is defined by the position of the observer (view from east)
 
-Die Steigung der Gerade bestimmt den Winkel um den die Punkte rotiert werden müssen. Dabei müssen zwei Sachen beachtet werden. Ist die Steigung poitiv oder negativ und, von wo wird das Profil betrachet
+There are four cases (+ special case m = 0):
 
-Es gibt vier Fälle (Sonderfälle sind m = 0)
+1. m = - view = N/E -> clockwise
+2. m = - view = S/W -> counterclockwise
+3. m = + view = S/E -> clockwise
+4. m = + view = N/W -> counterclockwise
 
-1. m = - view = N/E -> im Uhrzeigersinn
+Now we have to find the angle of rotation for this cases (rad -> deg)
 
-2. m = - view = S/W -> gegen Uhrzeigersinn
 
-3. m = + view = S/E -> im Uhrzeigersinn
-
-4. m = + view = N/W -> gegen Uhrzeigersinn
-
-Dafür die Drehwinkel bestimmen (rad -> deg)
 
 ```{r, echo=TRUE, fig.width=7, fig.height=7}
 #Um die Fotogrammetrienägel korrekt anzeigen zu können, sollen diese gedreht werden.
