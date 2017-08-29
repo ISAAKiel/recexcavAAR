@@ -27,7 +27,7 @@ if (direction_ == 0){
   coord <- data.frame(
     x = fotogram_pts@coords[, 1],
     y = fotogram_pts@coords[, 2],
-    z = fotogram_pts@data[, z_col],
+    z = as.numeric(as.character(fotogram_pts@data[, z_col])),
     pr = fotogram_pts@data[, profile_col],
     view = fotogram_pts@data[, view_col]
   )
