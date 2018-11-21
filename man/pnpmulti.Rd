@@ -39,3 +39,4 @@ pnpmulti(polydf$x, polydf$y, testdf$x, testdf$y)
 \seealso{
 Other pnpfuncs: \code{\link{pnp}}
 }
+\concept{pnpfuncs}

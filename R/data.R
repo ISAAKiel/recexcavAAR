@@ -56,35 +56,3 @@ NULL
 #'
 #' @name KT_vessel
 NULL
-
-#' fotogram_pts: Fictional fotogrammetrie control points
-#'
-#' A dataset containing four profiles with fotogrammetrie control points
-#'
-#' @format A SpatialDataFrame:
-#' \itemize{
-#'   \item pr: The profile number, respectively the grouping variable
-#'   \item ansicht: The direction of view
-
-#' }
-#'
-#' @family fotogram
-#'
-#' @name fotogram_pts
-NULL
-
-#' archprofile_test: Fictional fotogrammetrie control points with all direction and view possibilities
-#'
-#' A dataset containing four profiles with fotogrammetrie control points
-#'
-#' @format A SpatialDataFrame:
-#' \itemize{
-#'   \item pr: The profile number, respectively the grouping variable
-#'   \item pr1: The direction of view
-
-#' }
-#'
-#' @family fotogram
-#'
-#' @name archprofile_test
-NULL

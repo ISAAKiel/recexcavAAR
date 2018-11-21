@@ -16,3 +16,4 @@ the rectangular trench (corner points of squares).
 Other KT_data: \code{\link{KT_spits}},
   \code{\link{KT_vessel}}
 }
+\concept{KT_data}

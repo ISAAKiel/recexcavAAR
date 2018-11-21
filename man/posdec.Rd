@@ -51,3 +51,4 @@ posdec(finds, maps)
 \seealso{
 Other posdecfuncs: \code{\link{posdeclist}}
 }
+\concept{posdecfuncs}

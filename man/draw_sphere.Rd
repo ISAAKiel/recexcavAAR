@@ -4,7 +4,8 @@
 \alias{draw_sphere}
 \title{Draws a spherical point cloud (3D)}
 \usage{
-draw_sphere(centerx, centery, centerz, radius, phires = 10L, thetares = 10L)
+draw_sphere(centerx, centery, centerz, radius, phires = 10L,
+  thetares = 10L)
 }
 \arguments{
 \item{centerx}{x axis value of sphere center point}

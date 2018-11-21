@@ -41,3 +41,4 @@ spatialwide(x, y, z, digits = 3)
 \seealso{
 Other transfuncs: \code{\link{spatiallong}}
 }
+\concept{transfuncs}

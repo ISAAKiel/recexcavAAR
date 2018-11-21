@@ -4,8 +4,8 @@
 \alias{cootrans}
 \title{Tool for transforming local metric coordinates}
 \usage{
-cootrans(pair_matrix, pm_column, data_matrix, dm_column, checking = FALSE,
-  checkplot = TRUE)
+cootrans(pair_matrix, pm_column, data_matrix, dm_column,
+  checking = FALSE, checkplot = TRUE)
 }
 \arguments{
 \item{pair_matrix}{data.frame or matrix with pairs of local and corresponding absolute coordinates (Minimum two!)}
