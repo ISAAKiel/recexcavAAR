@@ -30,7 +30,7 @@
 #'
 #' @export
 draw_circle <- function(centerx, centery, centerz, radius, resolution = 30L) {
-    .Call('recexcavAAR_draw_circle', PACKAGE = 'recexcavAAR', centerx, centery, centerz, radius, resolution)
+    .Call('_recexcavAAR_draw_circle', PACKAGE = 'recexcavAAR', centerx, centery, centerz, radius, resolution)
 }
 
 #' Rotate a point cloud around a pivot point (3D)
@@ -75,7 +75,7 @@ draw_circle <- function(centerx, centery, centerz, radius, resolution = 30L) {
 #'
 #' @export
 rotate <- function(x, y, z, degrx = 0.0, degry = 0.0, degrz = 0.0, pivotx = NA_real_, pivoty = NA_real_, pivotz = NA_real_) {
-    .Call('recexcavAAR_rotate', PACKAGE = 'recexcavAAR', x, y, z, degrx, degry, degrz, pivotx, pivoty, pivotz)
+    .Call('_recexcavAAR_rotate', PACKAGE = 'recexcavAAR', x, y, z, degrx, degry, degrz, pivotx, pivoty, pivotz)
 }
 
 #' Draws a spherical point cloud (3D)
@@ -108,7 +108,7 @@ rotate <- function(x, y, z, degrx = 0.0, degry = 0.0, degrz = 0.0, pivotx = NA_r
 #'
 #' @export
 draw_sphere <- function(centerx, centery, centerz, radius, phires = 10L, thetares = 10L) {
-    .Call('recexcavAAR_draw_sphere', PACKAGE = 'recexcavAAR', centerx, centery, centerz, radius, phires, thetares)
+    .Call('_recexcavAAR_draw_sphere', PACKAGE = 'recexcavAAR', centerx, centery, centerz, radius, phires, thetares)
 }
 
 #' Scales a point cloud (3D)
@@ -139,7 +139,7 @@ draw_sphere <- function(centerx, centery, centerz, radius, phires = 10L, thetare
 #'
 #' @export
 rescale <- function(x, y, z, scalex = 1, scaley = 1, scalez = 1) {
-    .Call('recexcavAAR_rescale', PACKAGE = 'recexcavAAR', x, y, z, scalex, scaley, scalez)
+    .Call('_recexcavAAR_rescale', PACKAGE = 'recexcavAAR', x, y, z, scalex, scaley, scalez)
 }
 
 #' Fills hexahedrons with a regular point raster (3D)
@@ -176,7 +176,7 @@ rescale <- function(x, y, z, scalex = 1, scaley = 1, scalez = 1) {
 #'
 #' @export
 fillhexa <- function(hex, res) {
-    .Call('recexcavAAR_fillhexa', PACKAGE = 'recexcavAAR', hex, res)
+    .Call('_recexcavAAR_fillhexa', PACKAGE = 'recexcavAAR', hex, res)
 }
 
 #' Check if a point is within a polygon (2D)
@@ -216,7 +216,7 @@ fillhexa <- function(hex, res) {
 #'
 #' @export
 pnp <- function(vertx, verty, testx, testy) {
-    .Call('recexcavAAR_pnp', PACKAGE = 'recexcavAAR', vertx, verty, testx, testy)
+    .Call('_recexcavAAR_pnp', PACKAGE = 'recexcavAAR', vertx, verty, testx, testy)
 }
 
 #' Check if multiple points are within a polygon (2D)
@@ -249,7 +249,7 @@ pnp <- function(vertx, verty, testx, testy) {
 #'
 #' @export
 pnpmulti <- function(vertx, verty, testx, testy) {
-    .Call('recexcavAAR_pnpmulti', PACKAGE = 'recexcavAAR', vertx, verty, testx, testy)
+    .Call('_recexcavAAR_pnpmulti', PACKAGE = 'recexcavAAR', vertx, verty, testx, testy)
 }
 
 #' Multiple point position decision in relation to a set of stacked surfaces (3D)
@@ -295,7 +295,7 @@ pnpmulti <- function(vertx, verty, testx, testy) {
 #'
 #' @export
 posdec <- function(crdf, maplist) {
-    .Call('recexcavAAR_posdec', PACKAGE = 'recexcavAAR', crdf, maplist)
+    .Call('_recexcavAAR_posdec', PACKAGE = 'recexcavAAR', crdf, maplist)
 }
 
 #' Multiple point position decision in relation to a set of stacked surfaces (3D)
@@ -351,7 +351,7 @@ posdec <- function(crdf, maplist) {
 #'
 #' @export
 posdeclist <- function(crdflist, maplist) {
-    .Call('recexcavAAR_posdeclist', PACKAGE = 'recexcavAAR', crdflist, maplist)
+    .Call('_recexcavAAR_posdeclist', PACKAGE = 'recexcavAAR', crdflist, maplist)
 }
 
 #' Transformation of numeric matrices from wide to long format
@@ -379,7 +379,7 @@ posdeclist <- function(crdflist, maplist) {
 #'
 #' @export
 spatiallong <- function(x, y, z) {
-    .Call('recexcavAAR_spatiallong', PACKAGE = 'recexcavAAR', x, y, z)
+    .Call('_recexcavAAR_spatiallong', PACKAGE = 'recexcavAAR', x, y, z)
 }
 
 #' Transformation of numeric matrices from long to wide format
@@ -413,7 +413,7 @@ spatiallong <- function(x, y, z) {
 #'
 #' @export
 spatialwide <- function(x, y, z, digits) {
-    .Call('recexcavAAR_spatialwide', PACKAGE = 'recexcavAAR', x, y, z, digits)
+    .Call('_recexcavAAR_spatialwide', PACKAGE = 'recexcavAAR', x, y, z, digits)
 }
 
 #' Center determination for hexahedrons
@@ -453,7 +453,7 @@ spatialwide <- function(x, y, z, digits) {
 #'
 #' @export
 spitcenter <- function(hex) {
-    .Call('recexcavAAR_spitcenter', PACKAGE = 'recexcavAAR', hex)
+    .Call('_recexcavAAR_spitcenter', PACKAGE = 'recexcavAAR', hex)
 }
 
 #' Center determination for rectangles whose tops and bottoms are defined by irregular surfaces (3D)
@@ -500,7 +500,7 @@ spitcenter <- function(hex) {
 #'
 #' @export
 spitcenternat <- function(hex, maplist) {
-    .Call('recexcavAAR_spitcenternat', PACKAGE = 'recexcavAAR', hex, maplist)
+    .Call('_recexcavAAR_spitcenternat', PACKAGE = 'recexcavAAR', hex, maplist)
 }
 
 #' Center determination for rectangles whose tops and bottoms are defined by irregular
@@ -555,6 +555,6 @@ spitcenternat <- function(hex, maplist) {
 #'
 #' @export
 spitcenternatlist <- function(hexlist, maplist) {
-    .Call('recexcavAAR_spitcenternatlist', PACKAGE = 'recexcavAAR', hexlist, maplist)
+    .Call('_recexcavAAR_spitcenternatlist', PACKAGE = 'recexcavAAR', hexlist, maplist)
 }
 
