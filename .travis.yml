@@ -6,7 +6,7 @@ cache: packages
 matrix:
   include:
     - os: linux
-      dist: xenial
+      dist: trusty
       env: R_CODECOV=true
       r_check_args: '--use-valgrind'
     - os: osx
