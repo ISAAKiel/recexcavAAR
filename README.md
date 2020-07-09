@@ -1,3 +1,4 @@
+[![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 [![Travis-CI Build Status](https://travis-ci.org/ISAAKiel/recexcavAAR.svg?branch=master)](https://travis-ci.org/ISAAKiel/recexcavAAR) 
 [![Coverage Status](https://img.shields.io/codecov/c/github/ISAAKiel/recexcavAAR/master.svg)](https://codecov.io/github/ISAAKiel/recexcavAAR?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/recexcavAAR)](https://cran.r-project.org/package=recexcavAAR) 
